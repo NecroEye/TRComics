@@ -1,10 +1,9 @@
 package com.muratcangzm.trcomics;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
-
 import com.muratcangzm.trcomics.databinding.ActivityMainBinding;
+import com.muratcangzm.trcomics.fragments.MainFragment;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -17,7 +16,10 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-
+        getSupportFragmentManager()
+                .beginTransaction()
+                .add(R.id.fragment_container, new MainFragment(), null)
+                .commit();
 
     }
 }
