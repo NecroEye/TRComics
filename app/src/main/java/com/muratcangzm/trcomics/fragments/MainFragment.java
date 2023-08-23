@@ -4,9 +4,12 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Adapter;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 
@@ -18,11 +21,13 @@ import com.muratcangzm.trcomics.recyclerView.CardViewAdapter;
 import com.muratcangzm.trcomics.recyclerView.CardViewModel;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainFragment extends Fragment {
 
     private MainFragmentLayoutBinding binding;
     private ArrayList<SlideModel> slideModels;
+    private CardViewAdapter cardViewAdapter;
     private ArrayList<CardViewModel> cardViewModels;
 
      public MainFragment(){
@@ -55,10 +60,35 @@ public class MainFragment extends Fragment {
                 "Manga Name4", null,null,null,null));
         cardViewModels.add(new CardViewModel(1, R.drawable.cover_one, 1,
                 "Manga Name5", null,null,null,null));
+        cardViewModels.add(new CardViewModel(1, R.drawable.cover_four, 1,
+                "Manga Name4", null,null,null,null));
+        cardViewModels.add(new CardViewModel(1, R.drawable.cover_four, 1,
+                "Manga Name4", null,null,null,null));
+        cardViewModels.add(new CardViewModel(1, R.drawable.cover_one, 1,
+                "Manga Name1", null,null,null,null));
+        cardViewModels.add(new CardViewModel(2, R.drawable.cover_two, 1,
+                "Manga Name2", null,null,null,null));
 
-         binding.recyclerView.setAdapter(new CardViewAdapter(requireContext(), cardViewModels));
+        cardViewAdapter = new CardViewAdapter(requireContext(), cardViewModels);
+
+         binding.recyclerView.setAdapter(cardViewAdapter);
          binding.recyclerView.setHasFixedSize(true);
          binding.recyclerView.setLayoutManager(new GridLayoutManager(requireContext(),2));
+
+         binding.searchView.clearFocus();
+         binding.searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+             @Override
+             public boolean onQueryTextSubmit(String query) {
+                 return false;
+             }
+
+             @Override
+             public boolean onQueryTextChange(String newText) {
+                 filteredList(newText);
+                 return true;
+
+             }
+         });
 
         slideModels = new ArrayList<>();
         slideModels.add(new SlideModel(R.drawable.cover_one, ScaleTypes.CENTER_CROP));
@@ -72,8 +102,26 @@ public class MainFragment extends Fragment {
 
     }
 
+    private void filteredList(String newText) {
 
+         ArrayList<CardViewModel> filteredList = new ArrayList<>();
+         for(CardViewModel cardViewModel : cardViewModels){
 
+             if(cardViewModel.getTitle().toLowerCase().contains(newText.toLowerCase())){
+
+                 filteredList.add(cardViewModel);
+             }
+         }
+
+         if(filteredList.isEmpty()){
+             Toast.makeText(requireContext(), "Sonuç bulunamadı", Toast.LENGTH_SHORT).show();
+         }
+         else{
+
+             cardViewAdapter.setFilteredList(filteredList);
+         }
+
+    }
 
 
 }
