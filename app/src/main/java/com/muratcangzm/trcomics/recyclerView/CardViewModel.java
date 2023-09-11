@@ -1,5 +1,7 @@
 package com.muratcangzm.trcomics.recyclerView;
 
+import android.graphics.Bitmap;
+
 import androidx.annotation.DrawableRes;
 import androidx.annotation.Nullable;
 
@@ -14,12 +16,19 @@ public class CardViewModel {
     private ArrayList<String> last_episodes;
     private Date uploadDate;
     private Double rating;
+    private String[] genres;
+    private int[] images;
+    private ArrayList<String> episodes;
     private Boolean isNew;
 
 
     public CardViewModel(int mangaId, @DrawableRes Integer image, Integer episode_count, String title,
                          @Nullable ArrayList<String> last_episodes,
-                         @Nullable Date uploadDate, @Nullable Double rating, @Nullable Boolean isNew) {
+                         @Nullable Date uploadDate, @Nullable Double rating,
+                         @Nullable int[] images,
+                         @Nullable String[] genres,
+                         @Nullable ArrayList<String> episodes,
+                         @Nullable Boolean isNew) {
 
         this.mangaId = mangaId;
         this.image = image;
@@ -28,6 +37,9 @@ public class CardViewModel {
         this.last_episodes = last_episodes;
         this.uploadDate = uploadDate;
         this.rating = rating;
+        this.images = images;
+        this.genres = genres;
+        this.episodes = episodes;
         this.isNew = isNew;
 
     }
@@ -62,5 +74,29 @@ public class CardViewModel {
 
     public boolean isNew() {
         return isNew;
+    }
+
+    public ArrayList<String> getEpisodes() {
+        return episodes;
+    }
+
+    public void setEpisodes(ArrayList<String> episodes) {
+        this.episodes = episodes;
+    }
+
+    public String[] getGenres() {
+        return genres;
+    }
+
+    public void setGenres(String[] genres) {
+        this.genres = genres;
+    }
+
+    public int[] getImages() {
+        return images;
+    }
+
+    public void setImages(int[] images) {
+        this.images = images;
     }
 }

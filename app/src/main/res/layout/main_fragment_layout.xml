@@ -85,6 +85,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="300dp"
                     app:iss_auto_cycle="true"
+                    app:iss_text_align="CENTER"
                     app:iss_delay="2000"
                     app:iss_period="2000"
                     app:iss_title_background="@drawable/default_gradient" />

@@ -30,7 +30,7 @@ public class MainFragment extends Fragment {
     private CardViewAdapter cardViewAdapter;
     private ArrayList<CardViewModel> cardViewModels;
 
-     public MainFragment(){
+    public MainFragment() {
         //Empty Constructor
     }
 
@@ -49,46 +49,64 @@ public class MainFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+
+        int[] i = new int[]{
+                R.drawable.cover_one,
+                R.drawable.cover_two,
+                R.drawable.cover_three,
+                R.drawable.cover_four};
+
+
+      String[] genres = new String[]{
+              "horror",
+              "drama",
+              "action",
+              "thriller",
+              "nsfw"
+      };
+
+
         cardViewModels = new ArrayList<>();
         cardViewModels.add(new CardViewModel(1, R.drawable.cover_one, 1,
-                "Manga Name1", null,null,null,null));
+                "Manga Name1", null, null, null, i, genres, null, null));
         cardViewModels.add(new CardViewModel(2, R.drawable.cover_two, 1,
-                "Manga Name2", null,null,null,null));
+                "Manga Name2", null, null, null, null, null, null, null));
         cardViewModels.add(new CardViewModel(3, R.drawable.cover_three, 1,
-                "Manga Name3", null,null,null,null));
+                "Manga Name3", null, null, null, null, null, null, null));
         cardViewModels.add(new CardViewModel(1, R.drawable.cover_four, 1,
-                "Manga Name4", null,null,null,null));
+                "Manga Name4", null, null, null, null, null, null, null));
         cardViewModels.add(new CardViewModel(1, R.drawable.cover_one, 1,
-                "Manga Name5", null,null,null,null));
+                "Manga Name5", null, null, null, null, null, null, null));
         cardViewModels.add(new CardViewModel(1, R.drawable.cover_four, 1,
-                "Manga Name4", null,null,null,null));
+                "Manga Name4", null, null, null, null, null, null, null));
         cardViewModels.add(new CardViewModel(1, R.drawable.cover_four, 1,
-                "Manga Name4", null,null,null,null));
+                "Manga Name4", null, null, null, null, null, null, null));
         cardViewModels.add(new CardViewModel(1, R.drawable.cover_one, 1,
-                "Manga Name1", null,null,null,null));
+                "Manga Name1", null, null, null, null, null, null, null));
         cardViewModels.add(new CardViewModel(2, R.drawable.cover_two, 1,
-                "Manga Name2", null,null,null,null));
+                "Manga Name2", null, null, null, null, null, null, null));
 
-        cardViewAdapter = new CardViewAdapter(requireContext(), cardViewModels);
+        cardViewAdapter = new CardViewAdapter(requireContext(), cardViewModels, requireActivity());
 
-         binding.recyclerView.setAdapter(cardViewAdapter);
-         binding.recyclerView.setHasFixedSize(true);
-         binding.recyclerView.setLayoutManager(new GridLayoutManager(requireContext(),2));
+        binding.recyclerView.setAdapter(cardViewAdapter);
+        binding.recyclerView.setHasFixedSize(true);
+        binding.recyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 2));
 
-         binding.searchView.clearFocus();
-         binding.searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-             @Override
-             public boolean onQueryTextSubmit(String query) {
-                 return false;
-             }
+        binding.searchView.clearFocus();
 
-             @Override
-             public boolean onQueryTextChange(String newText) {
-                 filteredList(newText);
-                 return true;
+        binding.searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
 
-             }
-         });
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                filteredList(newText);
+                return true;
+
+            }
+        });
 
         slideModels = new ArrayList<>();
         slideModels.add(new SlideModel(R.drawable.cover_one, ScaleTypes.CENTER_CROP));
@@ -99,27 +117,25 @@ public class MainFragment extends Fragment {
         binding.imageSlider.setImageList(slideModels, ScaleTypes.CENTER_INSIDE);
 
 
-
     }
 
     private void filteredList(String newText) {
 
-         ArrayList<CardViewModel> filteredList = new ArrayList<>();
-         for(CardViewModel cardViewModel : cardViewModels){
+        ArrayList<CardViewModel> filteredList = new ArrayList<>();
+        for (CardViewModel cardViewModel : cardViewModels) {
 
-             if(cardViewModel.getTitle().toLowerCase().contains(newText.toLowerCase())){
+            if (cardViewModel.getTitle().toLowerCase().contains(newText.toLowerCase())) {
 
-                 filteredList.add(cardViewModel);
-             }
-         }
+                filteredList.add(cardViewModel);
+            }
+        }
 
-         if(filteredList.isEmpty()){
-             Toast.makeText(requireContext(), "Sonuç bulunamadı", Toast.LENGTH_SHORT).show();
-         }
-         else{
+        if (filteredList.isEmpty()) {
+            Toast.makeText(requireContext(), "Sonuç bulunamadı", Toast.LENGTH_SHORT).show();
+        } else {
 
-             cardViewAdapter.setFilteredList(filteredList);
-         }
+            cardViewAdapter.setFilteredList(filteredList);
+        }
 
     }
 

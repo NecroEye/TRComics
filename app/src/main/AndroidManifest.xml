@@ -13,6 +13,9 @@
         android:theme="@style/Theme.TRComics"
         tools:targetApi="31">
         <activity
+            android:name=".screens.ReadingActivity"
+            android:exported="false" />
+        <activity
             android:name=".screens.DetailsActivity"
             android:exported="false" />
         <activity

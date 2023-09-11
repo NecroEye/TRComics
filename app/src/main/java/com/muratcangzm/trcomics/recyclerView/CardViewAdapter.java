@@ -1,5 +1,7 @@
 package com.muratcangzm.trcomics.recyclerView;
 
+import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -22,11 +24,13 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.ViewHo
 
 
     private final Context context;
+    private final Activity activity;
     private ArrayList<CardViewModel> cardViewModels;
 
-    public CardViewAdapter(Context context, ArrayList<CardViewModel> cardViewModels) {
+    public CardViewAdapter(Context context, ArrayList<CardViewModel> cardViewModels, Activity activity) {
         this.context = context;
         this.cardViewModels = cardViewModels;
+        this.activity = activity;
     }
 
     public void setFilteredList(ArrayList<CardViewModel> filteredList){
@@ -47,7 +51,7 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.ViewHo
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
 
         holder.banner.setImageResource(cardViewModels.get(position).getImage());
         holder.title.setText(cardViewModels.get(position).getTitle());
@@ -57,7 +61,16 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.ViewHo
             public void onClick(View v) {
 
                 Intent intent = new Intent(context, DetailsActivity.class);
+
+                intent.putExtra("title", cardViewModels.get(position).getTitle());
+                intent.putExtra("image", cardViewModels.get(position).getImage());
+                intent.putExtra("episodes", cardViewModels.get(position).getEpisodes());
+                intent.putExtra("genres", cardViewModels.get(position).getGenres());
+                intent.putExtra("images", cardViewModels.get(position).getImages());
+
                 context.startActivity(intent);
+                activity.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+
 
             }
         });

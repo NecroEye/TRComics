@@ -2,4 +2,5 @@
     <string name="app_name">TRComics - Manga &amp; Webtoon Oku</string>
     <string name="trendler">Trendler</string>
     <string name="image_for_banner">image for banner</string>
+    <string name="empty">Empty</string>
 </resources>
