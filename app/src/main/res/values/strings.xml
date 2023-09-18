@@ -3,4 +3,9 @@
     <string name="trendler">Trendler</string>
     <string name="image_for_banner">image for banner</string>
     <string name="empty">Empty</string>
+    <string name="description"> <u>Açıklama:</u> </string>
+    <string name="genresTitle"> <u>Türler:</u> </string>
+    <string name="addFavorite">Ekle</string>
+    <string name="author"> <u>Yazar:</u> </string>
+    <string name="Date"> <u>Tarih:</u> </string>
 </resources>

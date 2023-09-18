@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:orientation="vertical"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".screens.DetailsActivity">
 
 
@@ -14,28 +13,45 @@
         android:layout_height="300dp">
 
 
+        <androidx.cardview.widget.CardView
+            android:id="@+id/backButton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:backgroundTint="@color/black"
+            android:padding="5dp"
+            app:cardCornerRadius="150dp">
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/baseline_arrow_back_24"
+                android:padding="30dp" />
+        </androidx.cardview.widget.CardView>
+
         <ImageView
             android:id="@+id/banner_image"
             android:layout_width="match_parent"
             android:layout_height="300dp"
             android:layout_marginBottom="450dp"
+            android:contentDescription="Banner"
             android:scaleType="centerCrop"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:contentDescription="Banner"
             tools:ignore="HardcodedText" />
 
         <TextView
             android:id="@+id/title_text"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:gravity="start|center"
-            android:background="@color/black"
-            android:textColor="@color/white"
             android:layout_marginTop="250dp"
+            android:background="@color/black"
+            android:gravity="start|center"
             android:paddingStart="15dp"
+            android:textColor="@color/white"
             android:textSize="19sp"
             android:textStyle="bold|italic"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -43,57 +59,152 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+
     </RelativeLayout>
-
-
 
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:background="@color/rose">
+        android:background="@color/rose"
+        android:orientation="vertical">
 
-        <TextView
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:gravity="center|start"
-            android:text="Türler"
-            android:paddingStart="10dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+
+            <ImageView
+                android:layout_width="33dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="4dp"
+                android:padding="6dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/date_icon" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="9dp"
+                android:text="@string/Date"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:textStyle="bold|italic" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+
+            <ImageView
+                android:layout_width="33dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="6dp"
+                android:padding="4dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/author_icon" />
+
+            <TextView
+                android:id="@+id/episode_textView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="9dp"
+                android:text="@string/author"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:textStyle="bold|italic" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+
+            <ImageView
+                android:layout_width="33dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="6dp"
+                android:padding="5dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/genres_icon" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="9dp"
+                android:text="@string/genresTitle"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:textStyle="bold|italic" />
+
+        </LinearLayout>
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_genre"
+            android:layout_width="match_parent"
+            android:layout_height="47dp"
             android:layout_marginTop="10dp"
-            android:layout_marginBottom="2dp"
-            android:padding="1dp"
-            android:textStyle="bold"
-            android:textSize="22sp"
-            android:textColor="@color/black"/>
+            android:layout_marginBottom="6dp"
+            android:padding="1dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
 
-         <androidx.recyclerview.widget.RecyclerView
-             android:id="@+id/recycler_genre"
-             android:layout_marginTop="10dp"
-             android:layout_marginBottom="10dp"
-             android:padding="1dp"
-             android:layout_width="match_parent"
-             android:layout_height="60dp"
-             />
+            <ImageView
+                android:layout_width="33dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="4dp"
+                android:padding="4dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/description_icon" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="9dp"
+                android:text="@string/description"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:textStyle="bold|italic" />
+
+        </LinearLayout>
+
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/description"
             android:layout_width="match_parent"
-            android:layout_height="165dp"
-            android:textColor="@color/white"
-            android:text="Detail Screen"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_height="113dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:padding="7dp"
+            android:scrollbars="vertical"
+            android:text="@string/empty"
+            android:textColor="@color/black"
+            android:textSize="15sp"
+            android:textStyle="bold" />
 
-        <Button
-            android:id="@+id/goToReading"
-            android:layout_width="170dp"
-            android:layout_marginLeft="130dp"
-            android:layout_height="55dp"
-            android:text="Reading Section"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/episode_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="190dp"
+            android:layout_marginTop="20dp"
+            android:padding="1dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
 
     </LinearLayout>
 

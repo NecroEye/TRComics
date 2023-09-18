@@ -13,27 +13,33 @@ public class CardViewModel {
     private int mangaId;
     private Integer image, episode_count;
     private String title;
+    private String description;
+    private String Author;
     private ArrayList<String> last_episodes;
     private Date uploadDate;
     private Double rating;
     private String[] genres;
     private int[] images;
-    private ArrayList<String> episodes;
+    private String[] episodes;
     private Boolean isNew;
 
 
     public CardViewModel(int mangaId, @DrawableRes Integer image, Integer episode_count, String title,
+                         @Nullable String description,
+                         @Nullable String Author,
                          @Nullable ArrayList<String> last_episodes,
                          @Nullable Date uploadDate, @Nullable Double rating,
                          @Nullable int[] images,
                          @Nullable String[] genres,
-                         @Nullable ArrayList<String> episodes,
+                         @Nullable String[] episodes,
                          @Nullable Boolean isNew) {
 
         this.mangaId = mangaId;
         this.image = image;
         this.episode_count = episode_count;
         this.title = title;
+        this.description = description;
+        this.Author = Author;
         this.last_episodes = last_episodes;
         this.uploadDate = uploadDate;
         this.rating = rating;
@@ -60,6 +66,23 @@ public class CardViewModel {
         return title;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+
+    public String getAuthor() {
+        return Author;
+    }
+
+    public void setAuthor(String author) {
+        Author = author;
+    }
+
     public ArrayList<String> getLast_episodes() {
         return last_episodes;
     }
@@ -76,11 +99,11 @@ public class CardViewModel {
         return isNew;
     }
 
-    public ArrayList<String> getEpisodes() {
+    public String[] getEpisodes() {
         return episodes;
     }
 
-    public void setEpisodes(ArrayList<String> episodes) {
+    public void setEpisodes(String[] episodes) {
         this.episodes = episodes;
     }
 
