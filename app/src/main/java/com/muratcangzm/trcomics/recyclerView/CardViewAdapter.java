@@ -64,6 +64,7 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.ViewHo
 
                 intent.putExtra("title", cardViewModels.get(position).getTitle());
                 intent.putExtra("image", cardViewModels.get(position).getImage());
+                intent.putExtra("author", cardViewModels.get(position).getAuthor());
                 intent.putExtra("episodes", cardViewModels.get(position).getEpisodes());
                 intent.putExtra("genres", cardViewModels.get(position).getGenres());
                 intent.putExtra("images", cardViewModels.get(position).getImages());

@@ -21,6 +21,7 @@ public class DetailsActivity extends AppCompatActivity {
     private String description;
 
     private Integer image;
+    private String author;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +37,7 @@ public class DetailsActivity extends AppCompatActivity {
 
         title = intent.getStringExtra("title");
         description = intent.getStringExtra("description");
+        author = intent.getStringExtra("author");
         image = intent.getIntExtra("image",0);
         String[] episodes = intent.getStringArrayExtra("episodes");
         String[] genres = intent.getStringArrayExtra("genres");
@@ -53,6 +55,8 @@ public class DetailsActivity extends AppCompatActivity {
         binding.bannerImage.setImageResource(image);
         binding.titleText.setText(title);
         binding.description.setText(description);
+        binding.dateTextView.setText("20/03/2017");
+        binding.authorTextView.setText("Yazar: " + author);
 
 
         binding.backButton.setOnClickListener(v ->{

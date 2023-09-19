@@ -58,19 +58,19 @@ public class MainFragment extends Fragment {
 
 
       String[] genres = new String[]{
-              "horror",
-              "drama",
-              "action",
-              "thriller",
-              "nsfw"
+              "Horror",
+              "Drama",
+              "Action",
+              "Thriller",
+              "Nsfw"
       };
 
         String[] episodes = new String[]{
-                "bölüm-5",
-                "bölüm-4",
-                "bölüm-3",
-                "bölüm-2",
-                "bölüm-1"
+                "Bölüm-5",
+                "Bölüm-4",
+                "Bölüm-3",
+                "Bölüm-2",
+                "Bölüm-1"
         };
 
 
