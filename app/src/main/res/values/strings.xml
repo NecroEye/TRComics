@@ -8,4 +8,10 @@
     <string name="addFavorite">Ekle</string>
     <string name="author"> <u>Yazar:</u> </string>
     <string name="Date"> <u>Tarih:</u> </string>
+    <string name="Home">Anasayfa</string>
+    <string name="favs">Favoriler</string>
+    <string name="about">Hakkında</string>
+
+    <string name="open_nav">Open Navigation Drawer</string>
+    <string name="close_nav">Close Navigation Drawer</string>
 </resources>

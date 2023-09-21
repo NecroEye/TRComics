@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
+import android.widget.Toast;
 
 import com.muratcangzm.trcomics.R;
 import com.muratcangzm.trcomics.databinding.ActivityDetailsBinding;
@@ -19,6 +20,7 @@ public class DetailsActivity extends AppCompatActivity {
     private ActivityDetailsBinding binding;
     private String title;
     private String description;
+    private  boolean isFav = false; // temporary variable
 
     private Integer image;
     private String author;
@@ -43,6 +45,8 @@ public class DetailsActivity extends AppCompatActivity {
         String[] genres = intent.getStringArrayExtra("genres");
         int[] images = intent.getIntArrayExtra("images");
 
+
+
         binding.recyclerGenre.setAdapter(new GenreAdapter(this, genres));
         binding.recyclerGenre.setHasFixedSize(true);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
@@ -61,6 +65,22 @@ public class DetailsActivity extends AppCompatActivity {
 
         binding.backButton.setOnClickListener(v ->{
             onBackPressed();
+        });
+
+        binding.addFav.setOnClickListener(v ->{
+
+            if(isFav == false){
+                isFav = !isFav;
+                binding.addFav.setImageResource(R.drawable.pressed_star);
+                Toast.makeText(this, "Favorilere Eklendi", Toast.LENGTH_SHORT).show();
+            }
+            else{
+                isFav = !isFav;
+                binding.addFav.setImageResource(R.drawable.favorite_icon);
+                Toast.makeText(this, "Favorilere Kaldırıldı", Toast.LENGTH_SHORT).show();
+
+            }
+
         });
 
     }

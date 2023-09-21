@@ -76,7 +76,7 @@ public class MainFragment extends Fragment {
 
         cardViewModels = new ArrayList<>();
         cardViewModels.add(new CardViewModel(1, R.drawable.cover_one, 5,
-                "Manga Name1","“What a dogshit life… honestly.” Though he had become a disciple of the Heavenly Demon amidst the strife-filled Demonic Sect, Yeon So-Woon gets betrayed by his disciple-brother and comes to meet his end. However… When he woke up, he’s back to the time when he was a kid, before he got dragged into the Demonic Sect?! Loath to repeat his hellish life in the Demonic Sect, Yeon So-Woon begins to plan for his new life. I’ll enact revenge on the Demonic Sect, Become an elder of the Murim Union, And thus, live a prosperous and respected life.","muratcan gözüm", null, null, null, i, genres, episodes, null));
+                "Company and Private Life","“What a dogshit life… honestly.” Though he had become a disciple of the Heavenly Demon amidst the strife-filled Demonic Sect, Yeon So-Woon gets betrayed by his disciple-brother and comes to meet his end. However… When he woke up, he’s back to the time when he was a kid, before he got dragged into the Demonic Sect?! Loath to repeat his hellish life in the Demonic Sect, Yeon So-Woon begins to plan for his new life. I’ll enact revenge on the Demonic Sect, Become an elder of the Murim Union, And thus, live a prosperous and respected life.","muratcan gözüm", null, null, null, i, genres, episodes, null));
         cardViewModels.add(new CardViewModel(2, R.drawable.cover_two, 5,
                 "Manga Name2","açıklama" ,"Ahmet yesevi", null, null, null, i, genres, episodes, null));
         cardViewModels.add(new CardViewModel(3, R.drawable.cover_three, 1,
