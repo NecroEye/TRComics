@@ -23,7 +23,10 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:elevation="6dp"
+            android:background="@color/darken"
+            app:titleTextColor="@color/white"
             app:layout_collapseMode="pin"
+            android:theme="@style/ToolbarMenuIcon"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
             app:title="TRComics" />
 

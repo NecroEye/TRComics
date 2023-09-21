@@ -9,5 +9,9 @@
 
     </style>
 
+    <style name="ToolbarMenuIcon" parent="Theme.Material3.Light">
+        <item name="android:textColorSecondary">#ffffff</item>
+    </style>
+
     <style name="Theme.TRComics" parent="Base.Theme.TRComics" />
 </resources>
