@@ -1,5 +1,6 @@
 package com.muratcangzm.trcomics.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,11 +15,13 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.denzcoskun.imageslider.constants.ScaleTypes;
+import com.denzcoskun.imageslider.interfaces.ItemClickListener;
 import com.denzcoskun.imageslider.models.SlideModel;
 import com.muratcangzm.trcomics.R;
 import com.muratcangzm.trcomics.databinding.MainFragmentLayoutBinding;
 import com.muratcangzm.trcomics.recyclerView.CardViewAdapter;
 import com.muratcangzm.trcomics.recyclerView.CardViewModel;
+import com.muratcangzm.trcomics.screens.DetailsActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,6 +43,8 @@ public class MainFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         binding = MainFragmentLayoutBinding.inflate(getLayoutInflater(), container, false);
+
+
 
         return binding.getRoot();
     }
@@ -102,6 +107,7 @@ public class MainFragment extends Fragment {
 
         binding.searchView.clearFocus();
 
+
         binding.searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -117,12 +123,39 @@ public class MainFragment extends Fragment {
         });
 
         slideModels = new ArrayList<>();
-        slideModels.add(new SlideModel(R.drawable.cover_one, ScaleTypes.CENTER_CROP));
-        slideModels.add(new SlideModel(R.drawable.cover_two, ScaleTypes.CENTER_CROP));
-        slideModels.add(new SlideModel(R.drawable.cover_three, ScaleTypes.CENTER_CROP));
-        slideModels.add(new SlideModel(R.drawable.cover_four, ScaleTypes.CENTER_CROP));
+        slideModels.add(new SlideModel(R.drawable.cover_one, "Mushoku Tensei - Isekai", ScaleTypes.CENTER_CROP));
+        slideModels.add(new SlideModel(R.drawable.cover_two, "When A Thousand Moons Rise", ScaleTypes.CENTER_CROP));
+        slideModels.add(new SlideModel(R.drawable.cover_three, "Return Of The Sss-Class Ranker", ScaleTypes.CENTER_CROP));
+        slideModels.add(new SlideModel(R.drawable.cover_four, "Global Power: I Can Control All The Elements", ScaleTypes.CENTER_CROP));
 
-        binding.imageSlider.setImageList(slideModels, ScaleTypes.CENTER_INSIDE);
+
+        binding.imageSlider.setImageList(slideModels, ScaleTypes.CENTER_CROP);
+
+
+        binding.imageSlider.setItemClickListener(new ItemClickListener() {
+            @Override
+            public void onItemSelected(int i) {
+
+                Intent intent = new Intent(requireContext(), DetailsActivity.class);
+
+                intent.putExtra("title", cardViewModels.get(i).getTitle());
+                intent.putExtra("image", cardViewModels.get(i).getImage());
+                intent.putExtra("author", cardViewModels.get(i).getAuthor());
+                intent.putExtra("episodes", cardViewModels.get(i).getEpisodes());
+                intent.putExtra("genres", cardViewModels.get(i).getGenres());
+                intent.putExtra("images", cardViewModels.get(i).getImages());
+                intent.putExtra("description", cardViewModels.get(i).getDescription());
+
+                requireContext().startActivity(intent);
+                requireActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+
+            }
+
+            @Override
+            public void doubleClick(int i) {
+
+            }
+        });
 
 
     }

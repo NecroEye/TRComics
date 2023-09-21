@@ -6,6 +6,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -37,13 +39,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         binding.drawLayout.addDrawerListener(toggle);
         toggle.syncState();
 
-      if(savedInstanceState == null){
+        if (savedInstanceState == null) {
 
-          getSupportFragmentManager()
-                  .beginTransaction()
-                  .add(R.id.fragment_container, new MainFragment(), null)
-                  .commit();
-      }
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .add(R.id.fragment_container, new MainFragment(), null)
+                    .commit();
+        }
 
         binding.navView.setCheckedItem(R.id.nav_home);
 
@@ -66,6 +68,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     .beginTransaction()
                     .replace(R.id.fragment_container, new FavoriteFragment(), null)
                     .commit();
+        } else if (item.getItemId() == R.id.nav_discord) {
+
+
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://discord.gg/SKu8r2eq9X")));
+
         } else {
 
             Toast.makeText(this, "Developed by Muratcan Gözüm", Toast.LENGTH_SHORT).show();

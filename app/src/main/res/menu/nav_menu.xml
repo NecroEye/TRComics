@@ -19,6 +19,11 @@
             android:title="@string/favs"/>
 
         <item
+            android:id="@+id/nav_discord"
+            android:icon="@drawable/discord_icon"
+            android:title="@string/discord"/>
+
+        <item
             android:id="@+id/nav_about"
             android:icon="@drawable/baseline_info_24"
             android:title="@string/about"/>
