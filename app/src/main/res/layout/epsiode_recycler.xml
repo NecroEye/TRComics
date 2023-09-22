@@ -21,7 +21,7 @@
              app:tint="@color/white" />
 
          <TextView
-             android:layout_width="match_parent"
+             android:layout_width="300dp"
              android:layout_height="wrap_content"
              android:textSize="16sp"
              android:padding="5dp"
@@ -29,6 +29,16 @@
              android:textColor="@color/white"
              android:text="@string/empty"
              android:id="@+id/episode_textView"/>
+
+         <ImageView
+             android:id="@+id/seen_icon"
+             android:layout_width="40dp"
+             android:layout_height="wrap_content"
+             android:src="@drawable/seen_icon"
+             android:padding="3dp"
+             android:visibility="invisible"
+             android:scaleType="center"
+             app:tint="@color/white" />
 
      </LinearLayout>
 

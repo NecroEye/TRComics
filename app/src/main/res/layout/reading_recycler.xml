@@ -21,6 +21,7 @@
             android:id="@+id/recyclerImage"
             android:layout_width="400dp"
             android:scaleType="centerCrop"
+            android:adjustViewBounds="true"
             android:layout_height="300dp"
             android:contentDescription="ImageHolder"
             android:src="@drawable/no_results"/>

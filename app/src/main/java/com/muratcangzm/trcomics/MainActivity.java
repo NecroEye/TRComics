@@ -45,6 +45,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     .beginTransaction()
                     .add(R.id.fragment_container, new MainFragment(), null)
                     .commit();
+
+            getSupportActionBar().setTitle("Anasayfa");
+            //getSupportActionBar().setIcon(R.drawable.discord_icon);
+
         }
 
         binding.navView.setCheckedItem(R.id.nav_home);
@@ -62,12 +66,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     .replace(R.id.fragment_container, new MainFragment(), null)
                     .commit();
 
+            getSupportActionBar().setTitle("Anasayfa");
+
+
         } else if (item.getItemId() == R.id.nav_fav) {
 
             getSupportFragmentManager()
                     .beginTransaction()
                     .replace(R.id.fragment_container, new FavoriteFragment(), null)
                     .commit();
+
+            getSupportActionBar().setTitle("Favoriler");
+
         } else if (item.getItemId() == R.id.nav_discord) {
 
 

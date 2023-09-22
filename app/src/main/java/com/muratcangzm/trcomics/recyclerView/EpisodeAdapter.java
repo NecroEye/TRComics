@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -52,6 +53,7 @@ public class EpisodeAdapter extends RecyclerView.Adapter<EpisodeAdapter.EpisodeH
         holder.episodeText.setOnClickListener(v ->{
 
             readingSection.putExtra("images", images);
+            holder.seen.setVisibility(View.VISIBLE);
             context.startActivity(readingSection);
 
         });
@@ -70,11 +72,13 @@ public class EpisodeAdapter extends RecyclerView.Adapter<EpisodeAdapter.EpisodeH
     public class EpisodeHolder extends RecyclerView.ViewHolder{
 
         private final TextView episodeText;
+        private final ImageView seen;
 
         public EpisodeHolder(@NonNull View itemView) {
             super(itemView);
 
             episodeText = itemView.findViewById(R.id.episode_textView);
+            this.seen = itemView.findViewById(R.id.seen_icon);
 
         }
     }
