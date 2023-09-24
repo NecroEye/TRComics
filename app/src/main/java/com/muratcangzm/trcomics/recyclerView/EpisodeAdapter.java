@@ -53,8 +53,9 @@ public class EpisodeAdapter extends RecyclerView.Adapter<EpisodeAdapter.EpisodeH
         holder.episodeText.setOnClickListener(v ->{
 
             readingSection.putExtra("images", images);
-            holder.seen.setVisibility(View.VISIBLE);
             context.startActivity(readingSection);
+            holder.seen.setVisibility(View.VISIBLE);
+
 
         });
 

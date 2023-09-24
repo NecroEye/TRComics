@@ -33,6 +33,7 @@ public class DetailsActivity extends AppCompatActivity {
 
         binding.titleText.getBackground().setAlpha(120);
         binding.backButton.getBackground().setAlpha(120);
+        binding.downloadButton.getBackground().setAlpha(120);
         binding.description.setMovementMethod(new ScrollingMovementMethod());
 
         Intent intent = getIntent();
