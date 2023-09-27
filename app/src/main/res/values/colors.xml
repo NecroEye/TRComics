@@ -9,4 +9,5 @@
     <color name="gold">#FFD700</color>
     <color name="darken">#1b1c21</color>
     <color name="green">#0BDA51</color>
+    <color name="light_darken">#1F2328</color>
 </resources>

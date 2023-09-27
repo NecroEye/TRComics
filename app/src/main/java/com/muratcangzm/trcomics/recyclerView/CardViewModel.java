@@ -1,8 +1,7 @@
 package com.muratcangzm.trcomics.recyclerView;
 
-import android.graphics.Bitmap;
-
 import androidx.annotation.DrawableRes;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
@@ -22,9 +21,10 @@ public class CardViewModel {
     private int[] images;
     private String[] episodes;
     private Boolean isNew;
+    private Boolean isFav;
 
 
-    public CardViewModel(int mangaId, @DrawableRes Integer image, Integer episode_count, String title,
+    public CardViewModel(int mangaId, @DrawableRes Integer image, Integer episode_count, @NonNull String title,
                          @Nullable String description,
                          @Nullable String Author,
                          @Nullable ArrayList<String> last_episodes,
@@ -32,7 +32,8 @@ public class CardViewModel {
                          @Nullable int[] images,
                          @Nullable String[] genres,
                          @Nullable String[] episodes,
-                         @Nullable Boolean isNew) {
+                         @Nullable Boolean isNew,
+                         @Nullable Boolean isFav) {
 
         this.mangaId = mangaId;
         this.image = image;
@@ -47,6 +48,7 @@ public class CardViewModel {
         this.genres = genres;
         this.episodes = episodes;
         this.isNew = isNew;
+        this.isFav = isFav;
 
     }
 
@@ -121,5 +123,14 @@ public class CardViewModel {
 
     public void setImages(int[] images) {
         this.images = images;
+    }
+
+
+    public Boolean getFav() {
+        return isFav;
+    }
+
+    public void setFav(Boolean fav) {
+        isFav = fav;
     }
 }
