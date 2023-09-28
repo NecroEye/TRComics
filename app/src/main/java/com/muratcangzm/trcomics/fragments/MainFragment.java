@@ -5,15 +5,12 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
-
 import com.denzcoskun.imageslider.constants.ScaleTypes;
 import com.denzcoskun.imageslider.interfaces.ItemClickListener;
 import com.denzcoskun.imageslider.models.SlideModel;
@@ -22,9 +19,7 @@ import com.muratcangzm.trcomics.databinding.MainFragmentLayoutBinding;
 import com.muratcangzm.trcomics.recyclerView.CardViewAdapter;
 import com.muratcangzm.trcomics.recyclerView.CardViewModel;
 import com.muratcangzm.trcomics.screens.DetailsActivity;
-
 import java.util.ArrayList;
-import java.util.List;
 
 public class MainFragment extends Fragment {
 

@@ -9,15 +9,12 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.text.method.ScrollingMovementMethod;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
-
 import com.google.android.material.snackbar.Snackbar;
 import com.muratcangzm.trcomics.R;
 import com.muratcangzm.trcomics.databinding.ActivityDetailsBinding;
@@ -25,7 +22,6 @@ import com.muratcangzm.trcomics.fragments.MainFragment;
 import com.muratcangzm.trcomics.recyclerView.CardViewModel;
 import com.muratcangzm.trcomics.recyclerView.EpisodeAdapter;
 import com.muratcangzm.trcomics.recyclerView.GenreAdapter;
-
 import java.util.ArrayList;
 
 public class DetailsActivity extends AppCompatActivity {
@@ -39,7 +35,7 @@ public class DetailsActivity extends AppCompatActivity {
     private SharedPreferences preferences;
     private ArrayList<CardViewModel> cardViewModel;
 
-    @SuppressLint("ResourceAsColor")
+    @SuppressLint({"ResourceAsColor", "NotifyDataSetChanged"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +45,7 @@ public class DetailsActivity extends AppCompatActivity {
 
         preferences = getSharedPreferences("Favorites", MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
+
 
 
         if (MainFragment.cardViewModels != null) {
@@ -78,18 +75,14 @@ public class DetailsActivity extends AppCompatActivity {
 
         boolean isSaved = preferences.getBoolean(cardViewModel.get(position).getTitle(), false);
 
-        if (isSaved){
+        if (isSaved) {
             binding.addFav.setImageResource(R.drawable.pressed_star);
-            Log.d("Deneme", "onStart Saved ");
             isFav = true;
-        }
-        else{
+        } else {
             binding.addFav.setImageResource(R.drawable.favorite_icon);
             isFav = false;
-            Log.d("Deneme", "onStart can't saved ");
 
         }
-
 
 
         binding.recyclerGenre.setAdapter(new GenreAdapter(this, genres));
@@ -118,12 +111,15 @@ public class DetailsActivity extends AppCompatActivity {
                 isFav = !isFav;
 
                 editor.putBoolean(cardViewModel.get(position).getTitle(), true).apply();
+                editor.putString(cardViewModel.get(position).getAuthor(), cardViewModel.get(position).getAuthor()).apply();
                 binding.addFav.setImageResource(R.drawable.pressed_star);
                 Toast.makeText(this, "Favorilere Eklendi", Toast.LENGTH_SHORT).show();
+
             } else {
                 isFav = !isFav;
-                editor.remove(cardViewModel.get(position).getTitle()).apply();
 
+                editor.remove(cardViewModel.get(position).getTitle()).apply();
+                editor.remove(cardViewModel.get(position).getAuthor()).apply();
                 binding.addFav.setImageResource(R.drawable.favorite_icon);
                 Toast.makeText(this, "Favorilere Kaldırıldı", Toast.LENGTH_SHORT).show();
 
@@ -185,5 +181,13 @@ public class DetailsActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onBackPressed() {
 
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+        this.overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+
+    }
 }

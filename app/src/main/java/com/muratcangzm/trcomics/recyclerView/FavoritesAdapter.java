@@ -9,14 +9,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.muratcangzm.trcomics.R;
 import com.muratcangzm.trcomics.screens.DetailsActivity;
-
 import java.util.ArrayList;
 
 
@@ -25,7 +22,9 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.Favo
 
     private final Context context;
     private final Activity activity;
-    private final ArrayList<CardViewModel> savedModel;
+    public ArrayList<CardViewModel> savedModel;
+
+
 
 
     public FavoritesAdapter(Context context, Activity activity, ArrayList<CardViewModel> savedModel){
@@ -35,6 +34,8 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.Favo
         this.savedModel = savedModel;
 
     }
+
+
 
 
     @NonNull
@@ -92,7 +93,6 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.Favo
     public int getItemCount() {
         return savedModel.size();
     }
-
 
     public class FavoriteHolder extends RecyclerView.ViewHolder{
 
