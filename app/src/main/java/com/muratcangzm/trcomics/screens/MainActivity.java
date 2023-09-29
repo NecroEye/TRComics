@@ -3,6 +3,7 @@ package com.muratcangzm.trcomics.screens;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -21,6 +22,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
     private ActivityMainBinding binding;
+    private int currentDestinationId = R.id.navigateToMain;;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +42,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         getSupportActionBar().setTitle("Anasayfa");
 
 
+
         binding.navView.setCheckedItem(R.id.nav_home);
 
 
@@ -49,25 +52,51 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
+        NavController navController = Navigation.findNavController(this, R.id.fragmentContainerView);
 
         if (item.getItemId() == R.id.nav_home) {
 
-            NavController navController = Navigation.findNavController(this, R.id.fragmentContainerView);
-            navController.navigate(R.id.navigateToMain);
-            getSupportActionBar().setTitle("Anasayfa");
+            if(currentDestinationId != 2131296591){
 
+                navController = Navigation.findNavController(this, R.id.fragmentContainerView);
+                currentDestinationId = 2131296591;
+                navController.navigate(R.id.navigateToMain);
+                getSupportActionBar().setTitle("Anasayfa");
+
+            }
 
         } else if (item.getItemId() == R.id.nav_fav) {
-            NavController navController = Navigation.findNavController(this, R.id.fragmentContainerView);
-            navController.navigate(R.id.navigateToFavorite);
-            getSupportActionBar().setTitle("Favoriler");
+
+         if(currentDestinationId != 2131296457){
+
+
+             navController = Navigation.findNavController(this, R.id.fragmentContainerView);
+             navController.navigate(R.id.navigateToFavorite);
+             currentDestinationId = 2131296457;
+             getSupportActionBar().setTitle("Favoriler");
+
+         }
 
         } else if (item.getItemId() == R.id.nav_discord) {
 
 
             startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://discord.gg/SKu8r2eq9X")));
 
-        } else {
+        }
+        else if(item.getItemId() == R.id.nav_login){
+
+
+
+            getSupportActionBar().setTitle("Giriş Ekranı");
+
+        }
+        else if(item.getItemId() == R.id.nav_register){
+
+            getSupportActionBar().setTitle("Kayıt Ekranı");
+
+
+        }
+        else {
 
             Toast.makeText(this, "Developed by Muratcan Gözüm", Toast.LENGTH_SHORT).show();
 

@@ -16,4 +16,7 @@
     <string name="close_nav">Close Navigation Drawer</string>
     <string name="discord">Discord</string>
     <string name="favorilerim">Favorilerim</string>
+    <string name="sign_in">Giriş Yap</string>
+    <string name="sign_up">Kayıt Ol</string>
+    <string name="log_out">Çıkış yap</string>
 </resources>
