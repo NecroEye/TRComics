@@ -10,6 +10,9 @@
         android:name="com.muratcangzm.trcomics.fragments.MainFragment"
         android:label="MainFragment"
         tools:layout="@layout/main_fragment_layout" >
+        <action
+            android:id="@+id/logoutSuccess"
+            app:destination="@id/nav_login" />
     </fragment>
     <fragment
         android:id="@+id/nav_fav"
@@ -27,6 +30,11 @@
             app:destination="@id/nav_register"
             app:popUpTo="@id/nav_login"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/successLogin"
+            app:destination="@id/nav_home"
+            app:popUpTo="@id/nav_login"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/nav_register"
@@ -39,5 +47,10 @@
             app:popUpTo="@id/nav_register"
             app:popUpToInclusive="true" />
     </fragment>
+    <fragment
+        android:id="@+id/nav_profile"
+        android:name="com.muratcangzm.trcomics.fragments.ProfileFragment"
+        android:label="ProfileFragment"
+        tools:layout="@layout/profile_fragment_layout"/>
 
 </navigation>

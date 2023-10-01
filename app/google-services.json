@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "806603247121",
+    "project_id": "trcomics-31070",
+    "storage_bucket": "trcomics-31070.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:806603247121:android:68036f7288a86c20462bb0",
+        "android_client_info": {
+          "package_name": "com.muratcangzm.trcomics"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCOmaqlRVWxS5JPGZIBHcDWa3kFanPDNz0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

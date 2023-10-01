@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -19,6 +20,8 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.muratcangzm.trcomics.R;
 import com.muratcangzm.trcomics.databinding.ActivityMainBinding;
 
@@ -26,6 +29,9 @@ public class MainActivity extends AppCompatActivity {
 
 
     private ActivityMainBinding binding;
+    public static MenuItem login, register, logout, profile;
+    private FirebaseAuth mAuth;
+    private FirebaseUser currentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,11 +40,20 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
 
+        Menu menu = binding.navView.getMenu();
+
+        logout = menu.findItem(R.id.nav_logout);
+        login = menu.findItem(R.id.nav_login);
+        register = menu.findItem(R.id.nav_register);
+        profile = menu.findItem(R.id.nav_profile);
+
         setSupportActionBar(binding.toolbar);
+
+        mAuth = FirebaseAuth.getInstance();
+        currentUser = mAuth.getCurrentUser();
 
         NavHostFragment host = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.fragmentContainerView);
         NavigationUI.setupWithNavController(binding.navView, host.getNavController());
-
 
 
         host.getNavController().addOnDestinationChangedListener(new NavController.OnDestinationChangedListener() {
@@ -47,30 +62,30 @@ public class MainActivity extends AppCompatActivity {
                                              @NonNull NavDestination navDestination, @Nullable Bundle bundle) {
 
 
-
                 switch (navDestination.getId()){
 
-                    case 2131296590 ->
+                    case 2131296599 ->
                             getSupportActionBar().setTitle("Anasayfa");
 
-                    case 2131296589 ->
+                    case 2131296832 ->
+                        getSupportActionBar().setTitle("Profile");
+
+                    case 2131296598 ->
                             getSupportActionBar().setTitle("Favoriler");
 
-                    case 2131296592 ->{
+                    case 2131296601 ->{
 
                         getSupportActionBar().setTitle("Giriş Ekranı");
                         binding.navView.setCheckedItem(R.id.nav_login);
 
                     }
-                    case 2131296593 ->{
+                    case 2131296603 ->{
 
                         getSupportActionBar().setTitle("Kayıt Ekranı");
                         binding.navView.setCheckedItem(R.id.nav_register);
                     }
 
                 }
-
-                Log.d("Deneme", "onDestinationChanged: " + navDestination.getId());
 
             }
         });
@@ -84,9 +99,74 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+
+        binding.navView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+                if(item.getItemId() == R.id.nav_discord){
+
+
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://discord.gg/SKu8r2eq9X")));
+
+                }
+                if(item.getItemId() == R.id.nav_about){
+
+                    Toast.makeText(MainActivity.this, "Developed by Muratcan Gözüm", Toast.LENGTH_SHORT).show();
+
+                }
+                if(item.getItemId() == R.id.nav_logout){
+
+
+
+                    FirebaseAuth.getInstance().signOut();
+
+                    Toast.makeText(MainActivity.this, "Çıkış Yapıldı", Toast.LENGTH_SHORT).show();
+
+                    login.setVisible(true);
+                    register.setVisible(true);
+                    logout.setVisible(false);
+                    profile.setVisible(false);
+
+                    NavController controller = Navigation.findNavController(MainActivity.this, R.id.fragmentContainerView);
+                    controller.navigate(R.id.logoutSuccess);
+
+                }
+
+
+                NavigationUI.onNavDestinationSelected(item, host.getNavController());
+
+
+                binding.drawLayout.closeDrawer(GravityCompat.START);
+
+                return true;
+            }
+        });
+
         binding.navView.setCheckedItem(R.id.nav_home);
 
 
+    }
+
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        // Check if user is signed in (non-null) and update UI accordingly.
+        if(currentUser != null){
+
+            profile.setVisible(true);
+            login.setVisible(false);
+            register.setVisible(false);
+            logout.setVisible(true);
+
+        }
+        else{
+            profile.setVisible(false);
+            login.setVisible(true);
+            register.setVisible(true);
+            logout.setVisible(false);
+        }
     }
 
     @Override
@@ -98,4 +178,7 @@ public class MainActivity extends AppCompatActivity {
             super.onBackPressed();
         }
     }
+
+
+
 }

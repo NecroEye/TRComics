@@ -11,14 +11,14 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="start"
-        android:text="@string/create_account"
-        android:textColor="@color/white"
-        android:textStyle="bold"
-        android:textSize="29sp"
         android:layout_marginTop="45dp"
         android:layout_marginBottom="25dp"
+        android:gravity="start"
         android:paddingStart="25dp"
+        android:text="@string/create_account"
+        android:textColor="@color/white"
+        android:textSize="29sp"
+        android:textStyle="bold"
         tools:ignore="RtlSymmetry" />
 
     <com.google.android.material.textfield.TextInputLayout
@@ -34,10 +34,10 @@
         app:boxCornerRadiusBottomStart="15dp"
         app:boxCornerRadiusTopEnd="15dp"
         app:boxCornerRadiusTopStart="15dp"
-        app:endIconMode="clear_text"
         app:counterEnabled="true"
-        app:counterTextColor="@color/white"
         app:counterMaxLength="20"
+        app:counterTextColor="@color/white"
+        app:endIconMode="clear_text"
         app:endIconTint="@color/white"
         app:helperText="Zorunlu*"
         app:helperTextTextColor="@color/rose"
@@ -56,7 +56,6 @@
             android:textStyle="bold" />
 
     </com.google.android.material.textfield.TextInputLayout>
-
 
 
     <com.google.android.material.textfield.TextInputLayout
@@ -102,11 +101,11 @@
         android:layout_marginBottom="20dp"
         android:elevation="6dp"
         android:hint="@string/password_hint"
-        app:counterEnabled="true"
         app:boxCornerRadiusBottomEnd="15dp"
         app:boxCornerRadiusBottomStart="15dp"
         app:boxCornerRadiusTopEnd="15dp"
         app:boxCornerRadiusTopStart="15dp"
+        app:counterEnabled="true"
         app:counterMaxLength="16"
         app:counterTextColor="@color/white"
         app:endIconMode="password_toggle"
@@ -140,11 +139,11 @@
         android:layout_marginBottom="35dp"
         android:elevation="6dp"
         android:hint="@string/password_twice"
-        app:counterEnabled="true"
         app:boxCornerRadiusBottomEnd="15dp"
         app:boxCornerRadiusBottomStart="15dp"
         app:boxCornerRadiusTopEnd="15dp"
         app:boxCornerRadiusTopStart="15dp"
+        app:counterEnabled="true"
         app:counterMaxLength="16"
         app:counterTextColor="@color/white"
         app:endIconMode="password_toggle"
@@ -169,6 +168,16 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
+
+    <ProgressBar
+        android:id="@+id/registerProgress"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:paddingEnd="15dp"
+        android:visibility="gone"
+        tools:ignore="RtlSymmetry" />
+
+
     <Button
         android:id="@+id/registerButton"
         android:layout_width="130dp"
@@ -177,8 +186,6 @@
         android:backgroundTint="@color/aqua"
         android:text="@string/sign_up"
         android:textStyle="bold" />
-
-
 
 
     <LinearLayout

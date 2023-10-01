@@ -41,13 +41,11 @@ public class FavoriteFragment extends Fragment {
         binding = FavoriteFragmentBinding.inflate(getLayoutInflater(), container, false);
         sharedPreferences = requireContext().getSharedPreferences("Favorites", Context.MODE_PRIVATE);
 
-        Log.d("Deneme", "shared: " + sharedPreferences.getAll().toString());
 
         for(CardViewModel cardViewModel : MainFragment.cardViewModels){
 
             if(!sharedPreferences.getString(cardViewModel.getAuthor(), "Empty").contains("Empty")){
 
-                Log.d("Deneme", "içerik: " + cardViewModel.getAuthor());
                 savedModel.add(cardViewModel);
 
 
@@ -67,8 +65,6 @@ public class FavoriteFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-
-        Log.d("Deneme", "onViewCreated: " + savedModel.size());
 
 
 
