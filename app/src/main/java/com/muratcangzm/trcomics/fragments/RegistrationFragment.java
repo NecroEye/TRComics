@@ -8,7 +8,10 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
+import com.muratcangzm.trcomics.R;
 import com.muratcangzm.trcomics.databinding.RegistrationFragmentLayoutBinding;
 
 public class RegistrationFragment extends Fragment {
@@ -30,6 +33,13 @@ public class RegistrationFragment extends Fragment {
 
         binding = RegistrationFragmentLayoutBinding.inflate(getLayoutInflater(), container, false);
 
+
+        binding.toLoginText.setOnClickListener(v ->{
+
+            NavController controller = Navigation.findNavController(requireActivity() ,R.id.fragmentContainerView);
+            controller.navigate(R.id.toLogin);
+
+        });
 
         return binding.getRoot();
     }

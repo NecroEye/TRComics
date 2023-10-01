@@ -19,4 +19,14 @@
     <string name="sign_in">Giriş Yap</string>
     <string name="sign_up">Kayıt Ol</string>
     <string name="log_out">Çıkış yap</string>
+    <string name="password_hint">Şifre</string>
+    <string name="e_mail">E-Posta</string>
+    <string name="log_in">Giriş Yap</string>
+    <string name="just_sign_up"><u>Kayıt ol!</u></string>
+    <string name="just_sign_in"><u>Giriş yap!</u></string>
+    <string name="user_name">Kullanıcı Adı</string>
+    <string name="password_twice">Şifre Tekrarı</string>
+    <string name="already_has_account">Zaten hesabın var mı?</string>
+    <string name="login">Kullanıcı Girişi</string>
+    <string name="create_account">Hesap Oluştur</string>
 </resources>

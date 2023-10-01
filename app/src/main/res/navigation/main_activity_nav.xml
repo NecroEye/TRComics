@@ -3,45 +3,41 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_activity_nav"
-    app:startDestination="@id/mainFragment">
+    app:startDestination="@id/nav_home">
 
     <fragment
-        android:id="@+id/mainFragment"
+        android:id="@+id/nav_home"
         android:name="com.muratcangzm.trcomics.fragments.MainFragment"
         android:label="MainFragment"
         tools:layout="@layout/main_fragment_layout" >
-        <action
-            android:id="@+id/navigateToFavorite"
-            app:destination="@id/favoriteFragment"
-            app:popUpTo="@id/mainFragment"
-            app:popUpToInclusive="true" />
-        <action
-            android:id="@+id/action_mainFragment_to_registrationFragment"
-            app:destination="@id/registrationFragment" />
-        <action
-            android:id="@+id/action_mainFragment_to_loginFragment"
-            app:destination="@id/loginFragment" />
     </fragment>
     <fragment
-        android:id="@+id/favoriteFragment"
+        android:id="@+id/nav_fav"
         android:name="com.muratcangzm.trcomics.fragments.FavoriteFragment"
         android:label="FavoriteFragment"
         tools:layout="@layout/favorite_fragment" >
+    </fragment>
+    <fragment
+        android:id="@+id/nav_login"
+        android:name="com.muratcangzm.trcomics.fragments.LoginFragment"
+        android:label="LoginFragment"
+        tools:layout="@layout/login_fragment_layout">
         <action
-            android:id="@+id/navigateToMain"
-            app:destination="@id/mainFragment"
-            app:popUpTo="@id/favoriteFragment"
+            android:id="@+id/toRegister"
+            app:destination="@id/nav_register"
+            app:popUpTo="@id/nav_login"
             app:popUpToInclusive="true" />
     </fragment>
     <fragment
-        android:id="@+id/loginFragment"
-        android:name="com.muratcangzm.trcomics.fragments.LoginFragment"
-        android:label="LoginFragment"
-        tools:layout="@layout/login_fragment_layout"/>
-    <fragment
-        android:id="@+id/registrationFragment"
+        android:id="@+id/nav_register"
         android:name="com.muratcangzm.trcomics.fragments.RegistrationFragment"
         android:label="RegistrationFragment"
-        tools:layout="@layout/registration_fragment_layout"/>
+        tools:layout="@layout/registration_fragment_layout">
+        <action
+            android:id="@+id/toLogin"
+            app:destination="@id/nav_login"
+            app:popUpTo="@id/nav_register"
+            app:popUpToInclusive="true" />
+    </fragment>
 
 </navigation>
