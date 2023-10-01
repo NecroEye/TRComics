@@ -11,7 +11,9 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="250dp"
+        android:layout_marginTop="15dp"
         android:scaleType="centerCrop"
+        android:layout_marginBottom="10dp"
         android:src="@drawable/login_header"
         android:contentDescription="Header Image" />
 
