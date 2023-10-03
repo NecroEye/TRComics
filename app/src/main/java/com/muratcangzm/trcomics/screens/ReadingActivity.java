@@ -1,6 +1,7 @@
 package com.muratcangzm.trcomics.screens;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.content.Intent;
@@ -27,6 +28,7 @@ public class ReadingActivity extends AppCompatActivity {
         int[] images = getData.getIntArrayExtra("images");
 
 
+        binding.readingLayout.getBackground().setTint(ContextCompat.getColor(this, R.color.black));
         binding.recyclerReading.setAdapter(new ReadingViewAdapter(this, images));
         binding.recyclerReading.setLayoutManager(new LinearLayoutManager(this));
         binding.recyclerReading.setHasFixedSize(true);

@@ -70,7 +70,6 @@
         android:layout_marginStart="20dp"
         android:layout_marginTop="30dp"
         android:layout_marginEnd="20dp"
-        android:layout_marginBottom="30dp"
         android:elevation="6dp"
         android:hint="@string/password_hint"
         app:counterEnabled="true"
@@ -107,16 +106,20 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:paddingEnd="15dp"
-        android:visibility="gone"
+        android:visibility="invisible"
         tools:ignore="RtlSymmetry" />
 
     <Button
         android:id="@+id/loginButton"
-        android:layout_width="130dp"
+        android:layout_width="150dp"
         android:layout_height="50dp"
         android:layout_marginStart="130dp"
         android:backgroundTint="@color/aqua"
         android:text="@string/log_in"
+        android:gravity="center"
+        android:maxLines="1"
+        android:textAllCaps="false"
+        android:padding="0dp"
         android:textStyle="bold" />
 
     <LinearLayout

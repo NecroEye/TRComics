@@ -1,14 +1,18 @@
 package com.muratcangzm.trcomics.fragments;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -27,6 +31,7 @@ public class LoginFragment extends Fragment {
 
     private LoginFragmentLayoutBinding binding;
     private FirebaseAuth mAuth;
+    private Animation fade_in;
 
     public LoginFragment(){
 
@@ -42,13 +47,17 @@ public class LoginFragment extends Fragment {
         binding = LoginFragmentLayoutBinding.inflate(getLayoutInflater(), container, false);
         mAuth = FirebaseAuth.getInstance();
 
+        fade_in = AnimationUtils.loadAnimation(requireContext(), R.anim.fade_in);
+
         binding.loginButton.setOnClickListener(v ->{
 
             v.setClickable(false);
             binding.loginProgress.setVisibility(View.VISIBLE);
+            binding.loginButton.setAnimation(fade_in);
+            binding.loginButton.setText("Yükleniyor...");
 
-            signIn(binding.loginMail.getText().toString(),
-                    binding.loginPassword.getText().toString());
+            signIn(binding.loginMail.getText().toString().trim(),
+                    binding.loginPassword.getText().toString().trim());
 
         });
 
@@ -75,10 +84,11 @@ public class LoginFragment extends Fragment {
 
             mAuth.signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                        @SuppressLint({"ResourceAsColor", "SetTextI18n"})
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
 
-                            binding.loginProgress.setVisibility(View.GONE);
+                            binding.loginProgress.setVisibility(View.INVISIBLE);
                             binding.loginButton.setClickable(true);
 
                             if (task.isSuccessful()) {
@@ -88,6 +98,13 @@ public class LoginFragment extends Fragment {
                                 MainActivity.logout.setVisible(true);
                                 MainActivity.profile.setVisible(true);
 
+                                MainActivity.materialCardView.setVisibility(View.VISIBLE);
+                                MainActivity.bannerUserName.setVisibility(View.VISIBLE);
+                                MainActivity.bannerStatusText.setVisibility(View.VISIBLE);
+                                MainActivity.bannerVerification.setVisibility(View.VISIBLE);
+
+                                binding.loginButton.setAnimation(fade_in);
+                                binding.loginButton.setText("Tamamlandı");
 
                                 NavController controller = Navigation.findNavController(requireActivity(), R.id.fragmentContainerView);
                                 controller.navigate(R.id.successLogin);
@@ -96,8 +113,16 @@ public class LoginFragment extends Fragment {
                                         Toast.LENGTH_SHORT).show();
                                 FirebaseUser user = mAuth.getCurrentUser();
 
-                            } else {
+                                if(user.isEmailVerified()){
+                                    MainActivity.bannerVerification.setText("Onaylı");
+                                    MainActivity.bannerVerification.setTextColor(ContextCompat.getColor(requireContext(), R.color.green));
+                                }
+                                else{
+                                    MainActivity.bannerVerification.setText("Onaylanmadı");
+                                    MainActivity.bannerVerification.setTextColor(ContextCompat.getColor(requireContext(), R.color.rose));
+                                }
 
+                            } else {
 
                                 Toast.makeText(requireContext(), "Giriş Başarısız.",
                                         Toast.LENGTH_SHORT).show();

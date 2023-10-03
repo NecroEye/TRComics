@@ -29,7 +29,7 @@
                 android:layout_height="match_parent">
 
 
-                <androidx.cardview.widget.CardView
+                <com.google.android.material.card.MaterialCardView
                     android:id="@+id/backButton"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
@@ -46,9 +46,9 @@
                         android:background="@drawable/baseline_arrow_back_24"
                         android:padding="30dp" />
 
-                </androidx.cardview.widget.CardView>
+                </com.google.android.material.card.MaterialCardView>
 
-                <androidx.cardview.widget.CardView
+                <com.google.android.material.card.MaterialCardView
                     android:id="@+id/downloadButton"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
@@ -64,7 +64,7 @@
                         android:background="@drawable/download_icon"
                         android:padding="30dp" />
 
-                </androidx.cardview.widget.CardView>
+                </com.google.android.material.card.MaterialCardView>
 
 
                 <ImageView

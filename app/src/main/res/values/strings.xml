@@ -29,4 +29,6 @@
     <string name="already_has_account">Zaten hesabın var mı?</string>
     <string name="login">Kullanıcı Girişi</string>
     <string name="create_account">Hesap Oluştur</string>
+    <string name="empty_userName">Username</string>
+    <string name="unkown">Belirsiz</string>
 </resources>

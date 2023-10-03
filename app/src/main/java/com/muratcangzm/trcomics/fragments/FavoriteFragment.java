@@ -13,6 +13,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 
+import com.muratcangzm.trcomics.R;
 import com.muratcangzm.trcomics.databinding.FavoriteFragmentBinding;
 import com.muratcangzm.trcomics.recyclerView.CardViewModel;
 import com.muratcangzm.trcomics.recyclerView.FavoritesAdapter;
@@ -40,6 +41,7 @@ public class FavoriteFragment extends Fragment {
 
         binding = FavoriteFragmentBinding.inflate(getLayoutInflater(), container, false);
         sharedPreferences = requireContext().getSharedPreferences("Favorites", Context.MODE_PRIVATE);
+        binding.favBackground.getBackground().setTint(requireContext().getColor(R.color.black));
 
 
         for(CardViewModel cardViewModel : MainFragment.cardViewModels){

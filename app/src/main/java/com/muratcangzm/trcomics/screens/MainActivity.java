@@ -1,17 +1,23 @@
 package com.muratcangzm.trcomics.screens;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.navigation.NavController;
 import androidx.navigation.NavDestination;
@@ -19,6 +25,7 @@ import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 
+import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -30,6 +37,9 @@ public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
     public static MenuItem login, register, logout, profile;
+    public static MaterialCardView materialCardView;
+    public static TextView bannerUserName, bannerVerification, bannerStatusText;
+    private View nav_header;
     private FirebaseAuth mAuth;
     private FirebaseUser currentUser;
 
@@ -46,6 +56,15 @@ public class MainActivity extends AppCompatActivity {
         login = menu.findItem(R.id.nav_login);
         register = menu.findItem(R.id.nav_register);
         profile = menu.findItem(R.id.nav_profile);
+
+        nav_header = binding.navView.getHeaderView(0);
+
+
+        materialCardView = nav_header.findViewById(R.id.bannerProfileIcon);
+        bannerUserName = nav_header.findViewById(R.id.bannerProfileName);
+        bannerStatusText = nav_header.findViewById(R.id.bannerStatusText);
+        bannerVerification = nav_header.findViewById(R.id.bannerProfileVerification);
+
 
         setSupportActionBar(binding.toolbar);
 
@@ -128,8 +147,11 @@ public class MainActivity extends AppCompatActivity {
                     logout.setVisible(false);
                     profile.setVisible(false);
 
-                    NavController controller = Navigation.findNavController(MainActivity.this, R.id.fragmentContainerView);
-                    controller.navigate(R.id.logoutSuccess);
+                    materialCardView.setVisibility(View.INVISIBLE);
+                    bannerUserName.setVisibility(View.INVISIBLE);
+                    bannerStatusText.setVisibility(View.INVISIBLE);
+                    bannerVerification.setVisibility(View.INVISIBLE);
+
 
                 }
 
@@ -160,12 +182,33 @@ public class MainActivity extends AppCompatActivity {
             register.setVisible(false);
             logout.setVisible(true);
 
+            materialCardView.setVisibility(View.VISIBLE);
+            bannerUserName.setVisibility(View.VISIBLE);
+            bannerStatusText.setVisibility(View.VISIBLE);
+            bannerVerification.setVisibility(View.VISIBLE);
+
+            if(currentUser.isEmailVerified()){
+                bannerVerification.setText("Onaylı");
+                bannerVerification.setTextColor(ContextCompat.getColor(this, R.color.green));
+            }
+            else{
+                bannerVerification.setText("Onaylanmadı");
+                bannerVerification.setTextColor(ContextCompat.getColor(this, R.color.rose));
+
+            }
+
+
         }
         else{
             profile.setVisible(false);
             login.setVisible(true);
             register.setVisible(true);
             logout.setVisible(false);
+
+            materialCardView.setVisibility(View.INVISIBLE);
+            bannerUserName.setVisibility(View.INVISIBLE);
+            bannerStatusText.setVisibility(View.INVISIBLE);
+            bannerVerification.setVisibility(View.INVISIBLE);
         }
     }
 

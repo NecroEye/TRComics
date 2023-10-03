@@ -7,6 +7,7 @@
     android:layout_height="match_parent"
     android:background="@color/black"
     android:backgroundTint="@color/black"
+    android:id="@+id/readingLayout"
     tools:context=".screens.ReadingActivity">
 
     <androidx.recyclerview.widget.RecyclerView
