@@ -81,24 +81,25 @@ public class MainActivity extends AppCompatActivity {
                                              @NonNull NavDestination navDestination, @Nullable Bundle bundle) {
 
 
+
                 switch (navDestination.getId()){
 
-                    case 2131296599 ->
+                    case 2131296601 ->
                             getSupportActionBar().setTitle("Anasayfa");
 
-                    case 2131296832 ->
+                    case 2131296605 ->
                         getSupportActionBar().setTitle("Profile");
 
-                    case 2131296598 ->
+                    case 2131296600 ->
                             getSupportActionBar().setTitle("Favoriler");
 
-                    case 2131296601 ->{
+                    case 2131296603 ->{
 
                         getSupportActionBar().setTitle("Giriş Ekranı");
                         binding.navView.setCheckedItem(R.id.nav_login);
 
                     }
-                    case 2131296603 ->{
+                    case 2131296606 ->{
 
                         getSupportActionBar().setTitle("Kayıt Ekranı");
                         binding.navView.setCheckedItem(R.id.nav_register);

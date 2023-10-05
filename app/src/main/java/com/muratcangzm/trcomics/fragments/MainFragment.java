@@ -1,6 +1,8 @@
 package com.muratcangzm.trcomics.fragments;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +13,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.denzcoskun.imageslider.constants.ScaleTypes;
 import com.denzcoskun.imageslider.interfaces.ItemClickListener;
 import com.denzcoskun.imageslider.models.SlideModel;
@@ -18,6 +22,7 @@ import com.muratcangzm.trcomics.R;
 import com.muratcangzm.trcomics.databinding.MainFragmentLayoutBinding;
 import com.muratcangzm.trcomics.recyclerView.CardViewAdapter;
 import com.muratcangzm.trcomics.recyclerView.CardViewModel;
+import com.muratcangzm.trcomics.recyclerView.ChipRecycler;
 import com.muratcangzm.trcomics.screens.DetailsActivity;
 import java.util.ArrayList;
 
@@ -62,10 +67,18 @@ public class MainFragment extends Fragment {
               "Drama",
               "Action",
               "Thriller",
-              "Nsfw"
+              "Comedy",
+              "Romance",
+              "Historical",
+              "Isekai",
+              "Fantasy",
+              "Sci-fi",
+              "Nsfw",
       };
 
         String[] episodes = new String[]{
+                "Bölüm-7",
+                "Bölüm-6",
                 "Bölüm-5",
                 "Bölüm-4",
                 "Bölüm-3",
@@ -100,8 +113,23 @@ public class MainFragment extends Fragment {
         binding.recyclerView.setHasFixedSize(true);
         binding.recyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 2));
 
+        binding.chipRecycler.setAdapter(new ChipRecycler(genres, requireContext()));
+        binding.chipRecycler.setLayoutManager(new GridLayoutManager(requireContext(), 2, RecyclerView.HORIZONTAL, false));
+        binding.chipRecycler.setHasFixedSize(true);
+
+
         binding.searchView.clearFocus();
 
+        String videoPath = "android.resource://" + requireContext().getPackageName() + "/" + R.raw.starfall_banner;
+        Uri path = Uri.parse(videoPath);
+        binding.bannerAnimation.setVideoURI(path);
+        binding.bannerAnimation.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                binding.bannerAnimation.start();
+            }
+        });
+        binding.bannerAnimation.start();
 
         binding.searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override

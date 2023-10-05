@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.text.method.ScrollingMovementMethod;
 import android.view.View;
+import android.widget.RatingBar;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -160,6 +161,7 @@ public class DetailsActivity extends AppCompatActivity {
 
             }
         });
+
 
     }
 
