@@ -37,10 +37,10 @@ android {
 
 dependencies {
 
-    def nav_version = "2.7.3"
+    def nav_version = "2.7.4"
 
     implementation 'androidx.appcompat:appcompat:1.6.1'
-    implementation 'com.google.android.material:material:1.9.0'
+    implementation 'com.google.android.material:material:1.10.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'com.github.denzcoskun:ImageSlideshow:0.1.2'
     implementation "androidx.navigation:navigation-fragment:$nav_version"
