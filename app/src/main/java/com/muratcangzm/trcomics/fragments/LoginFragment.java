@@ -25,6 +25,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.muratcangzm.trcomics.R;
 import com.muratcangzm.trcomics.databinding.LoginFragmentLayoutBinding;
 import com.muratcangzm.trcomics.screens.MainActivity;
+import com.muratcangzm.trcomics.utils.NotificationHelper;
 
 public class LoginFragment extends Fragment {
 
@@ -79,6 +80,9 @@ public class LoginFragment extends Fragment {
     }
 
     private void signIn(final String email, final String password){
+
+        NotificationHelper.showNotification(requireContext(), "Hesap Onayı", "E-Postanıza onay mesajı gönderilmiştir.");
+
 
         if(!email.isEmpty() && !password.isEmpty()){
 

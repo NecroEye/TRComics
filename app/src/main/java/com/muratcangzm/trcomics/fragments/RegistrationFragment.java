@@ -24,6 +24,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.muratcangzm.trcomics.R;
 import com.muratcangzm.trcomics.databinding.RegistrationFragmentLayoutBinding;
+import com.muratcangzm.trcomics.utils.NotificationHelper;
 
 public class RegistrationFragment extends Fragment {
 
@@ -102,6 +103,8 @@ public class RegistrationFragment extends Fragment {
 
                                         Toast.makeText(requireContext(), "Hesap Oluşturuldu.",
                                                 Toast.LENGTH_SHORT).show();
+
+                                        NotificationHelper.showNotification(requireContext(), "Hesap Onayı", "E-Postanıza onay mesajı gönderilmiştir.");
 
                                         NavController controller = Navigation.findNavController(requireActivity(), R.id.fragmentContainerView);
                                         controller.navigate(R.id.toLogin);
