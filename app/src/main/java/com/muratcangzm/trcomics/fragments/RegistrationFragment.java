@@ -95,6 +95,7 @@ public class RegistrationFragment extends Fragment {
 
                                     binding.registerButton.setClickable(true);
                                     binding.registerProgress.setVisibility(View.GONE);
+                                    binding.registerButton.setText("Kayıt Ol");
 
                                     if (task.isSuccessful()) {
 

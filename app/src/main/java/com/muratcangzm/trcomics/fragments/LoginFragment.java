@@ -81,8 +81,6 @@ public class LoginFragment extends Fragment {
 
     private void signIn(final String email, final String password){
 
-        NotificationHelper.showNotification(requireContext(), "Hesap Onayı", "E-Postanıza onay mesajı gönderilmiştir.");
-
 
         if(!email.isEmpty() && !password.isEmpty()){
 
@@ -94,6 +92,7 @@ public class LoginFragment extends Fragment {
 
                             binding.loginProgress.setVisibility(View.INVISIBLE);
                             binding.loginButton.setClickable(true);
+                            binding.loginButton.setText("Giriş Yap");
 
                             if (task.isSuccessful()) {
 
