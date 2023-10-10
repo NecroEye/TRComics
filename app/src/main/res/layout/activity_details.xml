@@ -82,6 +82,8 @@
                     android:background="@color/black"
                     android:gravity="start|center"
                     android:paddingStart="15dp"
+                    android:maxLines="1"
+                    android:ellipsize="end"
                     android:textColor="@color/white"
                     android:textSize="19sp"
                     android:textStyle="bold|italic"
@@ -250,6 +252,7 @@
                 android:padding="7dp"
                 android:scrollbars="vertical"
                 android:text="@string/empty"
+                android:ellipsize="end"
                 android:textColor="#c1c2c3"
                 android:textSize="15sp"
                 android:textStyle="bold" />

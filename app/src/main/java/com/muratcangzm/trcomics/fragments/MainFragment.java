@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
@@ -24,6 +25,7 @@ import com.muratcangzm.trcomics.recyclerView.CardViewAdapter;
 import com.muratcangzm.trcomics.recyclerView.CardViewModel;
 import com.muratcangzm.trcomics.recyclerView.ChipRecycler;
 import com.muratcangzm.trcomics.screens.DetailsActivity;
+
 import java.util.ArrayList;
 
 public class MainFragment extends Fragment {
@@ -44,7 +46,15 @@ public class MainFragment extends Fragment {
 
         binding = MainFragmentLayoutBinding.inflate(getLayoutInflater(), container, false);
 
+        /**
+         binding.shimmerLayout.startShimmerAnimation();
+         new Handler().postDelayed(new Runnable() {
+        @Override public void run() {
 
+        binding.shimmerLayout.stopShimmerAnimation();
+        }
+        }, 5000);
+         **/
 
         return binding.getRoot();
     }
@@ -62,19 +72,19 @@ public class MainFragment extends Fragment {
                 R.drawable.cover_four};
 
 
-      String[] genres = new String[]{
-              "Horror",
-              "Drama",
-              "Action",
-              "Thriller",
-              "Comedy",
-              "Romance",
-              "Historical",
-              "Isekai",
-              "Fantasy",
-              "Sci-fi",
-              "Nsfw",
-      };
+        String[] genres = new String[]{
+                "Horror",
+                "Drama",
+                "Action",
+                "Thriller",
+                "Comedy",
+                "Romance",
+                "Historical",
+                "Isekai",
+                "Fantasy",
+                "Sci-fi",
+                "Nsfw",
+        };
 
         String[] episodes = new String[]{
                 "Bölüm-7",
@@ -89,23 +99,23 @@ public class MainFragment extends Fragment {
 
         cardViewModels = new ArrayList<>();
         cardViewModels.add(new CardViewModel(1, R.drawable.cover_one, 5,
-                "Company and Private Life","“What a dogshit life… honestly.” Though he had become a disciple of the Heavenly Demon amidst the strife-filled Demonic Sect, Yeon So-Woon gets betrayed by his disciple-brother and comes to meet his end. However… When he woke up, he’s back to the time when he was a kid, before he got dragged into the Demonic Sect?! Loath to repeat his hellish life in the Demonic Sect, Yeon So-Woon begins to plan for his new life. I’ll enact revenge on the Demonic Sect, Become an elder of the Murim Union, And thus, live a prosperous and respected life.","muratcan gözüm", null, null, null, i, genres, episodes, null, false));
+                "Company and Private Life", "“What a dogshit life… honestly.” Though he had become a disciple of the Heavenly Demon amidst the strife-filled Demonic Sect, Yeon So-Woon gets betrayed by his disciple-brother and comes to meet his end. However… When he woke up, he’s back to the time when he was a kid, before he got dragged into the Demonic Sect?! Loath to repeat his hellish life in the Demonic Sect, Yeon So-Woon begins to plan for his new life. I’ll enact revenge on the Demonic Sect, Become an elder of the Murim Union, And thus, live a prosperous and respected life.", "muratcan gözüm", null, null, null, i, genres, episodes, null, false));
         cardViewModels.add(new CardViewModel(2, R.drawable.cover_two, 5,
-                "Manga Name2","açıklama" ,"Ahmet yesevi", null, null, null, i, genres, episodes, null, false));
+                "Manga Name2", "açıklama", "Ahmet yesevi", null, null, null, i, genres, episodes, null, false));
         cardViewModels.add(new CardViewModel(3, R.drawable.cover_three, 1,
-                "Manga Name3", null, null, null, null, null, null, null, null, null,false));
+                "Manga Name3", null, null, null, null, null, null, null, null, null, false));
         cardViewModels.add(new CardViewModel(1, R.drawable.cover_four, 1,
-                "Manga Name4", null,  null,null, null, null, null, null, null, null,false));
+                "Manga Name4", null, null, null, null, null, null, null, null, null, false));
         cardViewModels.add(new CardViewModel(1, R.drawable.cover_one, 1,
-                "Manga Name5", null,  null,null,null, null, null, null, null, null,false));
+                "Manga Name5", null, null, null, null, null, null, null, null, null, false));
         cardViewModels.add(new CardViewModel(1, R.drawable.cover_four, 1,
-                "Manga Name4", null, null,null, null, null, null, null, null, null, false));
+                "Manga Name4", null, null, null, null, null, null, null, null, null, false));
         cardViewModels.add(new CardViewModel(1, R.drawable.cover_four, 1,
-                "Manga Name4", null, null,null,  null, null, null, null, null, null, false));
+                "Manga Name4", null, null, null, null, null, null, null, null, null, false));
         cardViewModels.add(new CardViewModel(1, R.drawable.cover_one, 1,
-                "Manga Name1", null,null,null ,null, null, null, null, null, null, false));
+                "Manga Name1", null, null, null, null, null, null, null, null, null, false));
         cardViewModels.add(new CardViewModel(2, R.drawable.cover_two, 1,
-                "Manga Name2", null,null,null ,null, null, null, null, null, null, false));
+                "Manga Name2", null, null, null, null, null, null, null, null, null, false));
 
         cardViewAdapter = new CardViewAdapter(requireContext(), cardViewModels, requireActivity());
 

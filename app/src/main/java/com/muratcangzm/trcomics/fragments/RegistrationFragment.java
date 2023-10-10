@@ -18,12 +18,16 @@ import androidx.navigation.Navigation;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FieldValue;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.muratcangzm.trcomics.R;
 import com.muratcangzm.trcomics.databinding.RegistrationFragmentLayoutBinding;
+import com.muratcangzm.trcomics.entities.UserEntity;
 import com.muratcangzm.trcomics.utils.NotificationHelper;
 
 public class RegistrationFragment extends Fragment {
@@ -31,6 +35,7 @@ public class RegistrationFragment extends Fragment {
 
     private RegistrationFragmentLayoutBinding binding;
     private FirebaseAuth mAuth;
+    private FirebaseFirestore firestore;
     private Animation fade_in;
 
     public RegistrationFragment() {
@@ -46,6 +51,7 @@ public class RegistrationFragment extends Fragment {
 
         binding = RegistrationFragmentLayoutBinding.inflate(getLayoutInflater(), container, false);
         mAuth = FirebaseAuth.getInstance();
+        firestore = FirebaseFirestore.getInstance();
 
         fade_in = AnimationUtils.loadAnimation(requireContext(), R.anim.fade_in);
 
@@ -82,11 +88,11 @@ public class RegistrationFragment extends Fragment {
 
     private void createUser(final String userName, final String email, final String password, final String passwordTwice) {
 
-         if (!userName.isEmpty() && !email.isEmpty()
+        if (!userName.isEmpty() && !email.isEmpty()
                 && !password.isEmpty() && !passwordTwice.isEmpty()) {
             if (Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
 
-                if(password.equals(passwordTwice)){
+                if (password.equals(passwordTwice)) {
 
                     mAuth.createUserWithEmailAndPassword(email, password)
                             .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -111,6 +117,16 @@ public class RegistrationFragment extends Fragment {
                                         controller.navigate(R.id.toLogin);
 
                                         FirebaseUser user = mAuth.getCurrentUser();
+
+                                        UserEntity newUser = new UserEntity(binding.registerUserName.getText().toString(),
+                                                binding.registerMail.getText().toString(),
+                                                "boş",
+                                                FieldValue.serverTimestamp());
+
+                                        firestore.collection("users")
+                                                .document(binding.registerMail.getText().toString())
+                                                .set(newUser);
+
                                         user.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
                                             @Override
                                             public void onComplete(@NonNull Task<Void> task) {
@@ -132,11 +148,9 @@ public class RegistrationFragment extends Fragment {
                                     }
                                 }
                             });
-                }
-                else{
+                } else {
                     Toast.makeText(requireContext(), "Şifre Uyuşmuyor", Toast.LENGTH_SHORT).show();
                 }
-
 
 
             } else {
@@ -144,10 +158,9 @@ public class RegistrationFragment extends Fragment {
             }
 
 
+        } else {
+            Toast.makeText(requireContext(), "Boş alan Bıraktınız", Toast.LENGTH_SHORT).show();
         }
-         else{
-             Toast.makeText(requireContext(), "Boş alan Bıraktınız", Toast.LENGTH_SHORT).show();
-         }
 
 
     }

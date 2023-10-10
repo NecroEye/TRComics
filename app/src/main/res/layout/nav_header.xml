@@ -17,7 +17,6 @@
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:layout_marginStart="10dp"
-        android:padding="0dp"
         android:visibility="invisible"
         app:cardCornerRadius="50dp"
         app:cardElevation="4dp"
@@ -27,6 +26,7 @@
         <ImageView
             android:id="@+id/bannerProfilePicture"
             android:layout_width="match_parent"
+            android:padding="@dimen/_14sdp"
             android:layout_height="match_parent"
             android:scaleType="centerCrop" />
 

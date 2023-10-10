@@ -4,17 +4,20 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.UiThread;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
@@ -25,12 +28,18 @@ import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.muratcangzm.trcomics.R;
 import com.muratcangzm.trcomics.databinding.ActivityMainBinding;
+import com.squareup.picasso.Picasso;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -39,15 +48,39 @@ public class MainActivity extends AppCompatActivity {
     public static MenuItem login, register, logout, profile;
     public static MaterialCardView materialCardView;
     public static TextView bannerUserName, bannerVerification, bannerStatusText;
+    public static ImageView bannerProfilePicture;
     private View nav_header;
     private FirebaseAuth mAuth;
+    private FirebaseFirestore firebaseFirestore;
+    private DocumentReference docRef;
     private FirebaseUser currentUser;
+
+    /**
+     *
+     *
+     * ⠀⠀⠀⠀⠀⠀    ⠀⠀⠀⠀⢤⣶⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+     * ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣤⡾⠿⢿⡀⠀⠀⠀⠀⣠⣶⣿⣷⠀⠀⠀⠀
+     * ⠀⠀⠀⠀⠀⠀⠀⠀⢀⣴⣦⣴⣿⡋⠀⠀⠈⢳⡄⠀⢠⣾⣿    ⣿⡆⠀⠀⠀
+     * ⠀⠀⠀⠀⠀⠀⠀⣰⣿⣿⠿⠛⠉⠉⠁⠀⠀⠀⠹⡄⣿⣿⣿⠀⠀⢹⡇⠀⠀⠀
+     * ⠀⠀⠀⠀⠀⣠⣾⡿⠋⠁⠀⠀⠀⠀⠀⠀⠀⠀⣰⣏⢻⣿⣿⡆⠀⠸⣿⠀⠀⠀
+     * ⠀⠀⠀⢀⣴⠟⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⣾⣿⣿⣆⠹⣿⣷⠀⢘⣿⠀⠀⠀
+     * ⠀⠀⢀⡾⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢰⣿⣿⠋⠉⠛⠂⠹⠿⣲⣿⣿⣧⠀⠀
+     * ⠀⢠⠏⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣤⣿⣿⣿⣷⣾⣿⡇⢀⠀⣼⣿⣿⣿⣧⠀
+     * ⠰⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⠀⡘⢿⣿⣿⣿⠀
+     * ⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠀⣷⡈⠿⢿⣿⡆
+     * ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⠛⠁⢙⠛⣿⣿⣿⣿⡟⠀⡿⠀⠀⢀⣿⡇
+     * ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⣶⣤⣉⣛⠻⠇⢠⣿⣾⣿⡄⢻⡇
+     * ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⣿⣿⣦⣤⣾⣿⣿⣿⣿⣆⠁
+     *
+     */
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+
 
 
         Menu menu = binding.navView.getMenu();
@@ -60,16 +93,21 @@ public class MainActivity extends AppCompatActivity {
         nav_header = binding.navView.getHeaderView(0);
 
 
+
         materialCardView = nav_header.findViewById(R.id.bannerProfileIcon);
         bannerUserName = nav_header.findViewById(R.id.bannerProfileName);
         bannerStatusText = nav_header.findViewById(R.id.bannerStatusText);
         bannerVerification = nav_header.findViewById(R.id.bannerProfileVerification);
+        bannerProfilePicture = nav_header.findViewById(R.id.bannerProfilePicture);
 
 
         setSupportActionBar(binding.toolbar);
 
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
+
+        firebaseFirestore = FirebaseFirestore.getInstance();
+        docRef = firebaseFirestore.collection("users").document(currentUser.getEmail());
 
         NavHostFragment host = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.fragmentContainerView);
         NavigationUI.setupWithNavController(binding.navView, host.getNavController());
@@ -183,10 +221,30 @@ public class MainActivity extends AppCompatActivity {
             register.setVisible(false);
             logout.setVisible(true);
 
+            docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+
+                    if(task.isSuccessful()){
+
+                        DocumentSnapshot document = task.getResult();
+                        String username = document.getString("username");
+                        String ImageUrl = document.getString("profilePicUrl");
+
+                        if(!ImageUrl.matches("boş")) Picasso.get().load(ImageUrl).into(bannerProfilePicture);
+
+                        bannerUserName.setText(username);
+
+                    }
+                }
+            });
+
+
             materialCardView.setVisibility(View.VISIBLE);
             bannerUserName.setVisibility(View.VISIBLE);
             bannerStatusText.setVisibility(View.VISIBLE);
             bannerVerification.setVisibility(View.VISIBLE);
+
 
             if(currentUser.isEmailVerified()){
                 bannerVerification.setText("Onaylı");
