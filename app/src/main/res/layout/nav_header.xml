@@ -26,9 +26,8 @@
         <ImageView
             android:id="@+id/bannerProfilePicture"
             android:layout_width="match_parent"
-            android:padding="@dimen/_14sdp"
             android:layout_height="match_parent"
-            android:scaleType="centerCrop" />
+            android:scaleType="fitXY" />
 
     </com.google.android.material.card.MaterialCardView>
 

@@ -27,6 +27,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
@@ -39,7 +40,11 @@ import com.muratcangzm.trcomics.databinding.ProfileFragmentLayoutBinding;
 import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.UUID;
 
@@ -88,10 +93,15 @@ public class ProfileFragment extends Fragment {
                      DocumentSnapshot document = task.getResult();
                      String username = document.getString("username");
                      String imageUrl = document.getString("profilePicUrl");
+                     Date date = document.getDate("registerDate");
+
+                     SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+                     String formattedDate = sdf.format(date);
 
 
 
                      binding.userName.setText(username);
+                     binding.dateHolder.setText(formattedDate);
 
                      if(!imageUrl.matches("boş")){
                          try {

@@ -18,7 +18,6 @@ import androidx.navigation.Navigation;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -27,8 +26,12 @@ import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.muratcangzm.trcomics.R;
 import com.muratcangzm.trcomics.databinding.RegistrationFragmentLayoutBinding;
-import com.muratcangzm.trcomics.entities.UserEntity;
+import com.muratcangzm.trcomics.models.UserModel;
 import com.muratcangzm.trcomics.utils.NotificationHelper;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 public class RegistrationFragment extends Fragment {
 
@@ -118,10 +121,12 @@ public class RegistrationFragment extends Fragment {
 
                                         FirebaseUser user = mAuth.getCurrentUser();
 
-                                        UserEntity newUser = new UserEntity(binding.registerUserName.getText().toString(),
+                                        Date currentDate = new Date();
+
+                                        UserModel newUser = new UserModel(binding.registerUserName.getText().toString(),
                                                 binding.registerMail.getText().toString(),
                                                 "boş",
-                                                FieldValue.serverTimestamp());
+                                                currentDate);
 
                                         firestore.collection("users")
                                                 .document(binding.registerMail.getText().toString())
