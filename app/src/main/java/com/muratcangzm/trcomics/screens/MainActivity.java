@@ -189,6 +189,9 @@ public class MainActivity extends AppCompatActivity {
                     bannerStatusText.setVisibility(View.INVISIBLE);
                     bannerVerification.setVisibility(View.INVISIBLE);
 
+                    binding.navView.getMenu().clear();
+                    binding.navView.inflateMenu(R.menu.nav_menu);
+
                 }
 
 
