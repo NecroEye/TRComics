@@ -51,13 +51,7 @@ public class MainFragment extends Fragment {
         binding = MainFragmentLayoutBinding.inflate(getLayoutInflater(), container, false);
 
 
-        WorkRequest fetchingRequest =
-                new OneTimeWorkRequest.Builder(FetchingWorker.class)
-                        .build();
 
-        WorkManager
-                .getInstance()
-                .enqueue(fetchingRequest);
 
         /**
          binding.shimmerLayout.startShimmerAnimation();

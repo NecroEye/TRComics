@@ -1,33 +1,30 @@
 package com.muratcangzm.trcomics.screens;
 
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.UiThread;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.navigation.NavController;
 import androidx.navigation.NavDestination;
-import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
+import androidx.work.OneTimeWorkRequest;
+import androidx.work.WorkManager;
+import androidx.work.WorkRequest;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.card.MaterialCardView;
@@ -39,7 +36,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.muratcangzm.trcomics.R;
 import com.muratcangzm.trcomics.databinding.ActivityMainBinding;
-import com.squareup.picasso.Picasso;
+import com.muratcangzm.trcomics.utils.FetchingWorker;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -56,8 +53,6 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseUser currentUser;
 
     /**
-     *
-     *
      * ⠀⠀⠀⠀⠀⠀    ⠀⠀⠀⠀⢤⣶⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
      * ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣤⡾⠿⢿⡀⠀⠀⠀⠀⣠⣶⣿⣷⠀⠀⠀⠀
      * ⠀⠀⠀⠀⠀⠀⠀⠀⢀⣴⣦⣴⣿⡋⠀⠀⠈⢳⡄⠀⢠⣾⣿    ⣿⡆⠀⠀⠀
@@ -71,7 +66,6 @@ public class MainActivity extends AppCompatActivity {
      * ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⠛⠁⢙⠛⣿⣿⣿⣿⡟⠀⡿⠀⠀⢀⣿⡇
      * ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⣶⣤⣉⣛⠻⠇⢠⣿⣾⣿⡄⢻⡇
      * ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⣿⣿⣦⣤⣾⣿⣿⣿⣿⣆⠁
-     *
      */
 
     @Override
@@ -80,7 +74,13 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        WorkRequest firebase = new OneTimeWorkRequest
+                .Builder(FetchingWorker.class)
+                .build();
 
+        WorkManager
+                .getInstance()
+                .enqueue(firebase);
 
 
         Menu menu = binding.navView.getMenu();
@@ -91,7 +91,6 @@ public class MainActivity extends AppCompatActivity {
         profile = menu.findItem(R.id.nav_profile);
 
         nav_header = binding.navView.getHeaderView(0);
-
 
 
         materialCardView = nav_header.findViewById(R.id.bannerProfileIcon);
@@ -109,6 +108,7 @@ public class MainActivity extends AppCompatActivity {
         firebaseFirestore = FirebaseFirestore.getInstance();
         docRef = firebaseFirestore.collection("users").document(currentUser.getEmail());
 
+
         NavHostFragment host = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.fragmentContainerView);
         NavigationUI.setupWithNavController(binding.navView, host.getNavController());
 
@@ -119,25 +119,21 @@ public class MainActivity extends AppCompatActivity {
                                              @NonNull NavDestination navDestination, @Nullable Bundle bundle) {
 
 
+                switch (navDestination.getId()) {
 
-                switch (navDestination.getId()){
+                    case 2131296601 -> getSupportActionBar().setTitle("Anasayfa");
 
-                    case 2131296601 ->
-                            getSupportActionBar().setTitle("Anasayfa");
+                    case 2131296605 -> getSupportActionBar().setTitle("Profile");
 
-                    case 2131296605 ->
-                        getSupportActionBar().setTitle("Profile");
+                    case 2131296600 -> getSupportActionBar().setTitle("Favoriler");
 
-                    case 2131296600 ->
-                            getSupportActionBar().setTitle("Favoriler");
-
-                    case 2131296603 ->{
+                    case 2131296603 -> {
 
                         getSupportActionBar().setTitle("Giriş Ekranı");
                         binding.navView.setCheckedItem(R.id.nav_login);
 
                     }
-                    case 2131296606 ->{
+                    case 2131296606 -> {
 
                         getSupportActionBar().setTitle("Kayıt Ekranı");
                         binding.navView.setCheckedItem(R.id.nav_register);
@@ -156,25 +152,22 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("Anasayfa");
 
 
-
-
         binding.navView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
-                if(item.getItemId() == R.id.nav_discord){
+                if (item.getItemId() == R.id.nav_discord) {
 
 
                     startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://discord.gg/SKu8r2eq9X")));
 
                 }
-                if(item.getItemId() == R.id.nav_about){
+                if (item.getItemId() == R.id.nav_about) {
 
                     Toast.makeText(MainActivity.this, "Developed by Muratcan Gözüm", Toast.LENGTH_SHORT).show();
 
                 }
-                if(item.getItemId() == R.id.nav_logout){
-
+                if (item.getItemId() == R.id.nav_logout) {
 
 
                     FirebaseAuth.getInstance().signOut();
@@ -214,31 +207,38 @@ public class MainActivity extends AppCompatActivity {
     public void onStart() {
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
-        if(currentUser != null){
+        if (currentUser != null) {
 
             profile.setVisible(true);
             login.setVisible(false);
             register.setVisible(false);
             logout.setVisible(true);
 
+
             docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
 
-                    if(task.isSuccessful()){
+                    if (task.isSuccessful()) {
+
 
                         DocumentSnapshot document = task.getResult();
                         String username = document.getString("username");
                         String ImageUrl = document.getString("profilePicUrl");
-
-                        if(!ImageUrl.matches("boş")) Picasso.get().load(ImageUrl).into(bannerProfilePicture);
+                        if (!ImageUrl.matches("boş"))
+                            Glide
+                                    .with(binding.getRoot())
+                                    .load(ImageUrl)
+                                    .error(R.drawable.not_found)
+                                    .placeholder(R.drawable.not_found)
+                                    .into(bannerProfilePicture);
 
                         bannerUserName.setText(username);
+
 
                     }
                 }
             });
-
 
             materialCardView.setVisibility(View.VISIBLE);
             bannerUserName.setVisibility(View.VISIBLE);
@@ -246,19 +246,17 @@ public class MainActivity extends AppCompatActivity {
             bannerVerification.setVisibility(View.VISIBLE);
 
 
-            if(currentUser.isEmailVerified()){
+            if (currentUser.isEmailVerified()) {
                 bannerVerification.setText("Onaylı");
                 bannerVerification.setTextColor(ContextCompat.getColor(this, R.color.green));
-            }
-            else{
+            } else {
                 bannerVerification.setText("Onaylanmadı");
                 bannerVerification.setTextColor(ContextCompat.getColor(this, R.color.rose));
 
             }
 
 
-        }
-        else{
+        } else {
             profile.setVisible(false);
             login.setVisible(true);
             register.setVisible(true);
@@ -280,7 +278,6 @@ public class MainActivity extends AppCompatActivity {
             super.onBackPressed();
         }
     }
-
 
 
 }

@@ -24,7 +24,6 @@ public class FetchingWorker extends Worker {
 
 
     private FirebaseFirestore firebaseFirestore;
-    private FirebaseStorage firebaseStorage;
     private final Context context;
     public static ArrayList<ComicModel> comicModel = new ArrayList<>();
     public static ArrayList<UserModel> userModel = new ArrayList<>();
@@ -35,7 +34,6 @@ public class FetchingWorker extends Worker {
 
         this.context = context;
         firebaseFirestore = FirebaseFirestore.getInstance();
-        firebaseStorage = FirebaseStorage.getInstance();
 
 
     }

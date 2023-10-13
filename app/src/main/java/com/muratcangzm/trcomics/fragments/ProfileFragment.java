@@ -37,6 +37,8 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.muratcangzm.trcomics.databinding.ProfileFragmentLayoutBinding;
+import com.muratcangzm.trcomics.models.UserModel;
+import com.muratcangzm.trcomics.utils.FetchingWorker;
 import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
@@ -90,18 +92,20 @@ public class ProfileFragment extends Fragment {
 
                  if(task.isSuccessful()){
 
-                     DocumentSnapshot document = task.getResult();
-                     String username = document.getString("username");
-                     String imageUrl = document.getString("profilePicUrl");
-                     Date date = document.getDate("registerDate");
+                     String imageUrl = null;
 
-                     SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
-                     String formattedDate = sdf.format(date);
+                      for(UserModel user : FetchingWorker.userModel){
 
+                          if(auth.getCurrentUser().getEmail().matches(user.getEmail())){
+                              binding.userName.setText(user.getUsername());
 
+                              SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+                              String formattedDate = sdf.format(user.getRegisterDate());
+                              binding.dateHolder.setText(formattedDate);
+                              imageUrl = user.getProfilePicUrl();
 
-                     binding.userName.setText(username);
-                     binding.dateHolder.setText(formattedDate);
+                          }
+                      }
 
                      if(!imageUrl.matches("boş")){
                          try {
