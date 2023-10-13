@@ -70,7 +70,6 @@ public class ProfileFragment extends Fragment {
 
     }
 
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -165,7 +164,7 @@ public class ProfileFragment extends Fragment {
 
     private void registrationActivityLaunchers(){
 
-        UUID uuid = UUID.randomUUID();
+        //UUID uuid = UUID.randomUUID();
 
         activityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
             @Override

@@ -3,6 +3,7 @@ package com.muratcangzm.trcomics.screens;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -106,7 +107,11 @@ public class MainActivity extends AppCompatActivity {
         currentUser = mAuth.getCurrentUser();
 
         firebaseFirestore = FirebaseFirestore.getInstance();
-        docRef = firebaseFirestore.collection("users").document(currentUser.getEmail());
+
+        if(currentUser != null){
+            docRef = firebaseFirestore.collection("users").document(currentUser.getEmail());
+
+        }
 
 
         NavHostFragment host = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.fragmentContainerView);
@@ -184,7 +189,6 @@ public class MainActivity extends AppCompatActivity {
                     bannerStatusText.setVisibility(View.INVISIBLE);
                     bannerVerification.setVisibility(View.INVISIBLE);
 
-
                 }
 
 
@@ -257,6 +261,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         } else {
+
             profile.setVisible(false);
             login.setVisible(true);
             register.setVisible(true);
