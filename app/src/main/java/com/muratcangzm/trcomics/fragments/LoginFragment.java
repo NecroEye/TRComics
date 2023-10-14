@@ -1,8 +1,9 @@
 package com.muratcangzm.trcomics.fragments;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -28,8 +30,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.muratcangzm.trcomics.R;
 import com.muratcangzm.trcomics.databinding.LoginFragmentLayoutBinding;
 import com.muratcangzm.trcomics.screens.MainActivity;
-import com.muratcangzm.trcomics.utils.NotificationHelper;
-import com.squareup.picasso.Picasso;
 
 public class LoginFragment extends Fragment {
 
@@ -40,7 +40,8 @@ public class LoginFragment extends Fragment {
     private DocumentReference docRef;
     private Animation fade_in;
 
-    public LoginFragment(){
+
+    public LoginFragment() {
 
         //Empty Constructor
 
@@ -55,21 +56,54 @@ public class LoginFragment extends Fragment {
         mAuth = FirebaseAuth.getInstance();
         firebaseFirestore = FirebaseFirestore.getInstance();
 
+        SharedPreferences preferences = getContext().getSharedPreferences("rememberMe", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+
+        String getEmailRemembrance = preferences.getString("email", null);
+        String getPassRemembrance = preferences.getString("password", null);
+        boolean getCheckRemembrance = preferences.getBoolean("isChecked", false);
+
+        if (getEmailRemembrance != null && getPassRemembrance != null && getCheckRemembrance != false) {
+
+            binding.loginMail.setText(getEmailRemembrance);
+            binding.loginPassword.setText(getPassRemembrance);
+            binding.remember.setChecked(getCheckRemembrance);
+
+        }
+
         fade_in = AnimationUtils.loadAnimation(requireContext(), R.anim.fade_in);
 
-        binding.loginButton.setOnClickListener(v ->{
+        binding.loginButton.setOnClickListener(v -> {
 
             v.setClickable(false);
             binding.loginProgress.setVisibility(View.VISIBLE);
             binding.loginButton.setAnimation(fade_in);
             binding.loginButton.setText("Yükleniyor...");
 
+
+            if (!binding.loginMail.getText().toString().trim().isEmpty() &&
+                    !binding.loginPassword.getText().toString().isEmpty()) {
+                if (binding.remember.isChecked()) {
+
+                    editor.putString("email", binding.loginMail.getText().toString().trim()).apply();
+                    editor.putString("password", binding.loginPassword.getText().toString().trim()).apply();
+                    editor.putBoolean("isChecked", true).apply();
+
+                } else {
+                    editor.putString("email", null).apply();
+                    editor.putString("password", null).apply();
+                    editor.putBoolean("isChecked", false).apply();
+                }
+            }
+
+            binding.remember.setClickable(false);
+
             signIn(binding.loginMail.getText().toString().trim(),
                     binding.loginPassword.getText().toString().trim());
 
         });
 
-        binding.toRegisterScreenText.setOnClickListener(v ->{
+        binding.toRegisterScreenText.setOnClickListener(v -> {
 
             NavController controller = Navigation.findNavController(requireActivity(), R.id.fragmentContainerView);
             controller.navigate(R.id.toRegister);
@@ -86,10 +120,10 @@ public class LoginFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
     }
 
-    private void signIn(final String email, final String password){
+    private void signIn(final String email, final String password) {
 
 
-        if(!email.isEmpty() && !password.isEmpty()){
+        if (!email.isEmpty() && !password.isEmpty()) {
 
             mAuth.signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -97,8 +131,9 @@ public class LoginFragment extends Fragment {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
 
-                            binding.loginProgress.setVisibility(View.INVISIBLE);
+                            binding.loginProgress.setVisibility(View.GONE);
                             binding.loginButton.setClickable(true);
+                            binding.remember.setClickable(true);
                             binding.loginButton.setText("Giriş Yap");
 
                             if (task.isSuccessful()) {
@@ -107,7 +142,6 @@ public class LoginFragment extends Fragment {
                                 MainActivity.register.setVisible(false);
                                 MainActivity.logout.setVisible(true);
                                 MainActivity.profile.setVisible(true);
-
 
 
                                 binding.loginButton.setAnimation(fade_in);
@@ -126,15 +160,22 @@ public class LoginFragment extends Fragment {
                                     @Override
                                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
 
-                                        if(task.isSuccessful()){
+                                        if (task.isSuccessful()) {
 
                                             DocumentSnapshot document = task.getResult();
                                             String username = document.getString("username");
                                             String ImageUrl = document.getString("profilePicUrl");
 
-                                            if(!ImageUrl.matches("boş")) Picasso.get().load(ImageUrl).into(MainActivity.bannerProfilePicture);
+                                            if (!ImageUrl.matches("boş"))
+                                                Glide.with(binding.getRoot())
+                                                        .load(ImageUrl)
+                                                        .centerCrop()
+                                                        .error(R.drawable.not_found)
+                                                        .into(MainActivity.bannerProfilePicture);
 
                                             MainActivity.bannerUserName.setText(username);
+
+
 
                                         }
                                     }
@@ -145,14 +186,15 @@ public class LoginFragment extends Fragment {
                                 MainActivity.bannerStatusText.setVisibility(View.VISIBLE);
                                 MainActivity.bannerVerification.setVisibility(View.VISIBLE);
 
-                                if(user.isEmailVerified()){
+                                if (user.isEmailVerified()) {
                                     MainActivity.bannerVerification.setText("Onaylı");
                                     MainActivity.bannerVerification.setTextColor(ContextCompat.getColor(requireContext(), R.color.green));
-                                }
-                                else{
+                                } else {
                                     MainActivity.bannerVerification.setText("Onaylanmadı");
                                     MainActivity.bannerVerification.setTextColor(ContextCompat.getColor(requireContext(), R.color.rose));
                                 }
+
+
 
                             } else {
 

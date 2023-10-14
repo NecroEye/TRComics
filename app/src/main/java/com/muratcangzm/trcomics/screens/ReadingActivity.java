@@ -9,10 +9,7 @@ import android.os.Bundle;
 
 import com.muratcangzm.trcomics.R;
 import com.muratcangzm.trcomics.databinding.ActivityReadingBinding;
-import com.muratcangzm.trcomics.recyclerView.CardViewModel;
-import com.muratcangzm.trcomics.recyclerView.ReadingViewAdapter;
-
-import java.util.ArrayList;
+import com.muratcangzm.trcomics.views.ReadingViewAdapter;
 
 public class ReadingActivity extends AppCompatActivity {
 

@@ -1,4 +1,4 @@
-package com.muratcangzm.trcomics.recyclerView;
+package com.muratcangzm.trcomics.views;
 
 import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;

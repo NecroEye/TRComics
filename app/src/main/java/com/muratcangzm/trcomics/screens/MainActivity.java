@@ -19,6 +19,7 @@ import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.navigation.NavController;
 import androidx.navigation.NavDestination;
+import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 import androidx.work.OneTimeWorkRequest;
@@ -189,8 +190,9 @@ public class MainActivity extends AppCompatActivity {
                     bannerStatusText.setVisibility(View.INVISIBLE);
                     bannerVerification.setVisibility(View.INVISIBLE);
 
-                    binding.navView.getMenu().clear();
-                    binding.navView.inflateMenu(R.menu.nav_menu);
+
+                    // binding.navView.getMenu().clear();
+                    // binding.navView.inflateMenu(R.menu.nav_menu);
 
                 }
 

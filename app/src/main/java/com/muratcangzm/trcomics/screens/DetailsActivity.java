@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.text.method.ScrollingMovementMethod;
 import android.view.View;
-import android.widget.RatingBar;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,9 +19,9 @@ import com.google.android.material.snackbar.Snackbar;
 import com.muratcangzm.trcomics.R;
 import com.muratcangzm.trcomics.databinding.ActivityDetailsBinding;
 import com.muratcangzm.trcomics.fragments.MainFragment;
-import com.muratcangzm.trcomics.recyclerView.CardViewModel;
-import com.muratcangzm.trcomics.recyclerView.EpisodeAdapter;
-import com.muratcangzm.trcomics.recyclerView.GenreAdapter;
+import com.muratcangzm.trcomics.views.CardViewModel;
+import com.muratcangzm.trcomics.views.EpisodeAdapter;
+import com.muratcangzm.trcomics.views.GenreAdapter;
 import java.util.ArrayList;
 
 public class DetailsActivity extends AppCompatActivity {
@@ -185,7 +184,7 @@ public class DetailsActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-
+        super.onBackPressed();
         Intent intent = new Intent(this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);

@@ -15,20 +15,16 @@ import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.work.OneTimeWorkRequest;
-import androidx.work.WorkManager;
-import androidx.work.WorkRequest;
 
 import com.denzcoskun.imageslider.constants.ScaleTypes;
 import com.denzcoskun.imageslider.interfaces.ItemClickListener;
 import com.denzcoskun.imageslider.models.SlideModel;
 import com.muratcangzm.trcomics.R;
 import com.muratcangzm.trcomics.databinding.MainFragmentLayoutBinding;
-import com.muratcangzm.trcomics.recyclerView.CardViewAdapter;
-import com.muratcangzm.trcomics.recyclerView.CardViewModel;
-import com.muratcangzm.trcomics.recyclerView.ChipRecycler;
+import com.muratcangzm.trcomics.views.CardViewAdapter;
+import com.muratcangzm.trcomics.views.CardViewModel;
+import com.muratcangzm.trcomics.views.ChipRecycler;
 import com.muratcangzm.trcomics.screens.DetailsActivity;
-import com.muratcangzm.trcomics.utils.FetchingWorker;
 
 import java.util.ArrayList;
 

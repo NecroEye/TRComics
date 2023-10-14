@@ -22,6 +22,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -36,8 +37,10 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.muratcangzm.trcomics.R;
 import com.muratcangzm.trcomics.databinding.ProfileFragmentLayoutBinding;
 import com.muratcangzm.trcomics.models.UserModel;
+import com.muratcangzm.trcomics.screens.MainActivity;
 import com.muratcangzm.trcomics.utils.FetchingWorker;
 import com.squareup.picasso.Picasso;
 
@@ -109,7 +112,11 @@ public class ProfileFragment extends Fragment {
                      if(!imageUrl.matches("boş")){
                          try {
 
-                             Picasso.get().load(imageUrl).into(binding.profilePic);
+                             Glide.with(binding.getRoot())
+                                     .load(imageUrl)
+                                     .error(R.drawable.not_found)
+                                     .centerCrop()
+                                     .into(binding.profilePic);
 
                          }
                          catch (Exception e){

@@ -1,4 +1,4 @@
-package com.muratcangzm.trcomics.recyclerView;
+package com.muratcangzm.trcomics.views;
 
 import android.content.Context;
 import android.view.LayoutInflater;

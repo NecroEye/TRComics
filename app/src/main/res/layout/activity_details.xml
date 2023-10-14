@@ -37,7 +37,8 @@
                     android:layout_marginTop="10dp"
                     android:backgroundTint="@color/black"
                     android:padding="5dp"
-                    app:cardCornerRadius="150dp">
+                    app:cardCornerRadius="150dp"
+                    app:rippleColor="@color/aqua">
 
 
                     <View
@@ -53,15 +54,16 @@
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_marginStart="360dp"
-                    android:backgroundTint="@color/black">
+                    android:backgroundTint="@color/black"
+                    app:rippleColor="@color/aqua">
 
 
                     <View
                         android:layout_width="25dp"
                         android:layout_height="25dp"
                         android:layout_gravity="center"
-                        android:backgroundTint="@color/white"
                         android:background="@drawable/download_icon"
+                        android:backgroundTint="@color/white"
                         android:padding="30dp" />
 
                 </com.google.android.material.card.MaterialCardView>
@@ -80,10 +82,10 @@
                     android:layout_height="50dp"
                     android:layout_marginTop="250dp"
                     android:background="@color/black"
-                    android:gravity="start|center"
-                    android:paddingStart="15dp"
-                    android:maxLines="1"
                     android:ellipsize="end"
+                    android:gravity="start|center"
+                    android:maxLines="1"
+                    android:paddingStart="15dp"
                     android:textColor="@color/white"
                     android:textSize="19sp"
                     android:textStyle="bold|italic"
@@ -249,10 +251,10 @@
                 android:layout_height="130dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
+                android:ellipsize="end"
                 android:padding="7dp"
                 android:scrollbars="vertical"
                 android:text="@string/empty"
-                android:ellipsize="end"
                 android:textColor="#c1c2c3"
                 android:textSize="15sp"
                 android:textStyle="bold" />

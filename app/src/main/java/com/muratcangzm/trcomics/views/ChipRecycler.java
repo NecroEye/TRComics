@@ -1,4 +1,4 @@
-package com.muratcangzm.trcomics.recyclerView;
+package com.muratcangzm.trcomics.views;
 
 import android.content.Context;
 import android.util.Log;
@@ -13,8 +13,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.muratcangzm.trcomics.R;
-
-import java.util.ArrayList;
 
 public class ChipRecycler extends RecyclerView.Adapter<ChipRecycler.ChipHolder> {
 

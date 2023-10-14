@@ -56,14 +56,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_15sdp"
-            android:layout_marginTop="@dimen/_55sdp"
+            android:layout_marginTop="@dimen/_75sdp"
             android:orientation="horizontal">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:lines="1"
-                android:text="E-Posta: "
+                android:text="@string/e_posta"
                 android:textColor="@color/white"
                 android:textSize="@dimen/_16sdp"
                 android:textStyle="bold" />
@@ -77,7 +77,7 @@
                 android:gravity="start"
                 android:lines="1"
                 android:padding="0dp"
-                android:text="your mail"
+                android:text="@string/empty"
                 android:textColor="@color/white"
                 android:textSize="@dimen/_16sdp"
                 android:textStyle="bold" />
@@ -89,14 +89,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_15sdp"
-            android:layout_marginTop="@dimen/_95sdp"
+            android:layout_marginTop="@dimen/_115sdp"
             android:orientation="horizontal">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:lines="1"
-                android:text="Kayıt Tarihi: "
+                android:text="@string/register_date"
                 android:textColor="@color/white"
                 android:textSize="@dimen/_16sdp"
                 android:textStyle="bold" />
@@ -109,7 +109,7 @@
                 android:gravity="start"
                 android:lines="1"
                 android:padding="0dp"
-                android:text="date"
+                android:text="@string/empty"
                 android:textColor="@color/white"
                 android:textSize="@dimen/_16sdp"
                 android:textStyle="bold" />

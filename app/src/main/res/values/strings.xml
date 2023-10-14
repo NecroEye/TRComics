@@ -32,4 +32,7 @@
     <string name="empty_userName">Username</string>
     <string name="unkown">Belirsiz</string>
     <string name="loading">Yükleniyor...</string>
+    <string name="rememberMe">Beni Hatırla</string>
+    <string name="e_posta">E-Posta:</string>
+    <string name="register_date">Kayıt Tarihi:</string>
 </resources>
