@@ -125,21 +125,23 @@ public class MainActivity extends AppCompatActivity {
                                              @NonNull NavDestination navDestination, @Nullable Bundle bundle) {
 
 
+                Log.d("Anahtar", "onDestinationChanged: " + navDestination.getId());
+
                 switch (navDestination.getId()) {
 
-                    case 2131296601 -> getSupportActionBar().setTitle("Anasayfa");
+                    case 2131296625 -> getSupportActionBar().setTitle("Anasayfa");
 
-                    case 2131296605 -> getSupportActionBar().setTitle("Profile");
+                    case 2131296629 -> getSupportActionBar().setTitle("Profile");
 
-                    case 2131296600 -> getSupportActionBar().setTitle("Favoriler");
+                    case 2131296623 -> getSupportActionBar().setTitle("Favoriler");
 
-                    case 2131296603 -> {
+                    case 2131296627 -> {
 
                         getSupportActionBar().setTitle("Giriş Ekranı");
                         binding.navView.setCheckedItem(R.id.nav_login);
 
                     }
-                    case 2131296606 -> {
+                    case 2131296630 -> {
 
                         getSupportActionBar().setTitle("Kayıt Ekranı");
                         binding.navView.setCheckedItem(R.id.nav_register);

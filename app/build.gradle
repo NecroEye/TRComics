@@ -2,6 +2,10 @@ plugins {
     id 'com.android.application'
     id 'androidx.navigation.safeargs'
     id 'com.google.gms.google-services'
+    id 'kotlin-android'
+    id 'com.google.dagger.hilt.android'
+    id 'kotlin-kapt'
+
 }
 
 android {
@@ -38,8 +42,8 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_14
-        targetCompatibility JavaVersion.VERSION_14
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
 
     buildFeatures {
@@ -52,6 +56,7 @@ dependencies {
 
 
     def nav_version = "2.7.4"
+    def room_version = "2.5.2"
 
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
@@ -82,7 +87,25 @@ dependencies {
     implementation 'com.google.firebase:firebase-storage:20.2.1'
     implementation 'com.google.firebase:firebase-firestore:24.8.1'
 
-    //Work manager
+    //Work Manager
     implementation "androidx.work:work-runtime:2.8.1"
 
+    //Room
+    implementation "androidx.room:room-runtime:$room_version"
+    annotationProcessor "androidx.room:room-compiler:$room_version"
+
+    //Dagger Hilt
+    implementation "com.google.dagger:hilt-android:2.44"
+    kapt "com.google.dagger:hilt-compiler:2.44"
+
+    //Testing
+    testImplementation "com.google.truth:truth:1.1.4"
+    androidTestImplementation "com.google.truth:truth:1.1.4"
+
 }
+
+// Allow references to generated code
+kapt {
+    correctErrorTypes true
+}
+
