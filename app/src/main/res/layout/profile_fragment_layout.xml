@@ -13,7 +13,7 @@
         android:layout_height="100dp"
         android:layout_marginStart="155dp"
         android:layout_marginTop="20dp"
-        android:elevation="5dp"
+        android:elevation="9dp"
         app:rippleColor="@color/aqua"
         app:cardCornerRadius="50dp">
 
@@ -52,6 +52,20 @@
         app:cardCornerRadius="45dp">
 
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/personal_information"
+           android:textColor="@color/charcoal"
+            android:textSize="25sp"
+            android:gravity="center"
+            android:padding="0dp"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:layout_margin="15dp"
+            android:textStyle="bold"/>
+
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -59,12 +73,13 @@
             android:layout_marginTop="@dimen/_75sdp"
             android:orientation="horizontal">
 
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:lines="1"
                 android:text="@string/e_posta"
-                android:textColor="@color/white"
+                android:textColor="@color/charcoal"
                 android:textSize="@dimen/_16sdp"
                 android:textStyle="bold" />
 
@@ -72,7 +87,7 @@
                 android:id="@+id/mailHolder"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_4sdp"
+                android:layout_marginStart="@dimen/_5sdp"
                 android:ellipsize="end"
                 android:gravity="start"
                 android:lines="1"
@@ -97,7 +112,7 @@
                 android:layout_height="wrap_content"
                 android:lines="1"
                 android:text="@string/register_date"
-                android:textColor="@color/white"
+                android:textColor="@color/charcoal"
                 android:textSize="@dimen/_16sdp"
                 android:textStyle="bold" />
 
@@ -105,7 +120,7 @@
                 android:id="@+id/dateHolder"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_4sdp"
+                android:layout_marginStart="@dimen/_5sdp"
                 android:gravity="start"
                 android:lines="1"
                 android:padding="0dp"

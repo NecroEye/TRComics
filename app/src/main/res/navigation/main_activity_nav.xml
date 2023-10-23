@@ -12,13 +12,25 @@
         tools:layout="@layout/main_fragment_layout" >
         <action
             android:id="@+id/logoutSuccess"
-            app:destination="@id/nav_login" />
+            app:destination="@id/nav_login"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
         <action
             android:id="@+id/action_nav_home_to_nav_profile"
-            app:destination="@id/nav_profile" />
+            app:destination="@id/nav_profile"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
         <action
             android:id="@+id/action_nav_home_to_nav_fav"
-            app:destination="@id/nav_fav" />
+            app:destination="@id/nav_fav"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/nav_fav"
@@ -34,11 +46,19 @@
         <action
             android:id="@+id/toRegister"
             app:destination="@id/nav_register"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
             app:popUpTo="@id/nav_login"
             app:popUpToInclusive="true" />
         <action
             android:id="@+id/successLogin"
             app:destination="@id/nav_home"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
             app:popUpTo="@id/nav_login"
             app:popUpToInclusive="true" />
     </fragment>
@@ -50,6 +70,10 @@
         <action
             android:id="@+id/toLogin"
             app:destination="@id/nav_login"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
             app:popUpTo="@id/nav_register"
             app:popUpToInclusive="true" />
     </fragment>

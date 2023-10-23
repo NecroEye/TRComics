@@ -1,27 +1,23 @@
 package com.muratcangzm.trcomics.screens;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.text.method.ScrollingMovementMethod;
-import android.view.View;
 import android.widget.Toast;
-import androidx.annotation.NonNull;
+
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import com.google.android.material.snackbar.Snackbar;
+
 import com.muratcangzm.trcomics.R;
 import com.muratcangzm.trcomics.databinding.ActivityDetailsBinding;
 import com.muratcangzm.trcomics.fragments.MainFragment;
+import com.muratcangzm.trcomics.saved_favorites.ComicDao;
 import com.muratcangzm.trcomics.views.CardViewModel;
 import com.muratcangzm.trcomics.views.EpisodeAdapter;
 import com.muratcangzm.trcomics.views.GenreAdapter;
+
 import java.util.ArrayList;
 
 public class DetailsActivity extends AppCompatActivity {
@@ -29,10 +25,8 @@ public class DetailsActivity extends AppCompatActivity {
     private ActivityDetailsBinding binding;
     private boolean isFav = false;
 
-    private final String[] permissions = {Manifest.permission.READ_EXTERNAL_STORAGE,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE};
-    private final int REQUEST_CODE = 100;
     private SharedPreferences preferences;
+    private ComicDao comicDao;
     private ArrayList<CardViewModel> cardViewModel;
 
     @SuppressLint({"ResourceAsColor", "NotifyDataSetChanged"})
@@ -45,7 +39,6 @@ public class DetailsActivity extends AppCompatActivity {
 
         preferences = getSharedPreferences("Favorites", MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
-
 
 
         if (MainFragment.cardViewModels != null) {
@@ -130,57 +123,14 @@ public class DetailsActivity extends AppCompatActivity {
 
         binding.downloadButton.setOnClickListener(v -> {
 
-            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
-                    && ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
 
-                //permission granted, do work
+            // TODO: 24.10.2023 fix dagger hilt
+            // ComicDatabase database = ComicModule.injectRoom(this);
+            // comicDao = database.comicDao();
 
-
-            } else if (shouldShowRequestPermissionRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-
-                Snackbar.make(this, binding.getRoot(), "İzin Gerekli", Snackbar.LENGTH_INDEFINITE)
-                        .setAction("İzinleri Yönet", new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-
-                                Intent settings = new Intent();
-                                settings.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                                Uri uri = Uri.fromParts("package", DetailsActivity.this.getPackageName(), null);
-                                settings.setData(uri);
-                                startActivity(settings);
-                            }
-                        }).setActionTextColor(R.color.gold)
-                        .show();
-
-            } else {
-
-                ActivityCompat.requestPermissions(this, permissions, REQUEST_CODE);
-                //Permission Denied, request permission
-
-
-            }
         });
-
-
     }
 
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
-        if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
-            //Permission Granted
-
-        } else {
-
-            //Permission Denied
-
-        }
-
-
-    }
 
     @Override
     public void onBackPressed() {
@@ -188,7 +138,6 @@ public class DetailsActivity extends AppCompatActivity {
         Intent intent = new Intent(this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
-        this.overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
 
     }
 }

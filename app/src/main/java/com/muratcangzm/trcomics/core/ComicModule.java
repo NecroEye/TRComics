@@ -5,31 +5,43 @@ import android.content.Context;
 
 import androidx.room.Room;
 
+import com.muratcangzm.trcomics.core.repository.ComicRepo;
+import com.muratcangzm.trcomics.saved_favorites.ComicDao;
 import com.muratcangzm.trcomics.saved_favorites.ComicDatabase;
 
 import javax.inject.Singleton;
 
 import dagger.Module;
+import dagger.Provides;
 import dagger.hilt.InstallIn;
 import dagger.hilt.android.components.ActivityComponent;
 
-@Module
 @InstallIn(ActivityComponent.class)
+@Module
 public class ComicModule {
 
 
     @Singleton
-    public static void injectRoom(Context context) {
+    @Provides
+    public static synchronized ComicDatabase injectRoom(Context context) {
 
-        Room.databaseBuilder(context, ComicDatabase.class, "SavedDB")
+        return Room.databaseBuilder(context, ComicDatabase.class, "SavedDB")
                 .createFromAsset("database/comic.db")
+                .fallbackToDestructiveMigration()
                 .build();
 
     }
 
     @Singleton
-    public static void injectDao(ComicDatabase comicDatabase) {
-        comicDatabase.comicDao();
+    @Provides
+    public static synchronized ComicDao injectDao(ComicDatabase comicDatabase) {
+        return comicDatabase.comicDao();
+    }
+
+    @Singleton
+    @Provides
+    public static synchronized ComicRepo injectComicRepo(ComicDao comicDao) {
+        return new ComicRepo(comicDao);
     }
 
 }
