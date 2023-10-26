@@ -30,6 +30,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.muratcangzm.trcomics.R;
 import com.muratcangzm.trcomics.databinding.LoginFragmentLayoutBinding;
 import com.muratcangzm.trcomics.screens.MainActivity;
+import com.muratcangzm.trcomics.utils.NetworkUtils;
 
 public class LoginFragment extends Fragment {
 
@@ -123,89 +124,96 @@ public class LoginFragment extends Fragment {
     private void signIn(final String email, final String password) {
 
 
-        if (!email.isEmpty() && !password.isEmpty()) {
+        if (NetworkUtils.isNetworkAvailable(requireContext())) {
+            if (!email.isEmpty() && !password.isEmpty()) {
 
-            mAuth.signInWithEmailAndPassword(email, password)
-                    .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                        @SuppressLint({"ResourceAsColor", "SetTextI18n"})
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
+                mAuth.signInWithEmailAndPassword(email, password)
+                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                            @SuppressLint({"ResourceAsColor", "SetTextI18n"})
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
 
-                            binding.loginProgress.setVisibility(View.GONE);
-                            binding.loginButton.setClickable(true);
-                            binding.remember.setClickable(true);
-                            binding.loginButton.setText("Giriş Yap");
+                                binding.loginProgress.setVisibility(View.GONE);
+                                binding.loginButton.setClickable(true);
+                                binding.remember.setClickable(true);
+                                binding.loginButton.setText("Giriş Yap");
 
-                            if (task.isSuccessful()) {
+                                if (task.isSuccessful()) {
 
-                                MainActivity.login.setVisible(false);
-                                MainActivity.register.setVisible(false);
-                                MainActivity.logout.setVisible(true);
-                                MainActivity.profile.setVisible(true);
-
-
-                                binding.loginButton.setAnimation(fade_in);
-                                binding.loginButton.setText("Tamamlandı");
-
-                                NavController controller = Navigation.findNavController(requireActivity(), R.id.fragmentContainerView);
-                                controller.navigate(R.id.successLogin);
-
-                                Toast.makeText(requireContext(), "Giriş Başarılı.",
-                                        Toast.LENGTH_SHORT).show();
-                                FirebaseUser user = mAuth.getCurrentUser();
-
-                                docRef = firebaseFirestore.collection("users").document(user.getEmail());
-
-                                docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-
-                                        if (task.isSuccessful()) {
-
-                                            DocumentSnapshot document = task.getResult();
-                                            String username = document.getString("username");
-                                            String ImageUrl = document.getString("profilePicUrl");
-
-                                            if (!ImageUrl.matches("boş"))
-                                                Glide.with(binding.getRoot())
-                                                        .load(ImageUrl)
-                                                        .centerCrop()
-                                                        .error(R.drawable.not_found)
-                                                        .into(MainActivity.bannerProfilePicture);
-
-                                            MainActivity.bannerUserName.setText(username);
+                                    MainActivity.login.setVisible(false);
+                                    MainActivity.register.setVisible(false);
+                                    MainActivity.logout.setVisible(true);
+                                    MainActivity.profile.setVisible(true);
 
 
+                                    binding.loginButton.setAnimation(fade_in);
+                                    binding.loginButton.setText("Tamamlandı");
 
+                                    NavController controller = Navigation.findNavController(requireActivity(), R.id.fragmentContainerView);
+                                    controller.navigate(R.id.successLogin);
+
+                                    Toast.makeText(requireContext(), "Giriş Başarılı.",
+                                            Toast.LENGTH_SHORT).show();
+                                    FirebaseUser user = mAuth.getCurrentUser();
+
+                                    docRef = firebaseFirestore.collection("users").document(user.getEmail());
+
+                                    docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+
+                                            if (task.isSuccessful()) {
+
+                                                DocumentSnapshot document = task.getResult();
+                                                String username = document.getString("username");
+                                                String ImageUrl = document.getString("profilePicUrl");
+
+                                                if (!ImageUrl.matches("boş"))
+                                                    Glide.with(binding.getRoot())
+                                                            .load(ImageUrl)
+                                                            .centerCrop()
+                                                            .error(R.drawable.not_found)
+                                                            .into(MainActivity.bannerProfilePicture);
+
+                                                MainActivity.bannerUserName.setText(username);
+
+
+                                            }
                                         }
+                                    });
+
+                                    MainActivity.materialCardView.setVisibility(View.VISIBLE);
+                                    MainActivity.bannerUserName.setVisibility(View.VISIBLE);
+                                    MainActivity.bannerStatusText.setVisibility(View.VISIBLE);
+                                    MainActivity.bannerVerification.setVisibility(View.VISIBLE);
+
+                                    if (user.isEmailVerified()) {
+                                        MainActivity.bannerVerification.setText("Onaylı");
+                                        MainActivity.bannerVerification.setTextColor(ContextCompat.getColor(requireContext(), R.color.green));
+                                    } else {
+                                        MainActivity.bannerVerification.setText("Onaylanmadı");
+                                        MainActivity.bannerVerification.setTextColor(ContextCompat.getColor(requireContext(), R.color.rose));
                                     }
-                                });
 
-                                MainActivity.materialCardView.setVisibility(View.VISIBLE);
-                                MainActivity.bannerUserName.setVisibility(View.VISIBLE);
-                                MainActivity.bannerStatusText.setVisibility(View.VISIBLE);
-                                MainActivity.bannerVerification.setVisibility(View.VISIBLE);
 
-                                if (user.isEmailVerified()) {
-                                    MainActivity.bannerVerification.setText("Onaylı");
-                                    MainActivity.bannerVerification.setTextColor(ContextCompat.getColor(requireContext(), R.color.green));
                                 } else {
-                                    MainActivity.bannerVerification.setText("Onaylanmadı");
-                                    MainActivity.bannerVerification.setTextColor(ContextCompat.getColor(requireContext(), R.color.rose));
+
+                                    Toast.makeText(requireContext(), "Giriş Başarısız.",
+                                            Toast.LENGTH_SHORT).show();
                                 }
-
-
-
-                            } else {
-
-                                Toast.makeText(requireContext(), "Giriş Başarısız.",
-                                        Toast.LENGTH_SHORT).show();
                             }
-                        }
-                    });
+                        });
+
+            }
+        } else {
+            Toast.makeText(requireContext(), "İnternet bağlantısı yok",
+                            Toast.LENGTH_SHORT).show();
+            binding.loginProgress.setVisibility(View.GONE);
+            binding.loginButton.setClickable(true);
+            binding.remember.setClickable(true);
+            binding.loginButton.setText("Giriş Yap");
 
         }
-
 
     }
 }

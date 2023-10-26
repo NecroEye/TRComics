@@ -15,11 +15,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.navigation.NavController;
 import androidx.navigation.NavDestination;
-import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 import androidx.work.OneTimeWorkRequest;
@@ -76,6 +74,8 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+
+
         WorkRequest firebase = new OneTimeWorkRequest
                 .Builder(FetchingWorker.class)
                 .build();
@@ -109,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
 
         firebaseFirestore = FirebaseFirestore.getInstance();
 
-        if(currentUser != null){
+        if (currentUser != null) {
             docRef = firebaseFirestore.collection("users").document(currentUser.getEmail());
 
         }
@@ -182,15 +182,7 @@ public class MainActivity extends AppCompatActivity {
 
                     Toast.makeText(MainActivity.this, "Çıkış Yapıldı", Toast.LENGTH_SHORT).show();
 
-                    login.setVisible(true);
-                    register.setVisible(true);
-                    logout.setVisible(false);
-                    profile.setVisible(false);
-
-                    materialCardView.setVisibility(View.INVISIBLE);
-                    bannerUserName.setVisibility(View.INVISIBLE);
-                    bannerStatusText.setVisibility(View.INVISIBLE);
-                    bannerVerification.setVisibility(View.INVISIBLE);
+                    updateUIBasedOnAuthState();
 
 
                     // binding.navView.getMenu().clear();
@@ -213,30 +205,49 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
     @Override
     public void onStart() {
         super.onStart();
-        // Check if user is signed in (non-null) and update UI accordingly.
-        if (currentUser != null) {
+        updateUIBasedOnAuthState();
+    }
 
+
+    private void updateUIBasedOnAuthState() {
+        if (currentUser != null) {
             profile.setVisible(true);
             login.setVisible(false);
             register.setVisible(false);
             logout.setVisible(true);
+            fetchUserDataFromFirestore();
+        } else {
+            updateUIForLoggedOutState();
+        }
+    }
 
 
-            docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+    private void updateUIForLoggedOutState() {
+        profile.setVisible(false);
+        login.setVisible(true);
+        register.setVisible(true);
+        logout.setVisible(false);
 
-                    if (task.isSuccessful()) {
+        materialCardView.setVisibility(View.INVISIBLE);
+        bannerUserName.setVisibility(View.INVISIBLE);
+        bannerStatusText.setVisibility(View.INVISIBLE);
+        bannerVerification.setVisibility(View.INVISIBLE);
+    }
 
 
-                        DocumentSnapshot document = task.getResult();
+    private void fetchUserDataFromFirestore() {
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document != null && document.exists()) {
                         String username = document.getString("username");
                         String ImageUrl = document.getString("profilePicUrl");
-                        if (!ImageUrl.matches("boş"))
+                        if (ImageUrl != null && !ImageUrl.equals("boş"))
                             Glide
                                     .with(binding.getRoot())
                                     .load(ImageUrl)
@@ -245,40 +256,17 @@ public class MainActivity extends AppCompatActivity {
                                     .into(bannerProfilePicture);
 
                         bannerUserName.setText(username);
-
-
                     }
+                } else {
+                    Log.d("Firestore Error", task.getException().getMessage());
                 }
-            });
-
-            materialCardView.setVisibility(View.VISIBLE);
-            bannerUserName.setVisibility(View.VISIBLE);
-            bannerStatusText.setVisibility(View.VISIBLE);
-            bannerVerification.setVisibility(View.VISIBLE);
-
-
-            if (currentUser.isEmailVerified()) {
-                bannerVerification.setText("Onaylı");
-                bannerVerification.setTextColor(ContextCompat.getColor(this, R.color.green));
-            } else {
-                bannerVerification.setText("Onaylanmadı");
-                bannerVerification.setTextColor(ContextCompat.getColor(this, R.color.rose));
-
             }
+        });
+    }
 
-
-        } else {
-
-            profile.setVisible(false);
-            login.setVisible(true);
-            register.setVisible(true);
-            logout.setVisible(false);
-
-            materialCardView.setVisibility(View.INVISIBLE);
-            bannerUserName.setVisibility(View.INVISIBLE);
-            bannerStatusText.setVisibility(View.INVISIBLE);
-            bannerVerification.setVisibility(View.INVISIBLE);
-        }
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

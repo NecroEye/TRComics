@@ -178,18 +178,19 @@
         tools:ignore="RtlSymmetry" />
 
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/registerButton"
         android:layout_width="150dp"
         android:layout_height="50dp"
         android:layout_marginStart="130dp"
         android:backgroundTint="@color/aqua"
-        android:textAllCaps="false"
         android:gravity="center"
-        android:padding="0dp"
         android:maxLines="1"
+        android:padding="0dp"
         android:text="@string/sign_up"
-        android:textStyle="bold" />
+        android:textAllCaps="false"
+        android:textStyle="bold"
+        app:rippleColor="@color/white" />
 
 
     <LinearLayout

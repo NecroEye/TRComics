@@ -3,21 +3,17 @@ package com.muratcangzm.trcomics.utils;
 import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.work.Worker;
 import androidx.work.WorkerParameters;
-
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.storage.FirebaseStorage;
 import com.muratcangzm.trcomics.models.ComicModel;
 import com.muratcangzm.trcomics.models.UserModel;
-
 import java.util.ArrayList;
 
 public class FetchingWorker extends Worker {
@@ -73,10 +69,10 @@ public class FetchingWorker extends Worker {
                                         null,
                                         documentSnapshot.getString("title")
                                 ));
+                            }
 
-                                for (ComicModel comic : comicModel) {
-                                    Log.d("Veri", "onEvent: " + comic.getTitle());
-                                }
+                            for (ComicModel comic : comicModel) {
+                                Log.d("Veri", "onEvent: " + comic.getTitle());
                             }
 
                         }
@@ -108,10 +104,6 @@ public class FetchingWorker extends Worker {
                                 ));
 
 
-                            }
-
-                            for (UserModel userModel1 : userModel) {
-                                Log.d("Veri", "onEvent: " + userModel1.getUsername());
                             }
                         }
 

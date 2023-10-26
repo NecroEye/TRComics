@@ -102,13 +102,7 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
-    <ProgressBar
-        android:id="@+id/loginProgress"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:paddingEnd="15dp"
-        android:visibility="gone"
-        tools:ignore="RtlSymmetry" />
+
 
     <com.google.android.material.switchmaterial.SwitchMaterial
         android:id="@+id/remember"
@@ -124,7 +118,16 @@
         android:layout_marginTop="10dp"
         android:layout_marginBottom="15dp"/>
 
-    <Button
+
+    <ProgressBar
+        android:id="@+id/loginProgress"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:paddingEnd="15dp"
+        android:visibility="gone"
+        tools:ignore="RtlSymmetry" />
+
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/loginButton"
         android:layout_width="150dp"
         android:layout_height="50dp"
@@ -135,6 +138,7 @@
         android:maxLines="1"
         android:textAllCaps="false"
         android:padding="0dp"
+        app:rippleColor="@color/white"
         android:textStyle="bold" />
 
     <LinearLayout

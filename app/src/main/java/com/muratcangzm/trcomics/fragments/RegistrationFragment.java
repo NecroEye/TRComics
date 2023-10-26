@@ -1,5 +1,8 @@
 package com.muratcangzm.trcomics.fragments;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Patterns;
@@ -19,19 +22,18 @@ import androidx.navigation.Navigation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.muratcangzm.trcomics.R;
 import com.muratcangzm.trcomics.databinding.RegistrationFragmentLayoutBinding;
 import com.muratcangzm.trcomics.models.UserModel;
+import com.muratcangzm.trcomics.utils.NetworkUtils;
 import com.muratcangzm.trcomics.utils.NotificationHelper;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Locale;
 
 public class RegistrationFragment extends Fragment {
 
@@ -86,87 +88,103 @@ public class RegistrationFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+
+            if (requireActivity().checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+                requireActivity().requestPermissions(new String[]{Manifest.permission.POST_NOTIFICATIONS}, 1);
+            }
+        }
+
     }
 
 
     private void createUser(final String userName, final String email, final String password, final String passwordTwice) {
 
-        if (!userName.isEmpty() && !email.isEmpty()
-                && !password.isEmpty() && !passwordTwice.isEmpty()) {
-            if (Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
 
-                if (password.equals(passwordTwice)) {
+        if (NetworkUtils.isNetworkAvailable(requireContext())) {
+            if (!userName.isEmpty() && !email.isEmpty()
+                    && !password.isEmpty() && !passwordTwice.isEmpty()) {
+                if (Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
 
-                    mAuth.createUserWithEmailAndPassword(email, password)
-                            .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                                @Override
-                                public void onComplete(@NonNull Task<AuthResult> task) {
+                    if (password.equals(passwordTwice)) {
 
-                                    binding.registerButton.setClickable(true);
-                                    binding.registerProgress.setVisibility(View.GONE);
-                                    binding.registerButton.setText("Kayıt Ol");
+                        mAuth.createUserWithEmailAndPassword(email, password)
+                                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<AuthResult> task) {
 
-                                    if (task.isSuccessful()) {
+                                        binding.registerButton.setClickable(true);
+                                        binding.registerProgress.setVisibility(View.GONE);
+                                        binding.registerButton.setText("Kayıt Ol");
 
-                                        binding.registerButton.setAnimation(fade_in);
-                                        binding.registerButton.setText("Tamamlandı");
+                                        if (task.isSuccessful()) {
 
-                                        Toast.makeText(requireContext(), "Hesap Oluşturuldu.",
-                                                Toast.LENGTH_SHORT).show();
+                                            binding.registerButton.setAnimation(fade_in);
+                                            binding.registerButton.setText("Tamamlandı");
 
-                                        NotificationHelper.showNotification(requireContext(), "Hesap Onayı", "E-Postanıza onay mesajı gönderilmiştir.");
+                                            Toast.makeText(requireContext(), "Hesap Oluşturuldu.",
+                                                    Toast.LENGTH_SHORT).show();
 
-                                        NavController controller = Navigation.findNavController(requireActivity(), R.id.fragmentContainerView);
-                                        controller.navigate(R.id.toLogin);
 
-                                        FirebaseUser user = mAuth.getCurrentUser();
+                                            NotificationHelper.showNotification(requireContext(), "Hesap Onayı", "E-Postanıza onay mesajı gönderilmiştir.");
 
-                                        Date currentDate = new Date();
+                                            NavController controller = Navigation.findNavController(requireActivity(), R.id.fragmentContainerView);
+                                            controller.navigate(R.id.toLogin);
 
-                                        UserModel newUser = new UserModel(binding.registerUserName.getText().toString(),
-                                                binding.registerMail.getText().toString(),
-                                                "boş",
-                                                currentDate);
+                                            FirebaseUser user = mAuth.getCurrentUser();
 
-                                        firestore.collection("users")
-                                                .document(binding.registerMail.getText().toString())
-                                                .set(newUser);
+                                            Date currentDate = new Date();
 
-                                        user.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
-                                            @Override
-                                            public void onComplete(@NonNull Task<Void> task) {
-                                                Log.d("Deneme", "onComplete Verification: " + user.isEmailVerified());
-                                            }
-                                        }).addOnFailureListener(new OnFailureListener() {
-                                            @Override
-                                            public void onFailure(@NonNull Exception e) {
+                                            UserModel newUser = new UserModel(binding.registerUserName.getText().toString(),
+                                                    binding.registerMail.getText().toString(),
+                                                    "boş",
+                                                    currentDate);
 
-                                                Log.d("Deneme", "onComplete Verification: " + user.isEmailVerified());
+                                            firestore.collection("users")
+                                                    .document(binding.registerMail.getText().toString())
+                                                    .set(newUser);
 
-                                            }
-                                        });
+                                            user.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<Void> task) {
+                                                    Log.d("Deneme", "onComplete Verification: " + user.isEmailVerified());
+                                                }
+                                            }).addOnFailureListener(new OnFailureListener() {
+                                                @Override
+                                                public void onFailure(@NonNull Exception e) {
 
-                                    } else {
+                                                    Log.d("Deneme", "onComplete Verification: " + user.isEmailVerified());
 
-                                        Toast.makeText(requireContext(), "Hesap Oluşturulamadı.",
-                                                Toast.LENGTH_SHORT).show();
+                                                }
+                                            });
+
+                                        } else {
+
+                                            Toast.makeText(requireContext(), "Hesap Oluşturulamadı.",
+                                                    Toast.LENGTH_SHORT).show();
+                                        }
                                     }
-                                }
-                            });
+                                });
+                    } else {
+                        Toast.makeText(requireContext(), "Şifre Uyuşmuyor", Toast.LENGTH_SHORT).show();
+                    }
+
+
                 } else {
-                    Toast.makeText(requireContext(), "Şifre Uyuşmuyor", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(requireContext(), "Geçersiz E-posta", Toast.LENGTH_SHORT).show();
                 }
 
 
             } else {
-                Toast.makeText(requireContext(), "Geçersiz E-posta", Toast.LENGTH_SHORT).show();
+                Toast.makeText(requireContext(), "Boş alan Bıraktınız", Toast.LENGTH_SHORT).show();
             }
-
-
         } else {
-            Toast.makeText(requireContext(), "Boş alan Bıraktınız", Toast.LENGTH_SHORT).show();
+            Toast.makeText(requireContext(), "İnternet bağlantısı yok", Toast.LENGTH_SHORT).show();
+            binding.registerButton.setClickable(true);
+            binding.registerProgress.setVisibility(View.GONE);
+            binding.registerButton.setText("Kayıt Ol");
         }
-
 
     }
 
