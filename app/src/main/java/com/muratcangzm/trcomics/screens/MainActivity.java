@@ -76,13 +76,9 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        WorkRequest firebase = new OneTimeWorkRequest
-                .Builder(FetchingWorker.class)
-                .build();
 
-        WorkManager
-                .getInstance()
-                .enqueue(firebase);
+
+
 
 
         Menu menu = binding.navView.getMenu();

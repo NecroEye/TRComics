@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,20 +15,28 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.work.OneTimeWorkRequest;
+import androidx.work.WorkInfo;
+import androidx.work.WorkManager;
+import androidx.work.WorkRequest;
 
 import com.denzcoskun.imageslider.constants.ScaleTypes;
 import com.denzcoskun.imageslider.interfaces.ItemClickListener;
 import com.denzcoskun.imageslider.models.SlideModel;
 import com.muratcangzm.trcomics.R;
 import com.muratcangzm.trcomics.databinding.MainFragmentLayoutBinding;
+import com.muratcangzm.trcomics.models.ComicModel;
+import com.muratcangzm.trcomics.screens.DetailsActivity;
+import com.muratcangzm.trcomics.utils.FetchingWorker;
 import com.muratcangzm.trcomics.views.CardViewAdapter;
 import com.muratcangzm.trcomics.views.CardViewModel;
 import com.muratcangzm.trcomics.views.ChipRecycler;
-import com.muratcangzm.trcomics.screens.DetailsActivity;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 public class MainFragment extends Fragment {
 
@@ -34,6 +44,7 @@ public class MainFragment extends Fragment {
     private ArrayList<SlideModel> slideModels;
     private CardViewAdapter cardViewAdapter;
     public static ArrayList<CardViewModel> cardViewModels;
+    private ArrayList<ComicModel> testModel = new ArrayList<>();
 
     public MainFragment() {
         //Empty Constructor
@@ -46,18 +57,46 @@ public class MainFragment extends Fragment {
 
         binding = MainFragmentLayoutBinding.inflate(getLayoutInflater(), container, false);
 
+        binding.shimmerLayout.startShimmerAnimation();
+        binding.shimmerSlider.startShimmerAnimation();
+
+        OneTimeWorkRequest workRequest = new OneTimeWorkRequest
+                .Builder(FetchingWorker.class)
+                .build();
+
+        WorkManager.getInstance(requireContext()).enqueue(workRequest);
+
+        WorkManager.getInstance(requireContext())
+                .getWorkInfoByIdLiveData(workRequest.getId())
+                .observe(getViewLifecycleOwner(), new Observer<WorkInfo>() {
+                    @Override
+                    public void onChanged(WorkInfo workInfo) {
+
+                        if (workInfo != null && workInfo.getState().isFinished()) {
+                            new Handler().postDelayed(new Runnable() {
+                                @Override public void run() {
+                                    binding.shimmerLayout.stopShimmerAnimation();
+                                    binding.shimmerSlider.stopShimmerAnimation();
+                                    binding.shimmerSlider.setVisibility(View.GONE);
+                                    binding.shimmerLayout.setVisibility(View.GONE);
+                                    binding.recyclerView.setVisibility(View.VISIBLE);
+                                    binding.imageSlider.setVisibility(View.VISIBLE);
+                                    testModel.addAll(FetchingWorker.comicModel);
+
+                                    Log.d("Veri", "run: " + testModel.size());
+
+                                }
+                            }, 1500);
+                        }
+
+                    }
+                });
+
+        Log.d("Veri", "onCreateView: " + testModel.size());
 
 
 
-        /**
-         binding.shimmerLayout.startShimmerAnimation();
-         new Handler().postDelayed(new Runnable() {
-        @Override public void run() {
 
-        binding.shimmerLayout.stopShimmerAnimation();
-        }
-        }, 5000);
-         **/
 
         return binding.getRoot();
     }
@@ -158,7 +197,9 @@ public class MainFragment extends Fragment {
             }
         });
 
+
         slideModels = new ArrayList<>();
+
         slideModels.add(new SlideModel(R.drawable.cover_one, "Mushoku Tensei - Isekai", ScaleTypes.CENTER_CROP));
         slideModels.add(new SlideModel(R.drawable.cover_two, "When A Thousand Moons Rise", ScaleTypes.CENTER_CROP));
         slideModels.add(new SlideModel(R.drawable.cover_three, "Return Of The Sss-Class Ranker", ScaleTypes.CENTER_CROP));

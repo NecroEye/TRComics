@@ -74,6 +74,8 @@ public class FetchingWorker extends Worker {
                             for (ComicModel comic : comicModel) {
                                 Log.d("Veri", "onEvent: " + comic.getTitle());
                             }
+                            Log.d("Veri", "onEvent: " + comicModel.size());
+
 
                         }
                     }
@@ -112,5 +114,6 @@ public class FetchingWorker extends Worker {
                 });
 
     }
+
 
 }
