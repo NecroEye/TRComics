@@ -57,16 +57,20 @@ public class FetchingWorker extends Worker {
                         if (value != null) {
 
 
+
                             for (DocumentSnapshot documentSnapshot : value.getDocuments()) {
+
+                                ArrayList<String> episodes = (ArrayList<String>) documentSnapshot.get("episodes");
+                                ArrayList<String> genres = (ArrayList<String>) documentSnapshot.get("genres");
 
                                 comicModel.add(new ComicModel(
                                         documentSnapshot.getString("author"),
                                         documentSnapshot.getString("coverUrl"),
                                         documentSnapshot.getDate("date"),
                                         documentSnapshot.getString("description"),
-                                        null,
-                                        false,
-                                        null,
+                                        episodes,
+                                        documentSnapshot.getBoolean("favorite"),
+                                        genres,
                                         documentSnapshot.getString("title")
                                 ));
                             }

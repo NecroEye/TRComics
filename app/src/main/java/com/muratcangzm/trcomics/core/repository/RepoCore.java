@@ -1,20 +1,20 @@
 package com.muratcangzm.trcomics.core.repository;
 
 import androidx.lifecycle.LiveData;
-import com.muratcangzm.trcomics.saved_favorites.ComicModel;
+import com.muratcangzm.trcomics.saved_favorites.ComicRoomModel;
 import java.util.List;
 
 public interface RepoCore {
 
 
-    void insertComic(ComicModel comicModel);
+    void insertComic(ComicRoomModel comicRoomModel);
 
 
-    void deleteComic(ComicModel comicModel);
+    void deleteComic(ComicRoomModel comicRoomModel);
 
-    LiveData<List<ComicModel>> getComic();
+    LiveData<List<ComicRoomModel>> getComic();
 
-    LiveData<List<ComicModel>> searchComic(String search);
+    LiveData<List<ComicRoomModel>> searchComic(String search);
 
 
 }

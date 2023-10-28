@@ -10,26 +10,24 @@ import androidx.room.Update;
 
 import java.util.List;
 
-import javax.inject.Inject;
-
 @Dao
 public interface ComicDao {
 
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insert(ComicModel comicModel);
+    void insert(ComicRoomModel comicRoomModel);
     @Insert
-    void insertAll(ComicModel... comicModels);
+    void insertAll(ComicRoomModel... comicRoomModels);
 
     @Update
-    void updateComics(ComicModel... models);
+    void updateComics(ComicRoomModel... models);
 
     @Delete
-    void delete(ComicModel model);
+    void delete(ComicRoomModel model);
 
-    @Query("SELECT * FROM comics")
-    LiveData<List<ComicModel>> getAll();
+    @Query("SELECT * FROM ComicRoomModel")
+    LiveData<List<ComicRoomModel>> getAll();
 
-    @Query("SELECT * FROM comics WHERE comic_title LIKE :search")
-    LiveData<List<ComicModel>> findComicByItsTitle(String search);
+    @Query("SELECT * FROM ComicRoomModel WHERE comic_title LIKE :search")
+    LiveData<List<ComicRoomModel>> findComicByItsTitle(String search);
 }

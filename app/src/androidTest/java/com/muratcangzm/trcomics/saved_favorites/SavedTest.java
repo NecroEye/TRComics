@@ -21,7 +21,7 @@ public class SavedTest {
     @Named("testDatabase")
     ComicDatabase database;
     private ComicDao dao;
-    private ComicModel comicModel;
+    private ComicRoomModel comicRoomModel;
 
 
     @Rule
@@ -32,7 +32,7 @@ public class SavedTest {
     public void setup() {
 
 
-        comicModel = new ComicModel("murat","sa", null,"sdf", null,false ,null,"super" );
+        comicRoomModel = new ComicRoomModel("murat","sa", null,"sdf", null,false ,null,"super" );
 
         hiltRule.inject();
 
@@ -52,14 +52,14 @@ public class SavedTest {
     @Test
     public void insertComicTesting(){
 
-    dao.insert(comicModel);
+    dao.insert(comicRoomModel);
 
     }
 
     @Test
     public void deleteComicTesting(){
 
-     dao.delete(comicModel);
+     dao.delete(comicRoomModel);
 
     }
 

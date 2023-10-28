@@ -2,7 +2,7 @@ package com.muratcangzm.trcomics.core.repository;
 
 import androidx.lifecycle.LiveData;
 import com.muratcangzm.trcomics.saved_favorites.ComicDao;
-import com.muratcangzm.trcomics.saved_favorites.ComicModel;
+import com.muratcangzm.trcomics.saved_favorites.ComicRoomModel;
 import java.util.List;
 import javax.inject.Inject;
 
@@ -19,26 +19,26 @@ public class ComicRepo implements RepoCore {
     }
 
     @Override
-    public void insertComic(ComicModel comicModel) {
+    public void insertComic(ComicRoomModel comicRoomModel) {
 
-      comicDao.insert(comicModel);
-
-    }
-
-    @Override
-    public void deleteComic(ComicModel comicModel) {
-
-        comicDao.delete(comicModel);
+      comicDao.insert(comicRoomModel);
 
     }
 
     @Override
-    public LiveData<List<ComicModel>> getComic() {
+    public void deleteComic(ComicRoomModel comicRoomModel) {
+
+        comicDao.delete(comicRoomModel);
+
+    }
+
+    @Override
+    public LiveData<List<ComicRoomModel>> getComic() {
         return comicDao.getAll();
     }
 
     @Override
-    public LiveData<List<ComicModel>> searchComic(String search) {
+    public LiveData<List<ComicRoomModel>> searchComic(String search) {
         return comicDao.findComicByItsTitle(search);
     }
 }

@@ -8,7 +8,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.muratcangzm.trcomics.core.repository.RepoCore;
-import com.muratcangzm.trcomics.saved_favorites.ComicModel;
+import com.muratcangzm.trcomics.saved_favorites.ComicRoomModel;
 
 import java.util.List;
 import java.util.concurrent.Executor;
@@ -32,18 +32,18 @@ public class DownloadedFragmentViewModule extends AndroidViewModel {
         super(application);
     }
 
-    private MutableLiveData<List<ComicModel>> comic = new MutableLiveData<>();
-    final LiveData<List<ComicModel>> getComics = comic;
+    private MutableLiveData<List<ComicRoomModel>> comic = new MutableLiveData<>();
+    final LiveData<List<ComicRoomModel>> getComics = comic;
 
-    public void deleteComic(@NonNull final ComicModel comicModel){
+    public void deleteComic(@NonNull final ComicRoomModel comicRoomModel){
 
-        executor.execute(() -> { repository.deleteComic(comicModel); });
+        executor.execute(() -> { repository.deleteComic(comicRoomModel); });
 
     }
 
-    public void addComic(@NonNull final ComicModel comicModel){
+    public void addComic(@NonNull final ComicRoomModel comicRoomModel){
 
-        executor.execute(() -> { repository.insertComic(comicModel);});
+        executor.execute(() -> { repository.insertComic(comicRoomModel);});
 
     }
 
@@ -53,7 +53,7 @@ public class DownloadedFragmentViewModule extends AndroidViewModel {
 
         executor.execute(() -> {
 
-            LiveData<List<ComicModel>> searching = repository.searchComic(word);
+            LiveData<List<ComicRoomModel>> searching = repository.searchComic(word);
 
 
         });

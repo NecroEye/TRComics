@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 @Entity(tableName = "comics")
-public class ComicModel {
+public class ComicRoomModel {
 
     @PrimaryKey(autoGenerate = true)
     public int id;
@@ -26,9 +26,9 @@ public class ComicModel {
     public String title;
 
 
-    public ComicModel( String author, String coverUrl,
-                      @Nullable Date date, String description, @Nullable ArrayList<String> episodes, boolean favorite,
-                      @Nullable ArrayList<String> genres, String title) {
+    public ComicRoomModel(String author, String coverUrl,
+                          @Nullable Date date, String description, @Nullable ArrayList<String> episodes, boolean favorite,
+                          @Nullable ArrayList<String> genres, String title) {
 
         this.author = author;
         this.coverUrl = coverUrl;

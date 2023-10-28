@@ -12,6 +12,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
 import com.muratcangzm.trcomics.R;
 import com.muratcangzm.trcomics.screens.DetailsActivity;
 import java.util.ArrayList;
@@ -49,7 +51,11 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.ViewHo
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
 
-        holder.banner.setImageResource(cardViewModels.get(position).getImage());
+        Glide.with(holder.banner)
+                        .load(cardViewModels.get(position).getImage())
+                                .placeholder(R.drawable.not_found)
+                                        .error(R.drawable.not_found)
+                                                .into(holder.banner);
         holder.title.setText(cardViewModels.get(position).getTitle());
 
         holder.cardView.setOnClickListener(new View.OnClickListener() {

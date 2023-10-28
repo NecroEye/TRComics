@@ -44,7 +44,7 @@ public class MainFragment extends Fragment {
     private ArrayList<SlideModel> slideModels;
     private CardViewAdapter cardViewAdapter;
     public static ArrayList<CardViewModel> cardViewModels;
-    private ArrayList<ComicModel> testModel = new ArrayList<>();
+    private ArrayList<ComicModel> realModel = new ArrayList<>();
 
     public MainFragment() {
         //Empty Constructor
@@ -81,9 +81,11 @@ public class MainFragment extends Fragment {
                                     binding.shimmerLayout.setVisibility(View.GONE);
                                     binding.recyclerView.setVisibility(View.VISIBLE);
                                     binding.imageSlider.setVisibility(View.VISIBLE);
-                                    testModel.addAll(FetchingWorker.comicModel);
 
-                                    Log.d("Veri", "run: " + testModel.size());
+                                    realModel.clear();
+                                    realModel.addAll(FetchingWorker.comicModel);
+
+                                    Log.d("Veri", "run: " + realModel.size());
 
                                 }
                             }, 1500);
@@ -91,13 +93,6 @@ public class MainFragment extends Fragment {
 
                     }
                 });
-
-        Log.d("Veri", "onCreateView: " + testModel.size());
-
-
-
-
-
         return binding.getRoot();
     }
 
