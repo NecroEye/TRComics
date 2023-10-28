@@ -28,7 +28,6 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
-import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
@@ -40,18 +39,12 @@ import com.google.firebase.storage.UploadTask;
 import com.muratcangzm.trcomics.R;
 import com.muratcangzm.trcomics.databinding.ProfileFragmentLayoutBinding;
 import com.muratcangzm.trcomics.models.UserModel;
-import com.muratcangzm.trcomics.screens.MainActivity;
 import com.muratcangzm.trcomics.utils.FetchingWorker;
-import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
-import java.util.Map;
-import java.util.UUID;
 
 public class ProfileFragment extends Fragment {
 

@@ -1,21 +1,26 @@
-package com.muratcangzm.trcomics.views;
+package com.muratcangzm.trcomics.views.adapters;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
+import androidx.navigation.NavController;
+import androidx.navigation.NavDirections;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.muratcangzm.trcomics.R;
-import com.muratcangzm.trcomics.screens.DetailsActivity;
+import com.muratcangzm.trcomics.fragments.MainFragmentDirections;
+import com.muratcangzm.trcomics.models.ComicModel;
+
 import java.util.ArrayList;
 
 public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.ViewHolder> {
@@ -23,17 +28,17 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.ViewHo
 
     private final Context context;
     private final Activity activity;
-    private ArrayList<CardViewModel> cardViewModels;
+    private ArrayList<ComicModel> comicModels;
 
-    public CardViewAdapter(Context context, ArrayList<CardViewModel> cardViewModels, Activity activity) {
+    public CardViewAdapter(Context context, ArrayList<ComicModel> _comicModels, Activity activity) {
         this.context = context;
-        this.cardViewModels = cardViewModels;
+        this.comicModels = _comicModels;
         this.activity = activity;
     }
 
-    public void setFilteredList(ArrayList<CardViewModel> filteredList){
+    public void setFilteredList(ArrayList<ComicModel> filteredList) {
 
-        this.cardViewModels = filteredList;
+        this.comicModels = filteredList;
         notifyDataSetChanged();
 
     }
@@ -52,27 +57,30 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.ViewHo
     public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
 
         Glide.with(holder.banner)
-                        .load(cardViewModels.get(position).getImage())
-                                .placeholder(R.drawable.not_found)
-                                        .error(R.drawable.not_found)
-                                                .into(holder.banner);
-        holder.title.setText(cardViewModels.get(position).getTitle());
+                .load(comicModels.get(position).getCoverUrl())
+                .placeholder(R.drawable.not_found)
+                .error(R.drawable.not_found)
+                .into(holder.banner);
+        holder.title.setText(comicModels.get(position).getTitle());
 
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(context, DetailsActivity.class);
 
+                NavDirections action = MainFragmentDirections.mainToDetail(new ComicModel(
+                        comicModels.get(position).getAuthor(),
+                        comicModels.get(position).getCoverUrl(),
+                        comicModels.get(position).getDate(),
+                        comicModels.get(position).getDescription(),
+                        comicModels.get(position).getEpisodes(),
+                        comicModels.get(position).isFavorite(),
+                        comicModels.get(position).getGenres(),
+                        comicModels.get(position).getTitle()
+                ));
 
-                intent.putExtra("episodes", cardViewModels.get(position).getEpisodes());
-                intent.putExtra("genres", cardViewModels.get(position).getGenres());
-                intent.putExtra("images", cardViewModels.get(position).getImages());
-                intent.putExtra("position", position);
-
-
-                context.startActivity(intent);
-                activity.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                NavController navController = Navigation.findNavController(v);
+                navController.navigate(action);
 
 
             }
@@ -82,7 +90,7 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.ViewHo
 
     @Override
     public int getItemCount() {
-        return cardViewModels.size();
+        return comicModels.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

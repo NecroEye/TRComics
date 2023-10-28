@@ -1,6 +1,5 @@
 package com.muratcangzm.trcomics.fragments;
 
-import android.content.Intent;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
@@ -16,12 +15,14 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
+import androidx.navigation.NavController;
+import androidx.navigation.NavDirections;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.work.OneTimeWorkRequest;
 import androidx.work.WorkInfo;
 import androidx.work.WorkManager;
-import androidx.work.WorkRequest;
 
 import com.denzcoskun.imageslider.constants.ScaleTypes;
 import com.denzcoskun.imageslider.interfaces.ItemClickListener;
@@ -29,21 +30,17 @@ import com.denzcoskun.imageslider.models.SlideModel;
 import com.muratcangzm.trcomics.R;
 import com.muratcangzm.trcomics.databinding.MainFragmentLayoutBinding;
 import com.muratcangzm.trcomics.models.ComicModel;
-import com.muratcangzm.trcomics.screens.DetailsActivity;
 import com.muratcangzm.trcomics.utils.FetchingWorker;
-import com.muratcangzm.trcomics.views.CardViewAdapter;
-import com.muratcangzm.trcomics.views.CardViewModel;
-import com.muratcangzm.trcomics.views.ChipRecycler;
+import com.muratcangzm.trcomics.views.adapters.CardViewAdapter;
+import com.muratcangzm.trcomics.views.adapters.ChipRecycler;
 
 import java.util.ArrayList;
-import java.util.UUID;
 
 public class MainFragment extends Fragment {
 
     private MainFragmentLayoutBinding binding;
-    private ArrayList<SlideModel> slideModels;
+    private ArrayList<SlideModel> slideModels = new ArrayList<>();
     private CardViewAdapter cardViewAdapter;
-    public static ArrayList<CardViewModel> cardViewModels;
     private ArrayList<ComicModel> realModel = new ArrayList<>();
 
     public MainFragment() {
@@ -74,7 +71,9 @@ public class MainFragment extends Fragment {
 
                         if (workInfo != null && workInfo.getState().isFinished()) {
                             new Handler().postDelayed(new Runnable() {
-                                @Override public void run() {
+                                @Override
+                                public void run() {
+
                                     binding.shimmerLayout.stopShimmerAnimation();
                                     binding.shimmerSlider.stopShimmerAnimation();
                                     binding.shimmerSlider.setVisibility(View.GONE);
@@ -85,10 +84,48 @@ public class MainFragment extends Fragment {
                                     realModel.clear();
                                     realModel.addAll(FetchingWorker.comicModel);
 
+                                    if (realModel.size() >= 5) {
+                                        slideModels.add(new SlideModel(realModel.get(5).getCoverUrl(), realModel.get(5).getTitle(), ScaleTypes.CENTER_CROP));
+                                        slideModels.add(new SlideModel(realModel.get(4).getCoverUrl(), realModel.get(4).getTitle(), ScaleTypes.CENTER_CROP));
+                                        slideModels.add(new SlideModel(realModel.get(3).getCoverUrl(), realModel.get(3).getTitle(), ScaleTypes.CENTER_CROP));
+                                    }
+                                    else{
+                                        slideModels.add(new SlideModel(R.drawable.not_found, "Başlık yok", ScaleTypes.CENTER_CROP));
+                                    }
+
+
+                                    binding.imageSlider.setImageList(slideModels, ScaleTypes.CENTER_CROP);
+
+                                    binding.imageSlider.setItemClickListener(new ItemClickListener() {
+                                        @Override
+                                        public void onItemSelected(int i) {
+
+
+                                            for (ComicModel comicModel : realModel) {
+
+                                                if (slideModels.get(i).getTitle().equals(comicModel.getTitle())) {
+
+                                                    NavDirections action = MainFragmentDirections.mainToDetail(comicModel);
+
+                                                    NavController navController = Navigation.findNavController(binding.imageSlider);
+                                                    navController.navigate(action);
+                                                }
+                                            }
+
+                                        }
+
+
+                                        @Override
+                                        public void doubleClick(int i) {
+
+                                        }
+                                    });
+
+
                                     Log.d("Veri", "run: " + realModel.size());
 
                                 }
-                            }, 1500);
+                            }, 875);
                         }
 
                     }
@@ -102,59 +139,19 @@ public class MainFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
 
-        int[] i = new int[]{
-                R.drawable.cover_one,
-                R.drawable.cover_two,
-                R.drawable.cover_three,
-                R.drawable.cover_four};
-
-
         String[] genres = new String[]{
-                "Horror",
-                "Drama",
-                "Action",
-                "Thriller",
-                "Comedy",
-                "Romance",
-                "Historical",
-                "Isekai",
-                "Fantasy",
-                "Sci-fi",
+                "Korku",
+                "Dram",
+                "Aksiyon",
+                "Gerilim",
+                "Komedi",
+                "Romantik",
+                "Fantastik",
+                "Bilim-Kurgu",
                 "Nsfw",
         };
 
-        String[] episodes = new String[]{
-                "Bölüm-7",
-                "Bölüm-6",
-                "Bölüm-5",
-                "Bölüm-4",
-                "Bölüm-3",
-                "Bölüm-2",
-                "Bölüm-1"
-        };
-
-
-        cardViewModels = new ArrayList<>();
-        cardViewModels.add(new CardViewModel(1, R.drawable.cover_one, 5,
-                "Company and Private Life", "“What a dogshit life… honestly.” Though he had become a disciple of the Heavenly Demon amidst the strife-filled Demonic Sect, Yeon So-Woon gets betrayed by his disciple-brother and comes to meet his end. However… When he woke up, he’s back to the time when he was a kid, before he got dragged into the Demonic Sect?! Loath to repeat his hellish life in the Demonic Sect, Yeon So-Woon begins to plan for his new life. I’ll enact revenge on the Demonic Sect, Become an elder of the Murim Union, And thus, live a prosperous and respected life.", "muratcan gözüm", null, null, null, i, genres, episodes, null, false));
-        cardViewModels.add(new CardViewModel(2, R.drawable.cover_two, 5,
-                "Manga Name2", "açıklama", "Ahmet yesevi", null, null, null, i, genres, episodes, null, false));
-        cardViewModels.add(new CardViewModel(3, R.drawable.cover_three, 1,
-                "Manga Name3", null, null, null, null, null, null, null, null, null, false));
-        cardViewModels.add(new CardViewModel(1, R.drawable.cover_four, 1,
-                "Manga Name4", null, null, null, null, null, null, null, null, null, false));
-        cardViewModels.add(new CardViewModel(1, R.drawable.cover_one, 1,
-                "Manga Name5", null, null, null, null, null, null, null, null, null, false));
-        cardViewModels.add(new CardViewModel(1, R.drawable.cover_four, 1,
-                "Manga Name4", null, null, null, null, null, null, null, null, null, false));
-        cardViewModels.add(new CardViewModel(1, R.drawable.cover_four, 1,
-                "Manga Name4", null, null, null, null, null, null, null, null, null, false));
-        cardViewModels.add(new CardViewModel(1, R.drawable.cover_one, 1,
-                "Manga Name1", null, null, null, null, null, null, null, null, null, false));
-        cardViewModels.add(new CardViewModel(2, R.drawable.cover_two, 1,
-                "Manga Name2", null, null, null, null, null, null, null, null, null, false));
-
-        cardViewAdapter = new CardViewAdapter(requireContext(), cardViewModels, requireActivity());
+        cardViewAdapter = new CardViewAdapter(requireContext(), realModel, requireActivity());
 
         binding.recyclerView.setAdapter(cardViewAdapter);
         binding.recyclerView.setHasFixedSize(true);
@@ -193,53 +190,16 @@ public class MainFragment extends Fragment {
         });
 
 
-        slideModels = new ArrayList<>();
-
-        slideModels.add(new SlideModel(R.drawable.cover_one, "Mushoku Tensei - Isekai", ScaleTypes.CENTER_CROP));
-        slideModels.add(new SlideModel(R.drawable.cover_two, "When A Thousand Moons Rise", ScaleTypes.CENTER_CROP));
-        slideModels.add(new SlideModel(R.drawable.cover_three, "Return Of The Sss-Class Ranker", ScaleTypes.CENTER_CROP));
-        slideModels.add(new SlideModel(R.drawable.cover_four, "Global Power: I Can Control All The Elements", ScaleTypes.CENTER_CROP));
-
-
-        binding.imageSlider.setImageList(slideModels, ScaleTypes.CENTER_CROP);
-
-
-        binding.imageSlider.setItemClickListener(new ItemClickListener() {
-            @Override
-            public void onItemSelected(int i) {
-
-                Intent intent = new Intent(requireContext(), DetailsActivity.class);
-
-                intent.putExtra("title", cardViewModels.get(i).getTitle());
-                intent.putExtra("image", cardViewModels.get(i).getImage());
-                intent.putExtra("author", cardViewModels.get(i).getAuthor());
-                intent.putExtra("episodes", cardViewModels.get(i).getEpisodes());
-                intent.putExtra("genres", cardViewModels.get(i).getGenres());
-                intent.putExtra("images", cardViewModels.get(i).getImages());
-                intent.putExtra("description", cardViewModels.get(i).getDescription());
-
-                requireContext().startActivity(intent);
-                requireActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-
-            }
-
-            @Override
-            public void doubleClick(int i) {
-
-            }
-        });
-
-
     }
 
     private void filteredList(String newText) {
 
-        ArrayList<CardViewModel> filteredList = new ArrayList<>();
-        for (CardViewModel cardViewModel : cardViewModels) {
+        ArrayList<ComicModel> filteredList = new ArrayList<>();
+        for (ComicModel comicModel : realModel) {
 
-            if (cardViewModel.getTitle().toLowerCase().contains(newText.toLowerCase())) {
+            if (comicModel.getTitle().toLowerCase().contains(newText.toLowerCase())) {
 
-                filteredList.add(cardViewModel);
+                filteredList.add(comicModel);
             }
         }
 

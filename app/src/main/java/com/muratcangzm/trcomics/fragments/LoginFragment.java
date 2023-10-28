@@ -29,7 +29,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.muratcangzm.trcomics.R;
 import com.muratcangzm.trcomics.databinding.LoginFragmentLayoutBinding;
-import com.muratcangzm.trcomics.screens.MainActivity;
+import com.muratcangzm.trcomics.views.MainActivity;
 import com.muratcangzm.trcomics.utils.NetworkUtils;
 
 public class LoginFragment extends Fragment {

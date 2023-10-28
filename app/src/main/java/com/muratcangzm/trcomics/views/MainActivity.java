@@ -1,4 +1,4 @@
-package com.muratcangzm.trcomics.screens;
+package com.muratcangzm.trcomics.views;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -20,9 +20,6 @@ import androidx.navigation.NavController;
 import androidx.navigation.NavDestination;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
-import androidx.work.OneTimeWorkRequest;
-import androidx.work.WorkManager;
-import androidx.work.WorkRequest;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -36,7 +33,6 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.muratcangzm.trcomics.R;
 import com.muratcangzm.trcomics.databinding.ActivityMainBinding;
-import com.muratcangzm.trcomics.utils.FetchingWorker;
 
 public class MainActivity extends AppCompatActivity {
 

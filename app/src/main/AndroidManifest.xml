@@ -29,7 +29,7 @@
             android:screenOrientation="portrait"
             android:exported="false" />
         <activity
-            android:name=".screens.MainActivity"
+            android:name=".views.MainActivity"
             android:screenOrientation="portrait"
             android:exported="true">
             <intent-filter>

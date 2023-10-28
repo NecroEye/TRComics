@@ -1,9 +1,8 @@
-package com.muratcangzm.trcomics.views;
+package com.muratcangzm.trcomics.views.adapters;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,9 +10,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
+import androidx.navigation.NavController;
+import androidx.navigation.NavDirections;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
 import com.muratcangzm.trcomics.R;
-import com.muratcangzm.trcomics.screens.DetailsActivity;
+import com.muratcangzm.trcomics.fragments.MainFragmentDirections;
+import com.muratcangzm.trcomics.models.ComicModel;
+import com.muratcangzm.trcomics.utils.FetchingWorker;
+
 import java.util.ArrayList;
 
 
@@ -22,12 +29,12 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.Favo
 
     private final Context context;
     private final Activity activity;
-    public ArrayList<CardViewModel> savedModel;
+    public ArrayList<ComicModel> savedModel;
 
 
 
 
-    public FavoritesAdapter(Context context, Activity activity, ArrayList<CardViewModel> savedModel){
+    public FavoritesAdapter(Context context, Activity activity, ArrayList<ComicModel> savedModel){
 
         this.context = context;
         this.activity = activity;
@@ -51,26 +58,31 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.Favo
     public void onBindViewHolder(@NonNull FavoriteHolder holder, @SuppressLint("RecyclerView") int position) {
 
 
-        holder.savedBanner.setImageResource(savedModel.get(position).getImage());
+
+        Glide.with(holder.savedBanner)
+                        .load(savedModel.get(position).getCoverUrl())
+                                .placeholder(R.drawable.not_found)
+                                        .error(R.drawable.not_found)
+                                                .into(holder.savedBanner);
+
         holder.savedTitle.setText(savedModel.get(position).getTitle());
 
         holder.savedCardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(context, DetailsActivity.class);
 
+                for (ComicModel comicModel : FetchingWorker.comicModel) {
 
-                intent.putExtra("episodes", savedModel.get(position).getEpisodes());
-                intent.putExtra("genres", savedModel.get(position).getGenres());
-                intent.putExtra("images", savedModel.get(position).getImages());
-                intent.putExtra("position", position);
+                    if (savedModel.get(position).getTitle().equals(comicModel.getTitle())) {
 
+                        // FIXME: 29.10.2023
+                        NavDirections action = MainFragmentDirections.mainToDetail(comicModel);
 
-                context.startActivity(intent);
-                activity.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-
-
+                        NavController navController = Navigation.findNavController(v);
+                       // navController.navigate(action);
+                    }
+                }
             }
         });
 

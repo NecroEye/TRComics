@@ -14,8 +14,9 @@ import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.muratcangzm.trcomics.R;
 import com.muratcangzm.trcomics.databinding.FavoriteFragmentBinding;
-import com.muratcangzm.trcomics.views.CardViewModel;
-import com.muratcangzm.trcomics.views.FavoritesAdapter;
+import com.muratcangzm.trcomics.models.ComicModel;
+import com.muratcangzm.trcomics.utils.FetchingWorker;
+import com.muratcangzm.trcomics.views.adapters.FavoritesAdapter;
 
 import java.util.ArrayList;
 
@@ -23,7 +24,7 @@ public class FavoriteFragment extends Fragment {
 
     private FavoriteFragmentBinding binding;
     private FavoritesAdapter favoritesAdapter;
-    private ArrayList<CardViewModel> savedModel = new ArrayList<>();
+    private ArrayList<ComicModel> savedModel = new ArrayList<>();
     private SharedPreferences sharedPreferences;
 
     public FavoriteFragment() {
@@ -43,11 +44,11 @@ public class FavoriteFragment extends Fragment {
         binding.favBackground.getBackground().setTint(requireContext().getColor(R.color.black));
 
 
-        for(CardViewModel cardViewModel : MainFragment.cardViewModels){
+        for(ComicModel comicModel : FetchingWorker.comicModel){
 
-            if(!sharedPreferences.getString(cardViewModel.getAuthor(), "Empty").contains("Empty")){
+            if(!sharedPreferences.getString(comicModel.getAuthor(), "Empty").contains("Empty")){
 
-                savedModel.add(cardViewModel);
+                savedModel.add(comicModel);
 
 
             }

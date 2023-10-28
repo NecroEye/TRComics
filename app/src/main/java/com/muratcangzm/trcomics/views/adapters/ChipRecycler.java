@@ -1,4 +1,4 @@
-package com.muratcangzm.trcomics.views;
+package com.muratcangzm.trcomics.views.adapters;
 
 import android.content.Context;
 import android.util.Log;

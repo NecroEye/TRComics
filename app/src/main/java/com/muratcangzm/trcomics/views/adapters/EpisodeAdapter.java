@@ -1,7 +1,6 @@
-package com.muratcangzm.trcomics.views;
+package com.muratcangzm.trcomics.views.adapters;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,26 +8,25 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.muratcangzm.trcomics.R;
+
+import java.util.ArrayList;
 
 public class EpisodeAdapter extends RecyclerView.Adapter<EpisodeAdapter.EpisodeHolder> {
 
 
     private final Context context;
-    private final String[] episodes;
-    private final int[] images;
-    private final Intent readingSection;
+    private final ArrayList<String> episodes;
 
 
-    public EpisodeAdapter(Context context, String[] episodes, int[] images, Intent intent){
-
+    public EpisodeAdapter(Context context, ArrayList<String> episodes){
 
         this.context = context;
         this.episodes = episodes;
-        this.images = images;
-        this.readingSection = intent;
 
     }
 
@@ -36,10 +34,7 @@ public class EpisodeAdapter extends RecyclerView.Adapter<EpisodeAdapter.EpisodeH
     @NonNull
     @Override
     public EpisodeHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-
-
         View v = LayoutInflater.from(context).inflate(R.layout.epsiode_recycler, parent, false);
-
 
         return new EpisodeHolder(v);
     }
@@ -47,15 +42,15 @@ public class EpisodeAdapter extends RecyclerView.Adapter<EpisodeAdapter.EpisodeH
     @Override
     public void onBindViewHolder(@NonNull EpisodeHolder holder, int position) {
 
-        holder.episodeText.setText(episodes[position]);
+        holder.episodeText.setText(episodes.get(position));
 
         holder.episodeText.setOnClickListener(v ->{
 
-            readingSection.putExtra("images", images);
-            context.startActivity(readingSection);
+
+            NavController controller = Navigation.findNavController(v);
+            controller.navigate(R.id.detailToReading);
+
             holder.seen.setVisibility(View.VISIBLE);
-
-
         });
 
     }
@@ -64,7 +59,7 @@ public class EpisodeAdapter extends RecyclerView.Adapter<EpisodeAdapter.EpisodeH
 
     @Override
     public int getItemCount() {
-        return episodes.length;
+        return episodes.size();
     }
 
 

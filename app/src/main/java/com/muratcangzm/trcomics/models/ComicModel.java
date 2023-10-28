@@ -1,11 +1,17 @@
 package com.muratcangzm.trcomics.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.versionedparcelable.VersionedParcelize;
 
 import java.util.ArrayList;
 import java.util.Date;
 
-public class ComicModel {
+@VersionedParcelize
+public class ComicModel implements Parcelable {
 
 
     private String author;
@@ -18,9 +24,7 @@ public class ComicModel {
     private String title;
 
 
-    public ComicModel(){
 
-    }
 
     public ComicModel(String author, String coverUrl, Date date,
                       String description, @Nullable ArrayList<String> episodes, boolean favorite,
@@ -35,6 +39,28 @@ public class ComicModel {
         this.title = title;
     }
 
+
+    protected ComicModel(Parcel in) {
+        author = in.readString();
+        coverUrl = in.readString();
+        description = in.readString();
+        episodes = in.createStringArrayList();
+        favorite = in.readByte() != 0;
+        genres = in.createStringArrayList();
+        title = in.readString();
+    }
+
+    public static final Creator<ComicModel> CREATOR = new Creator<ComicModel>() {
+        @Override
+        public ComicModel createFromParcel(Parcel in) {
+            return new ComicModel(in);
+        }
+
+        @Override
+        public ComicModel[] newArray(int size) {
+            return new ComicModel[size];
+        }
+    };
 
     public String getAuthor() {
         return author;
@@ -98,5 +124,21 @@ public class ComicModel {
 
     public void setCoverUrl(String coverUrl) {
         this.coverUrl = coverUrl;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(@NonNull Parcel dest, int flags) {
+        dest.writeString(author);
+        dest.writeString(coverUrl);
+        dest.writeString(description);
+        dest.writeStringList(episodes);
+        dest.writeByte((byte) (favorite ? 1 : 0));
+        dest.writeStringList(genres);
+        dest.writeString(title);
     }
 }
