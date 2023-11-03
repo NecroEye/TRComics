@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -11,6 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:layout_width="match_parent"
@@ -88,7 +91,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="300dp">
 
-                   <include layout="@layout/slider_layout_shimmer"/>
+                    <include layout="@layout/slider_layout_shimmer" />
 
                 </com.facebook.shimmer.ShimmerFrameLayout>
 
@@ -96,8 +99,8 @@
                     android:id="@+id/imageSlider"
                     android:layout_width="match_parent"
                     android:layout_height="300dp"
-                    app:iss_auto_cycle="true"
                     android:visibility="gone"
+                    app:iss_auto_cycle="true"
                     app:iss_delay="2000"
                     app:iss_period="2000"
                     app:iss_text_align="CENTER"
@@ -190,8 +193,9 @@
                 android:layout_height="match_parent"
                 android:visibility="gone" />
 
-        </LinearLayout>
-    </androidx.core.widget.NestedScrollView>
 
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

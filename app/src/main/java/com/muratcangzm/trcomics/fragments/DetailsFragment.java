@@ -30,7 +30,7 @@ public class DetailsFragment extends Fragment {
 
 
     private DetailsFragmentLayoutBinding binding;
-    private ComicModel models;
+    private ComicModel models, favModel;
     private boolean isFav = false;
 
     private SharedPreferences preferences;

@@ -42,11 +42,12 @@ public class FavoriteFragment extends Fragment {
         binding = FavoriteFragmentBinding.inflate(getLayoutInflater(), container, false);
         sharedPreferences = requireContext().getSharedPreferences("Favorites", Context.MODE_PRIVATE);
         binding.favBackground.getBackground().setTint(requireContext().getColor(R.color.black));
+        savedModel.clear();
 
 
-        for(ComicModel comicModel : FetchingWorker.comicModel){
+        for (ComicModel comicModel : FetchingWorker.comicModel) {
 
-            if(!sharedPreferences.getString(comicModel.getAuthor(), "Empty").contains("Empty")){
+            if (!sharedPreferences.getString(comicModel.getAuthor(), "Empty").contains("Empty")) {
 
                 savedModel.add(comicModel);
 
@@ -66,8 +67,6 @@ public class FavoriteFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-
 
 
     }

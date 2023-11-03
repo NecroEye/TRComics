@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
@@ -20,10 +19,10 @@ import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.work.OneTimeWorkRequest;
 import androidx.work.WorkInfo;
 import androidx.work.WorkManager;
-
 import com.denzcoskun.imageslider.constants.ScaleTypes;
 import com.denzcoskun.imageslider.interfaces.ItemClickListener;
 import com.denzcoskun.imageslider.models.SlideModel;
@@ -33,7 +32,6 @@ import com.muratcangzm.trcomics.models.ComicModel;
 import com.muratcangzm.trcomics.utils.FetchingWorker;
 import com.muratcangzm.trcomics.views.adapters.CardViewAdapter;
 import com.muratcangzm.trcomics.views.adapters.ChipRecycler;
-
 import java.util.ArrayList;
 
 public class MainFragment extends Fragment {
@@ -85,6 +83,7 @@ public class MainFragment extends Fragment {
                                     realModel.addAll(FetchingWorker.comicModel);
 
                                     if (realModel.size() >= 5) {
+                                        slideModels.clear();
                                         slideModels.add(new SlideModel(realModel.get(5).getCoverUrl(), realModel.get(5).getTitle(), ScaleTypes.CENTER_CROP));
                                         slideModels.add(new SlideModel(realModel.get(4).getCoverUrl(), realModel.get(4).getTitle(), ScaleTypes.CENTER_CROP));
                                         slideModels.add(new SlideModel(realModel.get(3).getCoverUrl(), realModel.get(3).getTitle(), ScaleTypes.CENTER_CROP));
@@ -125,11 +124,13 @@ public class MainFragment extends Fragment {
                                     Log.d("Veri", "run: " + realModel.size());
 
                                 }
-                            }, 875);
+                            }, 575);
                         }
 
                     }
                 });
+
+
         return binding.getRoot();
     }
 

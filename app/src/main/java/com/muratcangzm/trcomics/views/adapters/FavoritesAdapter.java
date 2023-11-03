@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.muratcangzm.trcomics.R;
+import com.muratcangzm.trcomics.fragments.FavoriteFragmentDirections;
 import com.muratcangzm.trcomics.fragments.MainFragmentDirections;
 import com.muratcangzm.trcomics.models.ComicModel;
 import com.muratcangzm.trcomics.utils.FetchingWorker;
@@ -76,11 +77,10 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.Favo
 
                     if (savedModel.get(position).getTitle().equals(comicModel.getTitle())) {
 
-                        // FIXME: 29.10.2023
-                        NavDirections action = MainFragmentDirections.mainToDetail(comicModel);
 
-                        NavController navController = Navigation.findNavController(v);
-                       // navController.navigate(action);
+                        NavDirections action =  FavoriteFragmentDirections.favToDetail(comicModel);
+                        Navigation.findNavController(v).navigate(action);
+
                     }
                 }
             }

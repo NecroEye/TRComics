@@ -20,6 +20,7 @@ import androidx.navigation.NavController;
 import androidx.navigation.NavDestination;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -70,13 +71,6 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-
-
-
-
-
-
-
         Menu menu = binding.navView.getMenu();
 
         logout = menu.findItem(R.id.nav_logout);
@@ -121,19 +115,19 @@ public class MainActivity extends AppCompatActivity {
 
                 switch (navDestination.getId()) {
 
-                    case 2131296625 -> getSupportActionBar().setTitle("Anasayfa");
+                    case 2131296631 -> getSupportActionBar().setTitle("Anasayfa");
 
-                    case 2131296629 -> getSupportActionBar().setTitle("Profile");
+                    case 2131296635 -> getSupportActionBar().setTitle("Profile");
 
-                    case 2131296623 -> getSupportActionBar().setTitle("Favoriler");
+                    case 2131296629 -> getSupportActionBar().setTitle("Favoriler");
 
-                    case 2131296627 -> {
+                    case 2131296633 -> {
 
                         getSupportActionBar().setTitle("Giriş Ekranı");
                         binding.navView.setCheckedItem(R.id.nav_login);
 
                     }
-                    case 2131296630 -> {
+                    case 2131296636 -> {
 
                         getSupportActionBar().setTitle("Kayıt Ekranı");
                         binding.navView.setCheckedItem(R.id.nav_register);
