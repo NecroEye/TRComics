@@ -209,10 +209,12 @@ public class MainActivity extends AppCompatActivity {
             login.setVisible(false);
             register.setVisible(false);
             logout.setVisible(true);
+            materialCardView.setVisibility(View.VISIBLE);
+            bannerUserName.setVisibility(View.VISIBLE);
+            bannerStatusText.setVisibility(View.VISIBLE);
+            bannerVerification.setVisibility(View.VISIBLE);
             fetchUserDataFromFirestore();
         } else {
-            binding.navView.getMenu().clear();
-            binding.navView.inflateMenu(R.menu.nav_menu);
             updateUIForLoggedOutState();
         }
     }

@@ -123,7 +123,6 @@
         android:id="@+id/loginProgress"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:paddingEnd="15dp"
         android:visibility="gone"
         tools:ignore="RtlSymmetry" />
 
