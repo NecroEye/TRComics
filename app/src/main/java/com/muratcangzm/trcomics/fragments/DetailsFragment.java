@@ -4,33 +4,32 @@ import static android.content.Context.MODE_PRIVATE;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
-import androidx.recyclerview.widget.LinearLayoutManager;
+
 import com.bumptech.glide.Glide;
+import com.google.android.material.tabs.TabLayoutMediator;
 import com.muratcangzm.trcomics.R;
 import com.muratcangzm.trcomics.databinding.DetailsFragmentLayoutBinding;
+import com.muratcangzm.trcomics.fragments.fragmentAdapter.ViewPagerAdapter;
 import com.muratcangzm.trcomics.models.ComicModel;
 import com.muratcangzm.trcomics.saved_favorites.ComicDao;
-import com.muratcangzm.trcomics.views.adapters.EpisodeAdapter;
-import com.muratcangzm.trcomics.views.adapters.GenreAdapter;
-
-import java.text.SimpleDateFormat;
-import java.util.Locale;
+import com.muratcangzm.trcomics.views.MainActivity;
 
 public class DetailsFragment extends Fragment {
 
 
     private DetailsFragmentLayoutBinding binding;
-    private ComicModel models, favModel;
+    private ComicModel models;
     private boolean isFav = false;
 
     private SharedPreferences preferences;
@@ -49,19 +48,39 @@ public class DetailsFragment extends Fragment {
 
         models = DetailsFragmentArgs.fromBundle(getArguments()).getCurrentComic();
 
-
+        if(getActivity() instanceof MainActivity)
+            ((MainActivity) getActivity()).getSupportActionBar().hide();
 
 
         preferences = requireActivity().getSharedPreferences("Favorites", MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
 
 
-
-
         binding.titleText.getBackground().setAlpha(120);
         binding.backButton.getBackground().setAlpha(120);
         binding.downloadButton.getBackground().setAlpha(120);
-        binding.description.setMovementMethod(new ScrollingMovementMethod());
+
+
+        Glide.with(binding.bannerImage)
+                .load(models.getCoverUrl())
+                .placeholder(R.drawable.not_found)
+                .error(R.drawable.not_found)
+                .into(binding.bannerImage);
+
+        binding.titleText.setText(models.getTitle());
+
+        binding.viewPager.setAdapter(new ViewPagerAdapter(getChildFragmentManager(),
+                getLifecycle(),
+                models));
+
+
+        new TabLayoutMediator(binding.tableLayout, binding.viewPager,
+                (tab, position) -> {
+
+                    if (position == 0) tab.setText("Tanıtım");
+                    else tab.setText("Bölümler");
+
+                }).attach();
 
 
         boolean isSaved = preferences.getBoolean(models.getTitle(), false);
@@ -74,31 +93,6 @@ public class DetailsFragment extends Fragment {
             isFav = false;
 
         }
-
-
-        binding.recyclerGenre.setAdapter(new GenreAdapter(requireContext(), models.getGenres()));
-        binding.recyclerGenre.setHasFixedSize(true);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false);
-        binding.recyclerGenre.setLayoutManager(linearLayoutManager);
-
-        //Inside adapter manage reading section direction
-        binding.episodeRecycler.setAdapter(new EpisodeAdapter(requireContext(), models.getEpisodes()));
-        binding.episodeRecycler.setHasFixedSize(true);
-
-        Glide.with(binding.bannerImage)
-                        .load(models.getCoverUrl())
-                                .placeholder(R.drawable.not_found)
-                                        .error(R.drawable.not_found)
-                                                .into(binding.bannerImage);
-
-        binding.titleText.setText(models.getTitle());
-        binding.description.setText(models.getDescription());
-
-       SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
-
-        binding.dateTextView.setText( sdf.format(models.getDate()));
-        binding.authorTextView.setText("Yazar: " + models.getAuthor());
-
 
         binding.backButton.setOnClickListener(v -> {
 

@@ -20,7 +20,6 @@ import androidx.navigation.NavController;
 import androidx.navigation.NavDestination;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -79,6 +78,12 @@ public class MainActivity extends AppCompatActivity {
         profile = menu.findItem(R.id.nav_profile);
 
         nav_header = binding.navView.getHeaderView(0);
+
+        /**
+         View decorView = getWindow().getDecorView();
+         int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
+         decorView.setSystemUiVisibility(uiOptions);
+         **/
 
 
         materialCardView = nav_header.findViewById(R.id.bannerProfileIcon);
@@ -171,8 +176,8 @@ public class MainActivity extends AppCompatActivity {
                     updateUIBasedOnAuthState();
 
 
-                    // binding.navView.getMenu().clear();
-                    // binding.navView.inflateMenu(R.menu.nav_menu);
+                    binding.navView.getMenu().clear();
+                    binding.navView.inflateMenu(R.menu.nav_menu);
 
                 }
 
@@ -206,6 +211,8 @@ public class MainActivity extends AppCompatActivity {
             logout.setVisible(true);
             fetchUserDataFromFirestore();
         } else {
+            binding.navView.getMenu().clear();
+            binding.navView.inflateMenu(R.menu.nav_menu);
             updateUIForLoggedOutState();
         }
     }
@@ -263,6 +270,8 @@ public class MainActivity extends AppCompatActivity {
         } else {
             super.onBackPressed();
         }
+
+
     }
 
 

@@ -30,6 +30,7 @@ import com.muratcangzm.trcomics.R;
 import com.muratcangzm.trcomics.databinding.MainFragmentLayoutBinding;
 import com.muratcangzm.trcomics.models.ComicModel;
 import com.muratcangzm.trcomics.utils.FetchingWorker;
+import com.muratcangzm.trcomics.views.MainActivity;
 import com.muratcangzm.trcomics.views.adapters.CardViewAdapter;
 import com.muratcangzm.trcomics.views.adapters.ChipRecycler;
 import java.util.ArrayList;
@@ -54,6 +55,9 @@ public class MainFragment extends Fragment {
 
         binding.shimmerLayout.startShimmerAnimation();
         binding.shimmerSlider.startShimmerAnimation();
+
+        if(getActivity() instanceof MainActivity && !((MainActivity)getActivity()).getSupportActionBar().isShowing())
+            ((MainActivity) getActivity()).getSupportActionBar().show();
 
         OneTimeWorkRequest workRequest = new OneTimeWorkRequest
                 .Builder(FetchingWorker.class)
