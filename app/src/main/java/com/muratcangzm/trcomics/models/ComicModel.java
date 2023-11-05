@@ -23,9 +23,6 @@ public class ComicModel implements Parcelable {
     private ArrayList<String> genres;
     private String title;
 
-
-
-
     public ComicModel(String author, String coverUrl, Date date,
                       String description, @Nullable ArrayList<String> episodes, boolean favorite,
                       @Nullable ArrayList<String> genres, String title) {

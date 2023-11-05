@@ -17,6 +17,8 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
 import com.bumptech.glide.Glide;
+import com.google.android.material.snackbar.BaseTransientBottomBar;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.muratcangzm.trcomics.R;
 import com.muratcangzm.trcomics.databinding.DetailsFragmentLayoutBinding;
@@ -109,7 +111,10 @@ public class DetailsFragment extends Fragment {
                 editor.putBoolean(models.getTitle(), true).apply();
                 editor.putString(models.getAuthor(), models.getAuthor()).apply();
                 binding.addFav.setImageResource(R.drawable.pressed_star);
-                Toast.makeText(requireContext(), "Favorilere Eklendi", Toast.LENGTH_SHORT).show();
+
+                Snackbar.make(requireContext(), v,"Favorilere Eklendi", Snackbar.LENGTH_SHORT)
+                        .setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE)
+                        .show();
 
             } else {
                 isFav = !isFav;
@@ -117,7 +122,10 @@ public class DetailsFragment extends Fragment {
                 editor.remove(models.getTitle()).apply();
                 editor.remove(models.getAuthor()).apply();
                 binding.addFav.setImageResource(R.drawable.favorite_icon);
-                Toast.makeText(requireContext(), "Favorilere Kaldırıldı", Toast.LENGTH_SHORT).show();
+
+                Snackbar.make(requireContext(), v,"Favorilerden Kaldırıldı", Snackbar.LENGTH_SHORT)
+                        .setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE)
+                        .show();
 
             }
 

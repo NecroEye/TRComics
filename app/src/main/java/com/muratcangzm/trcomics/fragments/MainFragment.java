@@ -13,13 +13,18 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.DefaultLifecycleObserver;
+import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.LifecycleObserver;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.OnLifecycleEvent;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.work.OneTimeWorkRequest;
 import androidx.work.WorkInfo;
 import androidx.work.WorkManager;
@@ -169,8 +174,11 @@ public class MainFragment extends Fragment {
 
         binding.searchView.clearFocus();
 
+
+
         String videoPath = "android.resource://" + requireContext().getPackageName() + "/" + R.raw.starfall_banner;
         Uri path = Uri.parse(videoPath);
+
         binding.bannerAnimation.setVideoURI(path);
         binding.bannerAnimation.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
@@ -179,6 +187,8 @@ public class MainFragment extends Fragment {
             }
         });
         binding.bannerAnimation.start();
+
+
 
         binding.searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -217,5 +227,22 @@ public class MainFragment extends Fragment {
 
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
 
+        if(!binding.bannerAnimation.isPlaying())
+            binding.bannerAnimation.start();
+
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        if (binding.bannerAnimation.isPlaying())
+            binding.bannerAnimation.pause();
+
+    }
 }
+
