@@ -1,13 +1,17 @@
 package com.muratcangzm.trcomics.core;
 
 
+import android.app.Application;
 import android.content.Context;
 
+import androidx.lifecycle.ViewModelProvider;
 import androidx.room.Room;
 
+import com.muratcangzm.trcomics.ComicApplication;
 import com.muratcangzm.trcomics.core.repository.ComicRepo;
 import com.muratcangzm.trcomics.saved_favorites.ComicDao;
 import com.muratcangzm.trcomics.saved_favorites.ComicDatabase;
+import com.muratcangzm.trcomics.viewmodels.ComicViewModel;
 
 import javax.inject.Singleton;
 
@@ -42,6 +46,12 @@ public class ComicModule {
     @Provides
     public static synchronized ComicRepo injectComicRepo(ComicDao comicDao) {
         return new ComicRepo(comicDao);
+    }
+
+    @Singleton
+    @Provides
+    public static synchronized ComicViewModel provideComicViewModel(Application application) {
+        return new ViewModelProvider.AndroidViewModelFactory(application).create(ComicViewModel.class);
     }
 
 }
