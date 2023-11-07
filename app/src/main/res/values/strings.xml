@@ -11,7 +11,6 @@
     <string name="Home">Anasayfa</string>
     <string name="favs">Favoriler</string>
     <string name="about">Hakkında</string>
-
     <string name="open_nav">Open Navigation Drawer</string>
     <string name="close_nav">Close Navigation Drawer</string>
     <string name="discord">Discord</string>
@@ -36,5 +35,6 @@
     <string name="e_posta">E-Posta:</string>
     <string name="register_date">Kayıt Tarihi:</string>
     <string name="personal_information">Kişisel Bilgiler</string>
-    <string name="episodes">Bölümler</string>
+    <string name="episodes"> <u>Bölümler</u> </string>
+    <string name="verify_circumstance">Onay Durumu:</string>
 </resources>

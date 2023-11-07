@@ -1,6 +1,7 @@
 package com.muratcangzm.trcomics.fragments;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -20,6 +21,7 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
@@ -78,47 +80,57 @@ public class ProfileFragment extends Fragment {
         firebaseStorage = FirebaseStorage.getInstance();
         storageReference = firebaseStorage.getReference();
 
-         docRef = firebaseFirestore.collection("users")
+        docRef = firebaseFirestore.collection("users")
                 .document(currentUser.getEmail());
 
-         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-             @Override
-             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @SuppressLint("ResourceAsColor")
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
 
-                 if(task.isSuccessful()){
+                if (task.isSuccessful()) {
 
-                     String imageUrl = null;
+                    String imageUrl = null;
 
-                      for(UserModel user : FetchingWorker.userModel){
+                    for (UserModel user : FetchingWorker.userModel) {
 
-                          if(auth.getCurrentUser().getEmail().matches(user.getEmail())){
-                              binding.userName.setText(user.getUsername());
+                        if (auth.getCurrentUser().getEmail().matches(user.getEmail())) {
 
-                              SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
-                              String formattedDate = sdf.format(user.getRegisterDate());
-                              binding.dateHolder.setText(formattedDate);
-                              imageUrl = user.getProfilePicUrl();
+                            binding.userName.setText(user.getUsername());
 
-                          }
-                      }
+                            binding.verifyHolder.setText(
+                                    auth.getCurrentUser().isEmailVerified() == true ? "Doğrulandı" : "Doğrulanmadı"
+                            );
 
-                     if(!imageUrl.matches("boş")){
-                         try {
+                            if (auth.getCurrentUser().isEmailVerified())
+                                binding.verifyHolder.setTextColor(ContextCompat.getColor(requireContext(), R.color.green));
+                            else
+                                binding.verifyHolder.setTextColor(ContextCompat.getColor(requireContext(), R.color.rose));
 
-                             Glide.with(binding.getRoot())
-                                     .load(imageUrl)
-                                     .error(R.drawable.not_found)
-                                     .centerCrop()
-                                     .into(binding.profilePic);
+                            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+                            String formattedDate = sdf.format(user.getRegisterDate());
+                            binding.dateHolder.setText(formattedDate);
+                            imageUrl = user.getProfilePicUrl();
 
-                         }
-                         catch (Exception e){
-                             Log.d("Hata", "onComplete: " + e.getMessage());
-                         }
-                     }
-                 }
-             }
-         });
+                        }
+                    }
+
+                    if (!imageUrl.matches("boş")) {
+                        try {
+
+                            Glide.with(binding.getRoot())
+                                    .load(imageUrl)
+                                    .error(R.drawable.not_found)
+                                    .centerCrop()
+                                    .into(binding.profilePic);
+
+                        } catch (Exception e) {
+                            Log.d("Hata", "onComplete: " + e.getMessage());
+                        }
+                    }
+                }
+            }
+        });
 
         binding.mailHolder.setText(currentUser.getEmail());
         registrationActivityLaunchers();
@@ -137,7 +149,7 @@ public class ProfileFragment extends Fragment {
                                     public void onClick(View v) {
 
                                         //beforehand denied then ask permission different way
-                                       permissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE);
+                                        permissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE);
                                     }
                                 }).show();
                     } else {
@@ -146,9 +158,9 @@ public class ProfileFragment extends Fragment {
 
                     }
                 } else {
-                       //permission granted
-                      Intent intentToGallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                      activityResultLauncher.launch(intentToGallery);
+                    //permission granted
+                    Intent intentToGallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    activityResultLauncher.launch(intentToGallery);
 
                 }
             }
@@ -162,7 +174,7 @@ public class ProfileFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
     }
 
-    private void registrationActivityLaunchers(){
+    private void registrationActivityLaunchers() {
 
         //UUID uuid = UUID.randomUUID();
 
@@ -170,67 +182,66 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onActivityResult(ActivityResult o) {
 
-                if (o.getResultCode() == Activity.RESULT_OK){
+                if (o.getResultCode() == Activity.RESULT_OK) {
 
-                  Intent intentFromResult = o.getData();
-                  if(intentFromResult != null){
+                    Intent intentFromResult = o.getData();
+                    if (intentFromResult != null) {
 
-                    ImageData = intentFromResult.getData();
+                        ImageData = intentFromResult.getData();
 
-                      try {
+                        try {
 
-                          ImageDecoder.Source source = ImageDecoder.createSource(requireActivity().getContentResolver(), ImageData);
-                          Bitmap selectedBitmap = ImageDecoder.decodeBitmap(source);
-                          binding.profilePic.setImageBitmap(selectedBitmap);
+                            ImageDecoder.Source source = ImageDecoder.createSource(requireActivity().getContentResolver(), ImageData);
+                            Bitmap selectedBitmap = ImageDecoder.decodeBitmap(source);
+                            binding.profilePic.setImageBitmap(selectedBitmap);
 
-                          int atIndex = currentUser.getEmail().indexOf("@");
-                          String getHalfOfEmail = currentUser.getEmail().substring(0, atIndex);
-                          String path = "users/userProfilePic/" + getHalfOfEmail + ".jpg";
+                            int atIndex = currentUser.getEmail().indexOf("@");
+                            String getHalfOfEmail = currentUser.getEmail().substring(0, atIndex);
+                            String path = "users/userProfilePic/" + getHalfOfEmail + ".jpg";
 
-                          storageReference.child(path).putFile(ImageData).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                              @Override
-                              public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            storageReference.child(path).putFile(ImageData).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                                @Override
+                                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 
-                                  StorageReference newReference = firebaseStorage.getReference(path);
-                                  newReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                      @Override
-                                      public void onSuccess(Uri uri) {
+                                    StorageReference newReference = firebaseStorage.getReference(path);
+                                    newReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                        @Override
+                                        public void onSuccess(Uri uri) {
 
-                                          String downloadUrl = uri.toString();
-
-
-
-                                          HashMap<String, Object> updateProfilePic = new HashMap<>();
-                                          updateProfilePic.put("profilePicUrl", downloadUrl);
-
-                                          docRef.update(updateProfilePic)
-                                                  .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                      @Override
-                                                      public void onSuccess(Void unused) {
-                                                          Log.d("ProfilePic", "onSuccess: Başarılı");
-                                                      }
-                                                  })
-                                                  .addOnFailureListener(new OnFailureListener() {
-                                                      @Override
-                                                      public void onFailure(@NonNull Exception e) {
-
-                                                          Log.d("ProfilePic", "onFailure: Başarısız " + e.getMessage());
-
-                                                      }
-                                                  });
-
-                                      }
-                                  });
-
-                              }
-                          });
-
-                      } catch (IOException e) {
-                          throw new RuntimeException(e);
-                      }
+                                            String downloadUrl = uri.toString();
 
 
-                  }
+                                            HashMap<String, Object> updateProfilePic = new HashMap<>();
+                                            updateProfilePic.put("profilePicUrl", downloadUrl);
+
+                                            docRef.update(updateProfilePic)
+                                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                        @Override
+                                                        public void onSuccess(Void unused) {
+                                                            Log.d("ProfilePic", "onSuccess: Başarılı");
+                                                        }
+                                                    })
+                                                    .addOnFailureListener(new OnFailureListener() {
+                                                        @Override
+                                                        public void onFailure(@NonNull Exception e) {
+
+                                                            Log.d("ProfilePic", "onFailure: Başarısız " + e.getMessage());
+
+                                                        }
+                                                    });
+
+                                        }
+                                    });
+
+                                }
+                            });
+
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+
+
+                    }
 
                 }
             }
@@ -240,13 +251,12 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onActivityResult(Boolean o) {
 
-                if(o){
+                if (o) {
 
                     Intent intentToGallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                     activityResultLauncher.launch(intentToGallery);
 
-                }
-                else{
+                } else {
 
                 }
 

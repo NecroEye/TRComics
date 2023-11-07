@@ -161,6 +161,8 @@ public class MainFragment extends Fragment {
                 "Nsfw",
         };
 
+
+
         cardViewAdapter = new CardViewAdapter(requireContext(), realModel, requireActivity());
 
         binding.recyclerView.setAdapter(cardViewAdapter);
