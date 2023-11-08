@@ -11,6 +11,9 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
 import androidx.navigation.NavController;
 import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
@@ -27,18 +30,27 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.ViewHo
 
 
     private final Context context;
-    private final Activity activity;
-    private ArrayList<ComicModel> comicModels;
+    private ArrayList<ComicModel> allComicModels = new ArrayList<>();
 
-    public CardViewAdapter(Context context, ArrayList<ComicModel> _comicModels, Activity activity) {
+    public CardViewAdapter(Context context, LiveData<ArrayList<ComicModel>> _comicModels) {
         this.context = context;
-        this.comicModels = _comicModels;
-        this.activity = activity;
+
+        _comicModels.observe((LifecycleOwner) context, new Observer<ArrayList<ComicModel>>() {
+            @Override
+            public void onChanged(ArrayList<ComicModel> comicModels) {
+
+                allComicModels.addAll(comicModels);
+                notifyDataSetChanged();
+
+            }
+        });
+
+
     }
 
     public void setFilteredList(ArrayList<ComicModel> filteredList) {
 
-        this.comicModels = filteredList;
+        this.allComicModels = filteredList;
         notifyDataSetChanged();
 
     }
@@ -57,11 +69,11 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.ViewHo
     public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
 
         Glide.with(holder.banner)
-                .load(comicModels.get(position).getCoverUrl())
+                .load(allComicModels.get(position).getCoverUrl())
                 .placeholder(R.drawable.not_found)
                 .error(R.drawable.not_found)
                 .into(holder.banner);
-        holder.title.setText(comicModels.get(position).getTitle());
+        holder.title.setText(allComicModels.get(position).getTitle());
 
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,14 +81,14 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.ViewHo
 
 
                 NavDirections action = MainFragmentDirections.mainToDetail(new ComicModel(
-                        comicModels.get(position).getAuthor(),
-                        comicModels.get(position).getCoverUrl(),
-                        comicModels.get(position).getDate(),
-                        comicModels.get(position).getDescription(),
-                        comicModels.get(position).getEpisodes(),
-                        comicModels.get(position).isFavorite(),
-                        comicModels.get(position).getGenres(),
-                        comicModels.get(position).getTitle()
+                        allComicModels.get(position).getAuthor(),
+                        allComicModels.get(position).getCoverUrl(),
+                        allComicModels.get(position).getDate(),
+                        allComicModels.get(position).getDescription(),
+                        allComicModels.get(position).getEpisodes(),
+                        allComicModels.get(position).isFavorite(),
+                        allComicModels.get(position).getGenres(),
+                        allComicModels.get(position).getTitle()
                 ));
 
                 NavController navController = Navigation.findNavController(v);
@@ -90,7 +102,7 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.ViewHo
 
     @Override
     public int getItemCount() {
-        return comicModels.size();
+        return  allComicModels == null ? 0 : allComicModels.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

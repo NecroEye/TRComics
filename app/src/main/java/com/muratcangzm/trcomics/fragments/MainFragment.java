@@ -35,6 +35,7 @@ import com.muratcangzm.trcomics.R;
 import com.muratcangzm.trcomics.databinding.MainFragmentLayoutBinding;
 import com.muratcangzm.trcomics.models.ComicModel;
 import com.muratcangzm.trcomics.utils.FetchingWorker;
+import com.muratcangzm.trcomics.viewmodels.ComicViewModel;
 import com.muratcangzm.trcomics.views.MainActivity;
 import com.muratcangzm.trcomics.views.adapters.CardViewAdapter;
 import com.muratcangzm.trcomics.views.adapters.ChipRecycler;
@@ -45,6 +46,7 @@ public class MainFragment extends Fragment {
     private MainFragmentLayoutBinding binding;
     private ArrayList<SlideModel> slideModels = new ArrayList<>();
     private CardViewAdapter cardViewAdapter;
+    private ComicViewModel viewModel;
     private ArrayList<ComicModel> realModel = new ArrayList<>();
 
     public MainFragment() {
@@ -60,6 +62,8 @@ public class MainFragment extends Fragment {
 
         binding.shimmerLayout.startShimmerAnimation();
         binding.shimmerSlider.startShimmerAnimation();
+
+        viewModel = new ViewModelProvider(requireActivity()).get(ComicViewModel.class);
 
         if(getActivity() instanceof MainActivity && !((MainActivity)getActivity()).getSupportActionBar().isShowing())
             ((MainActivity) getActivity()).getSupportActionBar().show();
@@ -90,6 +94,7 @@ public class MainFragment extends Fragment {
 
                                     realModel.clear();
                                     realModel.addAll(FetchingWorker.comicModel);
+                                    viewModel.addComics(FetchingWorker.comicModel);
 
                                     if (realModel.size() >= 5) {
                                         slideModels.clear();
@@ -163,7 +168,7 @@ public class MainFragment extends Fragment {
 
 
 
-        cardViewAdapter = new CardViewAdapter(requireContext(), realModel, requireActivity());
+        cardViewAdapter = new CardViewAdapter(requireContext(), viewModel.getComicModels());
 
         binding.recyclerView.setAdapter(cardViewAdapter);
         binding.recyclerView.setHasFixedSize(true);

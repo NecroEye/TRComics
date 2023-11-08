@@ -48,7 +48,6 @@ android {
 
     buildFeatures {
         viewBinding true
-        dataBinding true
     }
 
 }
@@ -56,8 +55,8 @@ android {
 dependencies {
 
 
-    def nav_version = "2.7.4"
-    def room_version = "2.5.2"
+    def nav_version = "2.7.5"
+    def room_version = "2.6.0"
     def lifecycle_version = "2.6.2"
 
     implementation 'androidx.appcompat:appcompat:1.6.1'
@@ -103,15 +102,15 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
 
 
-    //Dagger Hilt
-    implementation "com.google.dagger:hilt-android:2.44"
-    kapt "com.google.dagger:hilt-compiler:2.44"
+    //Dagger - Hilt
+    implementation "com.google.dagger:hilt-android:2.48"
+    kapt "com.google.dagger:hilt-compiler:2.48"
 
     //Testing
     testImplementation "com.google.truth:truth:1.1.4"
     androidTestImplementation "com.google.truth:truth:1.1.4"
 
-    // Hilt Testing
+    //Dagger - Hilt Testing
     testAnnotationProcessor 'com.google.dagger:hilt-android-compiler:2.44'
     androidTestAnnotationProcessor 'com.google.dagger:hilt-android-compiler:2.44'
     testImplementation("com.google.dagger:hilt-android-testing:2.44")

@@ -5,6 +5,8 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import com.muratcangzm.trcomics.models.ComicModel;
 
+import java.util.ArrayList;
+
 import javax.inject.Inject;
 
 
@@ -12,10 +14,15 @@ public class ComicViewModel extends ViewModel {
 
 
     private MutableLiveData<ComicModel> comic = new MutableLiveData<>();
+    private MutableLiveData<ArrayList<ComicModel>> comics = new MutableLiveData<>();
 
     public LiveData<ComicModel> getComicModel(){
 
         return comic;
+    }
+
+    public LiveData<ArrayList<ComicModel>> getComicModels(){
+        return comics;
     }
 
     public void addComic(ComicModel comics){
@@ -23,6 +30,11 @@ public class ComicViewModel extends ViewModel {
         if(comic != null)
             comic.setValue(comics);
 
+    }
+    public void addComics(ArrayList<ComicModel> _comics){
+
+        if(_comics != null)
+            comics.setValue(_comics);
     }
 
 
