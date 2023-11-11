@@ -17,16 +17,22 @@ import com.muratcangzm.trcomics.databinding.DescriptionFragmentLayoutBinding;
 import com.muratcangzm.trcomics.models.ComicModel;
 import com.muratcangzm.trcomics.viewmodels.ComicViewModel;
 import com.muratcangzm.trcomics.views.adapters.GenreAdapter;
+
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 
+import javax.inject.Inject;
 
+import dagger.hilt.android.AndroidEntryPoint;
+
+@AndroidEntryPoint
 public class DescriptionFragment extends Fragment {
 
 
     private DescriptionFragmentLayoutBinding binding;
     private final ComicModel model;
-    private ComicViewModel viewModel;
+    @Inject
+    ComicViewModel viewModel;
 
     public DescriptionFragment(ComicModel _comicModels) {
 

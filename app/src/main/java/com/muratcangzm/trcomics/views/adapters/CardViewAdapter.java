@@ -31,11 +31,13 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.ViewHo
 
     private final Context context;
     private ArrayList<ComicModel> allComicModels = new ArrayList<>();
+    private final LifecycleOwner owner;
 
-    public CardViewAdapter(Context context, LiveData<ArrayList<ComicModel>> _comicModels) {
+    public CardViewAdapter(Context context, LifecycleOwner owner, LiveData<ArrayList<ComicModel>> _comicModels) {
         this.context = context;
+        this.owner = owner;
 
-        _comicModels.observe((LifecycleOwner) context, new Observer<ArrayList<ComicModel>>() {
+        _comicModels.observe(owner, new Observer<ArrayList<ComicModel>>() {
             @Override
             public void onChanged(ArrayList<ComicModel> comicModels) {
 

@@ -25,9 +25,9 @@ public interface ComicDao {
     @Delete
     void delete(ComicRoomModel model);
 
-    @Query("SELECT * FROM ComicRoomModel")
+    @Query("SELECT * FROM comics")
     LiveData<List<ComicRoomModel>> getAll();
 
-    @Query("SELECT * FROM ComicRoomModel WHERE comic_title LIKE :search")
+    @Query("SELECT * FROM comics WHERE comic_title LIKE :search")
     LiveData<List<ComicRoomModel>> findComicByItsTitle(String search);
 }

@@ -7,7 +7,6 @@ import android.content.Context;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.room.Room;
 
-import com.muratcangzm.trcomics.ComicApplication;
 import com.muratcangzm.trcomics.core.repository.ComicRepo;
 import com.muratcangzm.trcomics.saved_favorites.ComicDao;
 import com.muratcangzm.trcomics.saved_favorites.ComicDatabase;
@@ -18,9 +17,9 @@ import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;
 import dagger.hilt.InstallIn;
-import dagger.hilt.android.components.ActivityComponent;
+import dagger.hilt.components.SingletonComponent;
 
-@InstallIn(ActivityComponent.class)
+@InstallIn(SingletonComponent.class)
 @Module
 public class ComicModule {
 
@@ -53,5 +52,6 @@ public class ComicModule {
     public static synchronized ComicViewModel provideComicViewModel(Application application) {
         return new ViewModelProvider.AndroidViewModelFactory(application).create(ComicViewModel.class);
     }
+
 
 }

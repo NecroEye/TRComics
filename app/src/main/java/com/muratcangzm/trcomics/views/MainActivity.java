@@ -35,6 +35,9 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.muratcangzm.trcomics.R;
 import com.muratcangzm.trcomics.databinding.ActivityMainBinding;
 
+import dagger.hilt.android.AndroidEntryPoint;
+
+@AndroidEntryPoint
 public class MainActivity extends AppCompatActivity {
 
 
@@ -121,19 +124,19 @@ public class MainActivity extends AppCompatActivity {
 
                 switch (navDestination.getId()) {
 
-                    case 2131296631 -> getSupportActionBar().setTitle("Anasayfa");
+                    case 2131296630 -> getSupportActionBar().setTitle("Anasayfa");
 
-                    case 2131296635 -> getSupportActionBar().setTitle("Profile");
+                    case 2131296634 -> getSupportActionBar().setTitle("Profile");
 
-                    case 2131296629 -> getSupportActionBar().setTitle("Favoriler");
+                    case 2131296628 -> getSupportActionBar().setTitle("Favoriler");
 
-                    case 2131296633 -> {
+                    case 2131296632 -> {
 
                         getSupportActionBar().setTitle("Giriş Ekranı");
                         binding.navView.setCheckedItem(R.id.nav_login);
 
                     }
-                    case 2131296636 -> {
+                    case 2131296635 -> {
 
                         getSupportActionBar().setTitle("Kayıt Ekranı");
                         binding.navView.setCheckedItem(R.id.nav_register);

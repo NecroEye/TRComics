@@ -9,16 +9,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.DefaultLifecycleObserver;
-import androidx.lifecycle.Lifecycle;
-import androidx.lifecycle.LifecycleObserver;
-import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.OnLifecycleEvent;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.NavDirections;
@@ -28,6 +24,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.work.OneTimeWorkRequest;
 import androidx.work.WorkInfo;
 import androidx.work.WorkManager;
+
 import com.denzcoskun.imageslider.constants.ScaleTypes;
 import com.denzcoskun.imageslider.interfaces.ItemClickListener;
 import com.denzcoskun.imageslider.models.SlideModel;
@@ -39,14 +36,21 @@ import com.muratcangzm.trcomics.viewmodels.ComicViewModel;
 import com.muratcangzm.trcomics.views.MainActivity;
 import com.muratcangzm.trcomics.views.adapters.CardViewAdapter;
 import com.muratcangzm.trcomics.views.adapters.ChipRecycler;
+
 import java.util.ArrayList;
 
+import javax.inject.Inject;
+
+import dagger.hilt.android.AndroidEntryPoint;
+
+@AndroidEntryPoint
 public class MainFragment extends Fragment {
 
     private MainFragmentLayoutBinding binding;
     private ArrayList<SlideModel> slideModels = new ArrayList<>();
     private CardViewAdapter cardViewAdapter;
-    private ComicViewModel viewModel;
+    @Inject
+    ComicViewModel viewModel;
     private ArrayList<ComicModel> realModel = new ArrayList<>();
 
     public MainFragment() {
@@ -63,9 +67,7 @@ public class MainFragment extends Fragment {
         binding.shimmerLayout.startShimmerAnimation();
         binding.shimmerSlider.startShimmerAnimation();
 
-        viewModel = new ViewModelProvider(requireActivity()).get(ComicViewModel.class);
-
-        if(getActivity() instanceof MainActivity && !((MainActivity)getActivity()).getSupportActionBar().isShowing())
+        if (getActivity() instanceof MainActivity && !((MainActivity) getActivity()).getSupportActionBar().isShowing())
             ((MainActivity) getActivity()).getSupportActionBar().show();
 
         OneTimeWorkRequest workRequest = new OneTimeWorkRequest
@@ -101,8 +103,7 @@ public class MainFragment extends Fragment {
                                         slideModels.add(new SlideModel(realModel.get(5).getCoverUrl(), realModel.get(5).getTitle(), ScaleTypes.CENTER_CROP));
                                         slideModels.add(new SlideModel(realModel.get(4).getCoverUrl(), realModel.get(4).getTitle(), ScaleTypes.CENTER_CROP));
                                         slideModels.add(new SlideModel(realModel.get(3).getCoverUrl(), realModel.get(3).getTitle(), ScaleTypes.CENTER_CROP));
-                                    }
-                                    else{
+                                    } else {
                                         slideModels.add(new SlideModel(R.drawable.not_found, "Başlık yok", ScaleTypes.CENTER_CROP));
                                     }
 
@@ -167,20 +168,18 @@ public class MainFragment extends Fragment {
         };
 
 
-
-        cardViewAdapter = new CardViewAdapter(requireContext(), viewModel.getComicModels());
+        cardViewAdapter = new CardViewAdapter(requireContext(),this, viewModel.getComicModels());
 
         binding.recyclerView.setAdapter(cardViewAdapter);
         binding.recyclerView.setHasFixedSize(true);
         binding.recyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 2));
 
-        binding.chipRecycler.setAdapter(new ChipRecycler(genres, requireContext()));
+        binding.chipRecycler.setAdapter(new ChipRecycler(genres, requireContext(), cardViewAdapter));
         binding.chipRecycler.setLayoutManager(new GridLayoutManager(requireContext(), 2, RecyclerView.HORIZONTAL, false));
         binding.chipRecycler.setHasFixedSize(true);
 
 
         binding.searchView.clearFocus();
-
 
 
         String videoPath = "android.resource://" + requireContext().getPackageName() + "/" + R.raw.starfall_banner;
@@ -194,7 +193,6 @@ public class MainFragment extends Fragment {
             }
         });
         binding.bannerAnimation.start();
-
 
 
         binding.searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -218,7 +216,6 @@ public class MainFragment extends Fragment {
 
         ArrayList<ComicModel> filteredList = new ArrayList<>();
         for (ComicModel comicModel : realModel) {
-
             if (comicModel.getTitle().toLowerCase().contains(newText.toLowerCase())) {
 
                 filteredList.add(comicModel);
@@ -238,7 +235,7 @@ public class MainFragment extends Fragment {
     public void onStart() {
         super.onStart();
 
-        if(!binding.bannerAnimation.isPlaying())
+        if (!binding.bannerAnimation.isPlaying())
             binding.bannerAnimation.start();
 
     }
