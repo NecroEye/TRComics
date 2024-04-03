@@ -30,7 +30,7 @@ The signed APK is currently not yet available, please [build](#building) it your
 This project is trying to use the latest Android tech stacks.
 
 - Language: [Java](https://docs.oracle.com/javase/8/docs/technotes/guides/language/index.html)
-- Architecture: [Android App Architecture](https://developer.android.com/topic/architecture)
+- Architecture: [Model-View-Presenter (MVP)](https://developer.android.com/topic/architecture)
 - User Interface: [Android Jetpack](https://developer.android.com/jetpack?hl=tr)
 - Concurrency: [WorkManager](https://developer.android.com/jetpack/androidx/releases/work?hl=tr)
 - Dependency Injection: [Dagger Hilt](https://developer.android.com/training/dependency-injection/hilt-android?hl=tr)
